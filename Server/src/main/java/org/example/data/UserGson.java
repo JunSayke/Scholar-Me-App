@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder
 public class UserGson extends GsonData {
     private int userId;
+    private String username;
     private String firstName;
     private String lastName;
     private String email;

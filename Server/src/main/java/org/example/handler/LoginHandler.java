@@ -29,52 +29,48 @@ public class LoginHandler implements Route {
             // Check if any required field is missing
             Controller.validateParams(req, "email", "password");
 
+            boolean isEmail = req.queryParams("email").matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}");
             // https://www.javatpoint.com/java-email-validation#:~:text=To%20validate%20the%20email%20permitted,%5D%2B%24%22%20regular%20expression.
-            if (!req.queryParams("email").matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}")) {
-                throw new InvalidFieldException(400, "Invalid email: must be in the format of user@domain");
-            }
-
-            if (req.queryParams("password").length() < 8 && req.queryParams("password").length() > 30) {
-                throw new InvalidFieldException(400, "Password must be between 8 and 30 characters long");
-            }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT ua.userid, ua.email, ua.password, ua.role, ua.dateadded, ua.status, ua.dateadded, ua.dateupdated, up.firstname, up.lastname, up.phonenumber, up.profilepic FROM tbluseraccount ua JOIN tbluserprofile up ON ua.userid = up.acctid WHERE ua.email = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT ua.userid, ua.username, ua.email, ua.password, ua.role, ua.dateadded, ua.status, ua.dateadded, ua.dateupdated, up.firstname, up.lastname, up.phonenumber, up.profilepic FROM tbluseraccount ua JOIN tbluserprofile up ON ua.userid = up.acctid WHERE " + (isEmail ? "ua.email" : "ua.username") + " = ? LIMIT 1")) {
                 stmt.setString(1, req.queryParams("email"));
                 ResultSet rs = stmt.executeQuery();
 
-                if (rs.next()) {
-                    if (!BCrypt.checkpw(req.queryParams("password"), rs.getString("password"))) {
-                        throw new InvalidFieldException(400, "Invalid password");
-                    }
-                    UserGson user = UserGson.builder()
-                            .userId(rs.getInt("userid"))
-                            .email(rs.getString("email"))
-                            .firstName(rs.getString("firstname"))
-                            .lastName(rs.getString("lastname"))
-                            .phoneNumber(rs.getString("phonenumber"))
-                            .profilePic(rs.getString("profilepic"))
-                            .role(rs.getString("role"))
-                            .dateAdded(String.valueOf(rs.getTimestamp("dateadded")))
-                            .dateUpdated(String.valueOf(rs.getTimestamp("dateupdated")))
-                            .build();
-
-                    // Generate JWT token
-                    String token = JwtUtil.createToken(user.getUserId(), user.getRole());
-                    System.err.println(token);
-                    res.cookie("access_token", token);
-                    res.status(200);
-
-                    return GsonData.objectToJson(new SuccessGson<>(true, "Login successful", user));
-                } else {
-                    throw new InvalidFieldException(400, "Invalid email");
+                if (!rs.next()) {
+                    throw new InvalidFieldException(400, "Incorrect email or username");
                 }
+
+                if (!BCrypt.checkpw(req.queryParams("password"), rs.getString("password"))) {
+                    throw new InvalidFieldException(400, "Incorrect password");
+                }
+
+                UserGson user = UserGson.builder()
+                        .userId(rs.getInt("userid"))
+                        .username(rs.getString("username"))
+                        .email(rs.getString("email"))
+                        .firstName(rs.getString("firstname"))
+                        .lastName(rs.getString("lastname"))
+                        .phoneNumber(rs.getString("phonenumber"))
+                        .profilePic(rs.getString("profilepic"))
+                        .role(rs.getString("role"))
+                        .dateAdded(String.valueOf(rs.getTimestamp("dateadded")))
+                        .dateUpdated(String.valueOf(rs.getTimestamp("dateupdated")))
+                        .build();
+
+                // Generate JWT token
+                String token = JwtUtil.createToken(user.getUserId(), user.getRole());
+                System.err.println(token);
+                res.cookie("access_token", token);
+                res.status(200);
+
+                return GsonData.objectToJson(new SuccessGson<>(true, "Login successful", user));
             }
         } catch (InvalidFieldException e) {
 //            e.printStackTrace();
             halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             halt(500, GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
         }
 

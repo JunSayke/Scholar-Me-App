@@ -1,6 +1,11 @@
 package org.example;
 
 import org.example.handler.*;
+import spark.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static spark.Spark.*;
 
@@ -10,29 +15,41 @@ public class Route {
     public static void launch(int port) {
         port(port);
 
-        // Security for unauthorized use of the API
         before((req, res) -> {
-//            if (req.pathInfo().startsWith("/images/")) {
-//                return;
-//            }
-            String apiToken = req.headers("Authorization");
-            if (apiToken == null || !apiToken.equals(API_KEY)) {
-                halt(401, "Unauthorized");
-            }
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Methods", "*");
+            res.header("Access-Control-Allow-Headers", "*");
         });
 
+        // Security for unauthorized use of the API
+        before((req, res) -> {
+            // Exclude images from authorization
+            if (req.pathInfo().matches("^/images/.+/.*$")) {
+                return;
+            }
+
+            List<String> excludedRoutes = List.of("/user/profile");
+
+            if (!excludedRoutes.contains(req.pathInfo())) {
+                String apiToken = req.headers("Authorization");
+                if (apiToken == null || !apiToken.equals(API_KEY)) {
+                    halt(401, "Unauthorized");
+                }
+            }
+        });
+;
         // Routes
-        get("/", (req, res) -> "Root");
+        get("/", Controller::root);
         get("images/profile/:filename", Controller::serveFile);
+        get("images/course-thumbnail/:filename", Controller::serveFile);
 
         post("/user/register", new RegisterHandler());
         post("/user/login", new LoginHandler());
         post("/user/apply-creator", new ApplyCreatorHandler());
 
-        get("/user/profile", (req, res) -> "Get profile");
-        put("/user/edit-profile", (req, res) -> "Edit profile");
-        put("/user/change-password", (req, res) -> "Change password");
-        delete("/user/delete-profile", (req, res) -> "Delete profile");
+        get("/user/profile", new UserProfileHandler());
+        put("/user/edit-profile", new EditProfileHandler());
+        delete("/user/delete-account", (req, res) -> "Delete account");
 
         post("/user/create-flashcard-set", (req, res) -> "Create flashcard set");
         put("/user/edit-flashcard-set", (req, res) -> "Edit flashcard set");
@@ -66,7 +83,7 @@ public class Route {
         delete("/user/unenroll-course", (req, res) -> "Unenroll course");
 
         get("/user/notifications", (req, res) -> "Get notifications");
-        delete("/user/notification", (req, res) -> "Delete notification");
+        delete("/user/delete-notification", (req, res) -> "Delete notification");
 
         post("/course/add-review", (req, res) -> "Add review");
 

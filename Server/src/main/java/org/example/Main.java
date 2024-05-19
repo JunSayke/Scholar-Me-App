@@ -16,6 +16,7 @@ public class Main {
              Statement stmt = conn.createStatement()) {
             stmt.addBatch("CREATE TABLE IF NOT EXISTS tbluseraccount ("
                     + "userid INT PRIMARY KEY AUTO_INCREMENT,"
+                    + "username VARCHAR(255) NOT NULL UNIQUE,"
                     + "email VARCHAR(255) NOT NULL UNIQUE,"
                     + "password VARCHAR(255) NOT NULL,"
                     + "role ENUM('admin', 'creator', 'user') NOT NULL DEFAULT 'user',"
@@ -31,15 +32,6 @@ public class Main {
                     + "phonenumber VARCHAR(11) NOT NULL,"
                     + "profilepic VARCHAR(255) NOT NULL,"
                     + "FOREIGN KEY (acctid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE"
-                    + ")"
-            );
-            stmt.addBatch("CREATE TABLE IF NOT EXISTS tbluserfavorite ("
-                    + "favoriteid INT PRIMARY KEY AUTO_INCREMENT,"
-                    + "userid INT NOT NULL,"
-                    + "courseid INT NOT NULL,"
-                    + "dateadded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
-                    + "FOREIGN KEY (userid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE,"
-                    + "FOREIGN KEY (courseid) REFERENCES tblcourse(courseid) ON DELETE CASCADE"
                     + ")"
             );
             stmt.addBatch("CREATE TABLE IF NOT EXISTS tblcreatorapplicant ("
@@ -83,6 +75,15 @@ public class Main {
                     + "dateenrolled TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                     + "FOREIGN KEY (courseid) REFERENCES tblcourse(courseid) ON DELETE CASCADE,"
                     + "FOREIGN KEY (userid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE"
+                    + ")"
+            );
+            stmt.addBatch("CREATE TABLE IF NOT EXISTS tbluserfavorite ("
+                    + "favoriteid INT PRIMARY KEY AUTO_INCREMENT,"
+                    + "userid INT NOT NULL,"
+                    + "courseid INT NOT NULL,"
+                    + "dateadded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+                    + "FOREIGN KEY (userid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE,"
+                    + "FOREIGN KEY (courseid) REFERENCES tblcourse(courseid) ON DELETE CASCADE"
                     + ")"
             );
             stmt.addBatch("CREATE TABLE IF NOT EXISTS tblflashcardset ("

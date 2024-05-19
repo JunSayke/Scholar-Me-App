@@ -34,36 +34,33 @@ public class ApproveCreatorApplicantHandler implements Route {
                 throw new InvalidFieldException(400, "creatorapplicantid cannot be empty");
             }
 
-            if (req.queryParams("creatorapplicantid").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "creatorapplicantid must be a number");
-            }
-
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tblcreatorapplicant WHERE creatorapplicantid = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tblcreatorapplicant WHERE creatorapplicantid = ? LIMIT 1")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
                 ResultSet rs = stmt.executeQuery();
 
-                if (rs.next()) {
-                    if (rs.getString("status").equals("approved")) {
-                        throw new InvalidFieldException(409, "Application already approved");
-                    }
-                    if (!rs.getString("status").equals("pending")) {
-                        throw new InvalidFieldException(409, "Application already processed");
-                    }
-                    conn.setAutoCommit(false);
-                    try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tblcreatorapplicant ta JOIN tbluseraccount ua ON ta.userid = ua.userid SET ta.status = 'approved', ua.role = 'creator' WHERE ta.creatorapplicantid = ?")) {
-                        stmt2.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
-                        stmt2.executeUpdate();
-
-                        conn.commit();
-                        res.status(200);
-                        return GsonData.objectToJson(new SuccessGson<>(true, "Application approved", null));
-                    } catch (Exception e) {
-                        conn.rollback();
-                        throw e;
-                    }
+                if (!rs.next()) {
+                    throw new InvalidFieldException(404, "Application not found");
                 }
-                throw new InvalidFieldException(400, "Application not found");
+
+                if (rs.getString("status").equals("approved")) {
+                    throw new InvalidFieldException(409, "Application already approved");
+                }
+                if (!rs.getString("status").equals("pending")) {
+                    throw new InvalidFieldException(409, "Application already processed");
+                }
+                conn.setAutoCommit(false);
+                try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tblcreatorapplicant ta JOIN tbluseraccount ua ON ta.userid = ua.userid SET ta.status = 'approved', ua.role = 'creator' WHERE ta.creatorapplicantid = ?")) {
+                    stmt2.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
+                    stmt2.executeUpdate();
+
+                    conn.commit();
+                    res.status(200);
+                    return GsonData.objectToJson(new SuccessGson<>(true, "Application approved", null));
+                } catch (Exception e) {
+                    conn.rollback();
+                    throw e;
+                }
             }
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));

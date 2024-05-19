@@ -34,30 +34,28 @@ public class RejectCreatorApplicantHandler implements Route {
                 throw new InvalidFieldException(400, "creatorapplicantid cannot be empty");
             }
 
-            if (req.queryParams("creatorapplicantid").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "creatorapplicantid must be a number");
-            }
-
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tblcreatorapplicant WHERE creatorapplicantid = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tblcreatorapplicant WHERE creatorapplicantid = ? LIMIT 1")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
                 ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    if (rs.getString("status").equals("rejected")) {
-                        throw new InvalidFieldException(409, "Application already rejected");
-                    }
-                    if (!rs.getString("status").equals("pending")) {
-                        throw new InvalidFieldException(409, "Application already processed");
-                    }
-                    try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tblcreatorapplicant SET status = 'rejected' WHERE creatorapplicantid = ?")) {
-                        stmt2.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
-                        stmt2.executeUpdate();
-                        res.status(200);
-                        return GsonData.objectToJson(new SuccessGson<>(true, "Application rejected", null));
-                    }
+
+                if (!rs.next()) {
+                    throw new InvalidFieldException(404, "Application not found");
+                }
+
+                if (rs.getString("status").equals("rejected")) {
+                    throw new InvalidFieldException(409, "Application already rejected");
+                }
+                if (!rs.getString("status").equals("pending")) {
+                    throw new InvalidFieldException(409, "Application already processed");
+                }
+                try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tblcreatorapplicant SET status = 'rejected' WHERE creatorapplicantid = ?")) {
+                    stmt2.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
+                    stmt2.executeUpdate();
+                    res.status(200);
+                    return GsonData.objectToJson(new SuccessGson<>(true, "Application rejected", null));
                 }
             }
-            throw new InvalidFieldException(400, "Application not found");
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
         } catch (Exception e) {

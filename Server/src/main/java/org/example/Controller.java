@@ -6,12 +6,17 @@ import org.example.exception.InvalidFieldException;
 import org.example.utils.JwtUtil;
 import spark.Request;
 import spark.Response;
+import spark.Spark;
+import spark.routematch.RouteMatch;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static spark.Spark.halt;
+import static spark.Spark.routes;
 
 public class Controller {
     public static void validateAccessToken(Request req) throws InvalidFieldException {
@@ -38,7 +43,7 @@ public class Controller {
     }
 
     public static Object serveFile(Request req, Response res) {
-        Path filePath = Path.of("src/main/resources/", req.pathInfo());
+        Path filePath = Path.of(System.getenv("SERVER_RESOURCE_PATH"), req.pathInfo());
         System.err.println(req.pathInfo());
         if (!Files.exists(filePath)) {
             halt(404, "File not found");
@@ -54,5 +59,11 @@ public class Controller {
             halt(500, "Internal Server Error: " + e.getMessage());
             return null;
         }
+    }
+
+    public static Object root(Request req, Response res) {
+        List<RouteMatch> routes = Spark.routes();
+        return "Available Routes: " + routes.size()
+                + "\n" + routes.stream().map(route -> route.getHttpMethod() + " - " + route.getMatchUri()).collect(Collectors.joining("\n"));
     }
 }

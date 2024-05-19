@@ -30,30 +30,29 @@ public class ApplyCreatorHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT EXISTS(SELECT 1 FROM tbluseraccount WHERE userid = ?) as 'exists'")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT 1 FROM tbluseraccount WHERE userid = ? LIMIT 1")) {
                 stmt.setInt(1, req.attribute("userid"));
                 ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    if (rs.getInt("exists") == 0) {
-                        throw new InvalidFieldException(400, "User not found");
-                    }
 
-                    // Check if the user already has a pending application
-                    try (PreparedStatement stmt2 = conn.prepareStatement("SELECT EXISTS(SELECT 1 FROM tblcreatorapplicant WHERE userid = ? AND status = 'pending') as 'exists'")) {
-                        stmt2.setInt(1, req.attribute("userid"));
-                        ResultSet rs2 = stmt2.executeQuery();
-                        if (rs2.next() && rs2.getInt("exists") == 1) {
-                            throw new InvalidFieldException(409, "You already have a pending application");
-                        }
-                    }
+                if (!rs.next()) {
+                    throw new InvalidFieldException(404, "User not found");
+                }
 
-                    // If no pending application, proceed with the application submission
-                    try (PreparedStatement stmt3 = conn.prepareStatement("INSERT INTO tblcreatorapplicant (userid) VALUES (?)")) {
-                        stmt3.setInt(1, req.attribute("userid"));
-                        stmt3.executeUpdate();
-                        res.status(200);
-                        return GsonData.objectToJson(new SuccessGson<>(true, "Application submitted", null));
+                // Check if the user already has a pending application
+                try (PreparedStatement stmt2 = conn.prepareStatement("SELECT 1 FROM tblcreatorapplicant WHERE userid = ? AND status = 'pending' LIMIT 1")) {
+                    stmt2.setInt(1, req.attribute("userid"));
+                    ResultSet rs2 = stmt2.executeQuery();
+                    if (rs2.next()) {
+                        throw new InvalidFieldException(409, "You already have a pending application");
                     }
+                }
+
+                // If no pending application, proceed with the application submission
+                try (PreparedStatement stmt3 = conn.prepareStatement("INSERT INTO tblcreatorapplicant (userid) VALUES (?)")) {
+                    stmt3.setInt(1, req.attribute("userid"));
+                    stmt3.executeUpdate();
+                    res.status(200);
+                    return GsonData.objectToJson(new SuccessGson<>(true, "Application submitted", null));
                 }
             }
         } catch (InvalidFieldException e) {
