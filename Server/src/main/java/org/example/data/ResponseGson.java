@@ -5,7 +5,14 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public abstract class ResponseGson extends GsonData {
-    protected boolean status;
-    protected String message;
+public class ResponseGson<T> extends GsonData {
+    private boolean status;
+    private String message;
+    private T data;
+
+    public ResponseGson(boolean status, String message) {
+        this.status = status;
+        this.message = message;
+        this.data = null;
+    }
 }

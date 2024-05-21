@@ -1,9 +1,8 @@
 package org.example.handler;
 
 import org.example.Controller;
-import org.example.data.ErrorGson;
 import org.example.data.GsonData;
-import org.example.data.SuccessGson;
+import org.example.data.ResponseGson;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import spark.Request;
@@ -52,15 +51,15 @@ public class ApplyCreatorHandler implements Route {
                     stmt3.setInt(1, req.attribute("userid"));
                     stmt3.executeUpdate();
                     res.status(200);
-                    return GsonData.objectToJson(new SuccessGson<>(true, "Application submitted", null));
+                    return GsonData.objectToJson(new ResponseGson<>(true, "Application submitted"));
                 }
             }
         } catch (InvalidFieldException e) {
 //            e.printStackTrace();
-            halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
 //            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         }
         return null;
     }

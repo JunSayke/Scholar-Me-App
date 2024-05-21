@@ -49,12 +49,12 @@ public class Route {
 
         get("/user/profile", new UserProfileHandler());
         put("/user/edit-profile", new EditProfileHandler());
-        delete("/user/delete-account", (req, res) -> "Delete account");
+        delete("/user/delete-account", new DeleteAccountHandler());
 
-        post("/user/create-flashcard-set", (req, res) -> "Create flashcard set");
-        put("/user/edit-flashcard-set", (req, res) -> "Edit flashcard set");
-        delete("/user/delete-flashcard-set", (req, res) -> "Delete flashcard set");
-        get("/user/flashcard-sets", (req, res) -> "Get flashcard sets");
+        post("/user/create-flashcard-set", new CreateFlashcardSetHandler());
+        put("/user/edit-flashcard-set", new EditFlashcardSetHandler());
+        delete("/user/delete-flashcard-set", new DeleteFlashcardSetHandler());
+        get("/user/flashcard-sets", new FlashcardSetsHandler());
 
         post("/user/create-flashcard", (req, res) -> "Create flashcard");
         put("/user/edit-flashcard", (req, res) -> "Edit flashcard");

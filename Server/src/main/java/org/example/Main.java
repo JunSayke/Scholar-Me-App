@@ -98,10 +98,12 @@ public class Main {
             );
             stmt.addBatch("CREATE TABLE IF NOT EXISTS tblflashcard ("
                     + "flashcardid INT PRIMARY KEY AUTO_INCREMENT,"
+                    + "userid INT NOT NULL,"
                     + "question TEXT NOT NULL,"
                     + "answer TEXT NOT NULL,"
                     + "dateadded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
-                    + "dateupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                    + "dateupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,"
+                    + "FOREIGN KEY (userid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE"
                     + ")"
             );
             stmt.addBatch("CREATE TABLE IF NOT EXISTS tblflashcardsetflashcard ("

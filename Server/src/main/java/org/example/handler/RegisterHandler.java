@@ -3,9 +3,8 @@ package org.example.handler;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.Part;
 import org.example.Controller;
-import org.example.data.ErrorGson;
 import org.example.data.GsonData;
-import org.example.data.SuccessGson;
+import org.example.data.ResponseGson;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import org.mindrot.jbcrypt.BCrypt;
@@ -115,14 +114,14 @@ public class RegisterHandler implements Route {
 
                 conn.commit();
                 res.status(200);
-                return GsonData.objectToJson(new SuccessGson<>(true, "User registered successfully", null));
+                return GsonData.objectToJson(new ResponseGson<>(true, "User registered successfully"));
             }
         } catch (InvalidFieldException e) {
 //            e.printStackTrace();
-            halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
-            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+//            e.printStackTrace();
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         }
         return null;
     }

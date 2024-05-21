@@ -1,9 +1,8 @@
 package org.example.handler;
 
 import org.example.Controller;
-import org.example.data.ErrorGson;
 import org.example.data.GsonData;
-import org.example.data.SuccessGson;
+import org.example.data.ResponseGson;
 import org.example.data.UserGson;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
@@ -48,15 +47,17 @@ public class UserProfileHandler implements Route {
                         .phoneNumber(rs.getString("phonenumber"))
                         .profilePic(rs.getString("profilepic"))
                         .status(rs.getString("status"))
-                        .dateAdded(rs.getString("dateadded"))
-                        .dateUpdated(rs.getString("dateupdated"))
+                        .dateAdded(rs.getTimestamp("dateadded").toLocalDateTime())
+                        .dateUpdated(rs.getTimestamp("dateupdated").toLocalDateTime())
                         .build();
-                return GsonData.objectToJson(new SuccessGson<>(true, "User profile retrieved", user));
+
+                res.status(200);
+                return GsonData.objectToJson(new ResponseGson<>(true, "User profile retrieved", user));
             }
         } catch (InvalidFieldException e) {
-            halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
-            halt(500, GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         }
         return null;
     }

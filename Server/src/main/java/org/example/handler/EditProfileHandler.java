@@ -3,9 +3,8 @@ package org.example.handler;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.Part;
 import org.example.Controller;
-import org.example.data.ErrorGson;
 import org.example.data.GsonData;
-import org.example.data.SuccessGson;
+import org.example.data.ResponseGson;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import org.mindrot.jbcrypt.BCrypt;
@@ -34,8 +33,8 @@ public class EditProfileHandler implements Route {
 
         try {
             // Check if any required field is missing
-            Part filePart = req.raw().getPart("profilepic");
             Controller.validateAccessToken(req);
+            Part filePart = req.raw().getPart("profilepic");
 
             List<String> updates = new ArrayList<>();
             List<String> params = new ArrayList<>();
@@ -87,25 +86,26 @@ public class EditProfileHandler implements Route {
 
             Path dir = null;
 
-            if (filePart != null) {
-                try (Connection conn = MySQLConnection.getConnection();
-                     PreparedStatement stmt = conn.prepareStatement("SELECT profilepic FROM tbluserprofile WHERE acctid = ? LIMIT 1")) {
-                    stmt.setInt(1, req.attribute("userid"));
-                    ResultSet rs = stmt.executeQuery();
-                    if (!rs.next()) {
-                        throw new InvalidFieldException(404, "User not found");
-                    }
+            try (Connection conn = MySQLConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement("SELECT profilepic FROM tbluserprofile WHERE acctid = ? LIMIT 1")) {
+                stmt.setInt(1, req.attribute("userid"));
+                ResultSet rs = stmt.executeQuery();
+                if (!rs.next()) {
+                    throw new InvalidFieldException(404, "User not found");
+                }
+
+                if (filePart != null) {
                     if (rs.getString("profilepic") != null) {
                         Path oldFile = Path.of(System.getenv("SERVER_RESOURCE_PATH"), rs.getString("profilepic").substring(req.host().length()));
                         Files.deleteIfExists(oldFile);
                     }
+                    String fileName = filePart.getSubmittedFileName();
+                    String extension = fileName.substring(fileName.lastIndexOf("."));
+                    String path = "/images/profile/" + UUID.randomUUID() + extension;
+                    updates.add("up.profilepic = ?");
+                    params.add(req.host() + path);
+                    dir = Path.of(System.getenv("SERVER_RESOURCE_PATH"), path);
                 }
-                String fileName = filePart.getSubmittedFileName();
-                String extension = fileName.substring(fileName.lastIndexOf("."));
-                String path = "/images/profile/" + UUID.randomUUID() + extension;
-                updates.add("up.profilepic = ?");
-                params.add(req.host() + path);
-                dir = Path.of(System.getenv("SERVER_RESOURCE_PATH"), path);
             }
 
             String updateClause = String.join(", ", updates);
@@ -128,13 +128,13 @@ public class EditProfileHandler implements Route {
                     }
                 }
 
-                return GsonData.objectToJson(new SuccessGson<>(true, "Profile updated successfully", null));
+                return GsonData.objectToJson(new ResponseGson<>(true, "Profile updated successfully"));
             }
         } catch (InvalidFieldException e) {
-            halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
-            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+//            e.printStackTrace();
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         }
         return null;
     }

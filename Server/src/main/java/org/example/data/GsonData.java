@@ -1,13 +1,20 @@
 package org.example.data;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.example.utils.LocalDateTimeAdapter;
 import org.json.JSONObject;
 import org.json.JSONException;
 
+import java.time.LocalDateTime;
+
 public abstract class GsonData {
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .create();
+
     @Override
     public String toString() {
-        Gson gson = new Gson();
         String jsonString = gson.toJson(this);
 
         try {
@@ -19,12 +26,10 @@ public abstract class GsonData {
     }
 
     public static String objectToJson(Object object) {
-        Gson gson = new Gson();
         return gson.toJson(object);
     }
 
     public static <T> T jsonToObject(String json, Class<T> classOfT) {
-        Gson gson = new Gson();
         return gson.fromJson(json, classOfT);
     }
 }
