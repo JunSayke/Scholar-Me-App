@@ -33,7 +33,7 @@ public class RegisterHandler implements Route {
         try {
             // Check if any required field is missing
             Part filePart = req.raw().getPart("profilePic");
-            Controller.validateParams(req, "email", "username", "password", "firstname", "lastname", "phonenumber");
+            Controller.validateParams(req, "email", "username", "password", "firstName", "lastName", "phoneNumber");
 
             // Validate fields
             if (req.queryParams("firstName").length() < 2 || req.queryParams("firstName").length() > 30) {
