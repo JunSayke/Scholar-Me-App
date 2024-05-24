@@ -32,19 +32,19 @@ public class RegisterHandler implements Route {
 
         try {
             // Check if any required field is missing
-            Part filePart = req.raw().getPart("profilepic");
+            Part filePart = req.raw().getPart("profilePic");
             Controller.validateParams(req, "email", "username", "password", "firstname", "lastname", "phonenumber");
 
             // Validate fields
-            if (req.queryParams("firstname").length() < 2 || req.queryParams("firstname").length() > 30) {
+            if (req.queryParams("firstName").length() < 2 || req.queryParams("firstName").length() > 30) {
                 throw new InvalidFieldException(400, "First name must be between 2 and 30 characters long");
             }
 
-            if (req.queryParams("lastname").length() < 2 || req.queryParams("lastname").length() > 30) {
+            if (req.queryParams("lastName").length() < 2 || req.queryParams("lastname").length() > 30) {
                 throw new InvalidFieldException(400, "Last name must be between 2 and 30 characters long");
             }
 
-            if (req.queryParams("phonenumber").length() != 11) {
+            if (req.queryParams("phoneNumber").length() != 11) {
                 throw new InvalidFieldException(400, "Invalid phone number: must be 11 digits long");
             }
 
@@ -61,14 +61,6 @@ public class RegisterHandler implements Route {
                 throw new InvalidFieldException(400, "Username must be between 4 and 30 characters long");
             }
 
-            if (filePart == null) {
-                throw new InvalidFieldException(400, "Missing required field: profilepic");
-            }
-
-            String fileName = filePart.getSubmittedFileName();
-            String extension = fileName.substring(fileName.lastIndexOf("."));
-            String path = "/images/profile/" + UUID.randomUUID() + extension;
-            Path dir = Path.of(System.getenv("SERVER_RESOURCE_PATH"), path);
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tbluseraccount WHERE email = ?")) {
@@ -97,23 +89,35 @@ public class RegisterHandler implements Route {
                 }
 
                 int userId = rs.getInt(1);
-                try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO tbluserprofile (acctid, firstname, lastname, phonenumber, profilepic) VALUES (?, ?, ?, ?, ?)")) {
+                try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO tbluserprofile (acctid, firstname, lastname, phonenumber) VALUES (?, ?, ?, ?)")) {
                     stmt2.setInt(1, userId);
                     stmt2.setString(2, req.queryParams("firstname"));
                     stmt2.setString(3, req.queryParams("lastname"));
                     stmt2.setString(4, req.queryParams("phonenumber"));
-                    stmt2.setString(5, req.host() + path);
                     stmt2.executeUpdate();
                 }
 
-                // Only save the file if the database operations are successful
-                Files.createDirectories(dir.getParent());
-                try (InputStream input = filePart.getInputStream()) {
-                    Files.copy(input, dir, StandardCopyOption.REPLACE_EXISTING);
-                }
+                if (filePart != null) {
+                    String fileName = filePart.getSubmittedFileName();
+                    String extension = fileName.substring(fileName.lastIndexOf("."));
+                    String path = "/images/profile/" + UUID.randomUUID() + extension;
+                    Path dir = Path.of(System.getenv("SERVER_RESOURCE_PATH"), path);
 
+                    try (InputStream input = filePart.getInputStream();
+                         PreparedStatement stmt3 = conn.prepareStatement("UPDATE tbluserprofile SET profilepic = ? WHERE acctid = ?")) {
+                        Files.createDirectories(dir.getParent());
+                        Files.copy(input, dir, StandardCopyOption.REPLACE_EXISTING);
+
+                        stmt3.setString(1, req.host() + path);
+                        stmt3.setInt(2, userId);
+
+                        if (stmt3.executeUpdate() == 0) {
+                            throw new InvalidFieldException(404, "User not found");
+                        }
+                    }
+                }
                 conn.commit();
-                res.status(200);
+                res.status(201);
                 return GsonData.objectToJson(new ResponseGson<>(true, "User registered successfully"));
             }
         } catch (InvalidFieldException e) {
@@ -121,7 +125,7 @@ public class RegisterHandler implements Route {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
 //            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

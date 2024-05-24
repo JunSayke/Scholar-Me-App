@@ -22,15 +22,15 @@ public class UserProfileHandler implements Route {
         res.type("application/json");
 
         try {
-            Controller.validateParams(req, "userid");
+            Controller.validateParams(req, "userId");
 
-            if (req.queryParams("userid").isEmpty()) {
+            if (req.queryParams("userId").isEmpty()) {
                 throw new InvalidFieldException(400, "userid cannot be empty");
             }
 
             try (Connection conn = MySQLConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement("SELECT ua.userid, ua.username, ua.email, ua.role, ua.status, ua.dateadded, ua.dateupdated, up.firstname, up.lastname, up.phonenumber, up.profilepic FROM tbluseraccount ua JOIN tbluserprofile up ON ua.userid = up.acctid WHERE ua.userid = ? LIMIT 1")) {
-                stmt.setInt(1, Integer.parseInt(req.queryParams("userid")));
+                stmt.setInt(1, Integer.parseInt(req.queryParams("userId")));
                 ResultSet rs = stmt.executeQuery();
 
                 if (!rs.next()) {
@@ -38,7 +38,7 @@ public class UserProfileHandler implements Route {
                 }
 
                 UserGson user = UserGson.builder()
-                        .userId(rs.getInt("userid"))
+                        .userId(rs.getInt("userId"))
                         .username(rs.getString("username"))
                         .email(rs.getString("email"))
                         .role(rs.getString("role"))
@@ -57,7 +57,7 @@ public class UserProfileHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

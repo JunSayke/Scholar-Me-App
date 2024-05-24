@@ -32,7 +32,7 @@ public class CreateFlashcardSetHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("INSERT INTO tblflashcardset (userid, title, description) VALUES (?, ?, ?)")) {
-                stmt.setInt(1, Integer.parseInt(req.attribute("userid")));
+                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
                 stmt.setString(2, req.queryParams("title"));
                 stmt.setString(3, req.queryParams("description"));
                 stmt.executeUpdate();
@@ -42,7 +42,7 @@ public class CreateFlashcardSetHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

@@ -26,7 +26,7 @@ public class DeleteAccountHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tbluseraccount WHERE userid = ? LIMIT 1")) {
-                stmt.setInt(1, Integer.parseInt(req.attribute("userid")));
+                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
                 ResultSet rs = stmt.executeQuery();
 
                 if (!rs.next()) {
@@ -38,7 +38,7 @@ public class DeleteAccountHandler implements Route {
                 }
 
                 try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tbluseraccount SET status = 'inactive' WHERE userid = ?")) {
-                    stmt2.setInt(1, Integer.parseInt(req.attribute("userid")));
+                    stmt2.setInt(1, Integer.parseInt(req.attribute("userId")));
                     stmt2.executeUpdate();
                     res.status(200);
                     return GsonData.objectToJson(new ResponseGson<>(true, "Account deleted"));
@@ -47,7 +47,7 @@ public class DeleteAccountHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

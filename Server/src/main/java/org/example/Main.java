@@ -30,7 +30,7 @@ public class Main {
                     + "firstname VARCHAR(255) NOT NULL,"
                     + "lastname VARCHAR(255) NOT NULL,"
                     + "phonenumber VARCHAR(11) NOT NULL,"
-                    + "profilepic VARCHAR(255) NOT NULL,"
+                    + "profilepic VARCHAR(255),"
                     + "FOREIGN KEY (acctid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE"
                     + ")"
             );
@@ -100,7 +100,6 @@ public class Main {
                     + "flashcardid INT PRIMARY KEY AUTO_INCREMENT,"
                     + "userid INT NOT NULL,"
                     + "question TEXT NOT NULL,"
-                    + "answer TEXT NOT NULL,"
                     + "dateadded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                     + "dateupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,"
                     + "FOREIGN KEY (userid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE"
@@ -197,3 +196,5 @@ public class Main {
         Route.launch(6969);
     }
 }
+
+

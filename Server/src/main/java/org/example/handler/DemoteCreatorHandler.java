@@ -27,15 +27,15 @@ public class DemoteCreatorHandler implements Route {
                 throw new InvalidFieldException(403, "Forbidden");
             }
 
-            Controller.validateParams(req, "userid");
+            Controller.validateParams(req, "userId");
 
-            if (req.queryParams("userid").isEmpty()) {
+            if (req.queryParams("userId").isEmpty()) {
                 throw new InvalidFieldException(400, "userid cannot be empty");
             }
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT role FROM tbluseraccount WHERE userid = ? LIMIT 1")) {
-                stmt.setInt(1, Integer.parseInt(req.queryParams("userid")));
+                stmt.setInt(1, Integer.parseInt(req.queryParams("userId")));
                 ResultSet rs = stmt.executeQuery();
 
                 if (!rs.next()) {
@@ -46,7 +46,7 @@ public class DemoteCreatorHandler implements Route {
                     throw new InvalidFieldException(400, "User is not a creator");
                 }
                 try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tbluseraccount SET role = 'user' WHERE userid = ?")) {
-                    stmt2.setInt(1, Integer.parseInt(req.queryParams("userid")));
+                    stmt2.setInt(1, Integer.parseInt(req.queryParams("userId")));
                     stmt2.executeUpdate();
                 }
                 return GsonData.objectToJson(new ResponseGson<>(true, "Creator demoted successfully"));
@@ -56,7 +56,7 @@ public class DemoteCreatorHandler implements Route {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
 //            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

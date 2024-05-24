@@ -33,30 +33,31 @@ public class EditProfileHandler implements Route {
 
         try {
             // Check if any required field is missing
+            System.err.println(req.scheme());
             Controller.validateAccessToken(req);
-            Part filePart = req.raw().getPart("profilepic");
+            Part filePart = req.raw().getPart("profilePic");
 
             List<String> updates = new ArrayList<>();
             List<String> params = new ArrayList<>();
 
-            if (req.queryParams("firstname") != null) {
-                if (req.queryParams("firstname").length() < 2 || req.queryParams("firstname").length() > 30) {
+            if (req.queryParams("firstName") != null) {
+                if (req.queryParams("firstName").length() < 2 || req.queryParams("firstName").length() > 30) {
                     throw new InvalidFieldException(400, "First name must be between 2 and 30 characters long");
                 }
                 updates.add("up.firstname = ?");
                 params.add(req.queryParams("firstname"));
             }
 
-            if (req.queryParams("lastname") != null) {
-                if (req.queryParams("lastname").length() < 2 || req.queryParams("lastname").length() > 30) {
+            if (req.queryParams("lastName") != null) {
+                if (req.queryParams("lastName").length() < 2 || req.queryParams("lastName").length() > 30) {
                     throw new InvalidFieldException(400, "Last name must be between 2 and 30 characters long");
                 }
                 updates.add("up.lastname = ?");
                 params.add(req.queryParams("lastname"));
             }
 
-            if (req.queryParams("phonenumber") != null) {
-                if (req.queryParams("phonenumber").length() != 11) {
+            if (req.queryParams("phoneNumber") != null) {
+                if (req.queryParams("phoneNumber").length() != 11) {
                     throw new InvalidFieldException(400, "Invalid phone number: must be 11 digits long");
                 }
                 updates.add("up.phonenumber = ?");
@@ -88,7 +89,7 @@ public class EditProfileHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT profilepic FROM tbluserprofile WHERE acctid = ? LIMIT 1")) {
-                stmt.setInt(1, req.attribute("userid"));
+                stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
                 if (!rs.next()) {
                     throw new InvalidFieldException(404, "User not found");
@@ -117,7 +118,7 @@ public class EditProfileHandler implements Route {
                 for (int i = 0; i < params.size(); i++) {
                     stmt.setString(i + 1, params.get(i));
                 }
-                stmt.setInt(params.size() + 1, req.attribute("userid"));
+                stmt.setInt(params.size() + 1, req.attribute("userId"));
                 stmt.executeUpdate();
 
                 if (filePart != null) {
@@ -134,7 +135,7 @@ public class EditProfileHandler implements Route {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
 //            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

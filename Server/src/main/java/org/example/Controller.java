@@ -27,7 +27,7 @@ public class Controller {
 
         try {
             DecodedJWT jwt = JwtUtil.verifyToken(token);
-            req.attribute("userid", jwt.getClaim("userid").asInt());
+            req.attribute("userId", jwt.getClaim("userId").asInt());
             req.attribute("role", jwt.getClaim("role").asString());
         } catch (JWTVerificationException e) {
             throw new InvalidFieldException(401, "Invalid token");

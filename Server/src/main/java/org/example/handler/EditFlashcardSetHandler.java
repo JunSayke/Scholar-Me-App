@@ -25,13 +25,13 @@ public class EditFlashcardSetHandler implements Route {
             Controller.validateAccessToken(req);
 
             // Check if any required field is missing
-            Controller.validateParams(req, "flashcardsetid", "title", "description");
+            Controller.validateParams(req, "flashcardSetId", "title", "description");
 
-            if (req.queryParams("flashcardsetid").isEmpty()) {
+            if (req.queryParams("flashcardSetId").isEmpty()) {
                 throw new InvalidFieldException(400, "Flashcard set ID is required");
             }
 
-            if (req.queryParams("flashcardsetid").matches("[^0-9]+")) {
+            if (req.queryParams("flashcardSetId").matches("[^0-9]+")) {
                 throw new InvalidFieldException(400, "Flashcard set ID must be a number");
             }
 
@@ -42,6 +42,7 @@ public class EditFlashcardSetHandler implements Route {
                 if (req.queryParams("title").length() < 2 || req.queryParams("title").length() > 30) {
                     throw new InvalidFieldException(400, "Title must be between 2 and 30 characters long");
                 }
+
                 updates.add("title = ?");
                 params.add(req.queryParams("title"));
             }
@@ -61,12 +62,13 @@ public class EditFlashcardSetHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement(query)) {
+
                 for (int i = 0; i < params.size(); i++) {
                     stmt.setString(i + 1, params.get(i));
                 }
 
-                stmt.setInt(params.size() + 1, Integer.parseInt(req.queryParams("flashcardsetid")));
-                stmt.setInt(params.size() + 2, Integer.parseInt(req.attribute("userid")));
+                stmt.setInt(params.size() + 1, Integer.parseInt(req.queryParams("flashcardSetId")));
+                stmt.setInt(params.size() + 2, Integer.parseInt(req.attribute("userId")));
                 int affectedRows = stmt.executeUpdate();
 
                 if (affectedRows == 0) {
@@ -79,7 +81,7 @@ public class EditFlashcardSetHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

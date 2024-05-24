@@ -14,33 +14,36 @@ import java.sql.PreparedStatement;
 
 import static spark.Spark.halt;
 
-public class DeleteFlashcardSetHandler implements Route {
+public class DeleteFlashcardChoiceHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");
 
         try {
             Controller.validateAccessToken(req);
-            Controller.validateParams(req, "flashcardsetid");
 
-            if (req.queryParams("flashcardsetid").isEmpty()) {
-                throw new InvalidFieldException(400, "Flashcard set ID is required");
+            Controller.validateParams(req, "flashcardChoiceId");
+
+            if (req.queryParams("flashcardChoiceId").isEmpty()) {
+                throw new InvalidFieldException(400, "Flashcard choice ID is required");
             }
 
-            if (req.queryParams("flashcardsetid").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "Flashcard set ID must be a number");
+            if (req.queryParams("flashcardChoiceId").matches("[^0-9]+")) {
+                throw new InvalidFieldException(400, "Flashcard choice ID must be a number");
             }
 
+            // Delete flashcard choice
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM tblflashcardset WHERE flashcardsetid = ? AND userid = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardsetid")));
-                int affectedRows = stmt.executeUpdate();
+                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM tblflashcardchoice WHERE flashcardchoiceid = ?")) {
+                stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardChoiceId")));
+                stmt.executeUpdate();
 
-                if (affectedRows == 0) {
-                    throw new InvalidFieldException(404, "Flashcard set not found");
+                if (stmt.getUpdateCount() == 0) {
+                    throw new InvalidFieldException(400, "Flashcard choice not found");
                 }
 
-                return GsonData.objectToJson(new ResponseGson<>(true, "Flashcard set deleted"));
+                res.status(200);
+                return GsonData.objectToJson(new ResponseGson<>(true, "Flashcard choice deleted successfully"));
             }
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));

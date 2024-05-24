@@ -30,7 +30,7 @@ public class ApplyCreatorHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT 1 FROM tbluseraccount WHERE userid = ? LIMIT 1")) {
-                stmt.setInt(1, req.attribute("userid"));
+                stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 if (!rs.next()) {
@@ -39,7 +39,7 @@ public class ApplyCreatorHandler implements Route {
 
                 // Check if the user already has a pending application
                 try (PreparedStatement stmt2 = conn.prepareStatement("SELECT 1 FROM tblcreatorapplicant WHERE userid = ? AND status = 'pending' LIMIT 1")) {
-                    stmt2.setInt(1, req.attribute("userid"));
+                    stmt2.setInt(1, req.attribute("userId"));
                     ResultSet rs2 = stmt2.executeQuery();
                     if (rs2.next()) {
                         throw new InvalidFieldException(409, "You already have a pending application");
@@ -48,7 +48,7 @@ public class ApplyCreatorHandler implements Route {
 
                 // If no pending application, proceed with the application submission
                 try (PreparedStatement stmt3 = conn.prepareStatement("INSERT INTO tblcreatorapplicant (userid) VALUES (?)")) {
-                    stmt3.setInt(1, req.attribute("userid"));
+                    stmt3.setInt(1, req.attribute("userId"));
                     stmt3.executeUpdate();
                     res.status(200);
                     return GsonData.objectToJson(new ResponseGson<>(true, "Application submitted"));
@@ -58,8 +58,8 @@ public class ApplyCreatorHandler implements Route {
 //            e.printStackTrace();
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
-//            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            e.printStackTrace();
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

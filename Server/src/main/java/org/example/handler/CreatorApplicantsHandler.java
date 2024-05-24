@@ -55,7 +55,7 @@ public class CreatorApplicantsHandler implements Route {
                 while (rs.next()) {
                     CreatorApplicantGson applicant = CreatorApplicantGson.builder()
                             .creatorApplicantId(rs.getInt("creatorapplicantid"))
-                            .userId(rs.getInt("userid"))
+                            .userId(rs.getInt("userId"))
                             .status(rs.getString("status"))
                             .dateAdded(String.valueOf(rs.getTimestamp("dateadded")))
                             .dateUpdated(String.valueOf(rs.getTimestamp("dateupdated")))
@@ -70,7 +70,7 @@ public class CreatorApplicantsHandler implements Route {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
 //            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;
     }

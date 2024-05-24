@@ -56,20 +56,20 @@ public class Route {
         delete("/user/delete-flashcard-set", new DeleteFlashcardSetHandler());
         get("/user/flashcard-sets", new FlashcardSetsHandler());
 
-        post("/user/create-flashcard", (req, res) -> "Create flashcard");
-        put("/user/edit-flashcard", (req, res) -> "Edit flashcard");
-        delete("/user/delete-flashcard", (req, res) -> "Delete flashcard");
+        post("/user/create-flashcard", new CreateFlashcardHandler());
+        put("/user/edit-flashcard", new EditFlashcardHandler());
+        delete("/user/delete-flashcard", new DeleteFlashcardHandler());
 
-        post("/flashcard/add-choice", (req, res) -> "Add choice");
-        put("/flashcard/edit-choice", (req, res) -> "Edit choice");
-        delete("/flashcard/delete-choice", (req, res) -> "Delete choice");
+        post("/flashcard/add-choice", new AddFlashcardChoiceHandler());
+        put("/flashcard/edit-choice", new EditFlashcardChoiceHandler());
+        delete("/flashcard/delete-choice", new DeleteFlashcardChoiceHandler());
 
         get("/user/admin/creator-applicants", new CreatorApplicantsHandler());
         post("/user/admin/approve-creator", new ApproveCreatorApplicantHandler());
         post("/user/admin/reject-creator", new RejectCreatorApplicantHandler());
         post("/user/admin/demote-creator", new DemoteCreatorHandler());
 
-        post("/user/creator/create-course", (req, res) -> "Create course");
+        post("/user/creator/create-course", new CreateCourseHandler());
         put("/user/creator/edit-course", (req, res) -> "Edit course");
         delete("/user/creator/delete-course", (req, res) -> "Delete course");
         get("/user/courses", (req, res) -> "Get user enrolled courses");

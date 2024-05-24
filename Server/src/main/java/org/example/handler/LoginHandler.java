@@ -46,12 +46,12 @@ public class LoginHandler implements Route {
 
                 if (rs.getString("status").equals("inactive")) {
                     try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tbluseraccount SET status = 'active' WHERE userid = ?")) {
-                        stmt2.setInt(1, rs.getInt("userid"));
+                        stmt2.setInt(1, rs.getInt("userId"));
                     }
                 }
 
                 UserGson user = UserGson.builder()
-                        .userId(rs.getInt("userid"))
+                        .userId(rs.getInt("userId"))
                         .username(rs.getString("username"))
                         .email(rs.getString("email"))
                         .firstName(rs.getString("firstname"))
@@ -76,7 +76,7 @@ public class LoginHandler implements Route {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
             e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
 
         return null;
