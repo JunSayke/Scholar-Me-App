@@ -32,7 +32,7 @@ public class GetCreatorCoursesHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('courseId', courseid, 'author', author, 'title', title, 'description', description, 'thumbnail', thumbnail, 'views', views, 'dateAdded', dateadded, 'dateUpdated', dateupdated) as courses FROM tblcourse WHERE author = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 List<CourseGson> courses = new ArrayList<>();

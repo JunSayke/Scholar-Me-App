@@ -68,7 +68,7 @@ public class EditFlashcardSetHandler implements Route {
                 }
 
                 stmt.setInt(params.size() + 1, Integer.parseInt(req.queryParams("flashcardSetId")));
-                stmt.setInt(params.size() + 2, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(params.size() + 2, req.attribute("userId"));
                 int affectedRows = stmt.executeUpdate();
 
                 if (affectedRows == 0) {

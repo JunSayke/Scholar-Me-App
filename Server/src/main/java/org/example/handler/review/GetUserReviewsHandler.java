@@ -29,7 +29,7 @@ public class GetUserReviewsHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('commentId', commentid, 'userId', userid, 'comment', comment, 'dateAdded', dateadded, 'dateUpdated', dateupdated) as comment FROM tblcomment WHERE userid = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 List<CommentGson> comments = new ArrayList<>();

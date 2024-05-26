@@ -39,7 +39,7 @@ public class GetFlashcardSetFlashcardsHandler implements Route {
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('flashcardId', f.flashcardid, 'userId', f.userid, 'question', f.question, 'dateAdded', f.dateadded, 'dateUpdated', f.dateupdated) as flashcard FROM tblflashcardsetflashcard fsf JOIN tblflashcard f ON fsf.flashcardid = f.flashcardid WHERE fsf.flashcardsetid = ? AND f.userid = ?")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardSetId")));
-                stmt.setInt(2, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(2, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 List<FlashcardGson> flashcards = new ArrayList<>();

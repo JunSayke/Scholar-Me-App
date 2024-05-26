@@ -27,7 +27,7 @@ public class GetUserCoursesHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('courseId', c.courseid, 'userId', cl.userid, 'dateEnrolled', cl.dateenrolled, 'author', c.author, 'title', c.title, 'description', c.description, 'thumbnail', c.thumbnail, 'views', c.views, 'dateAdded', c.dateadded, 'dateUpdated', c.dateupdated) as courses FROM tblcourselearner cl JOIN tblcourse c ON cl.userid = c.author WHERE cl.userid = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 List<CourseLearnerGson> courses = new ArrayList<>();

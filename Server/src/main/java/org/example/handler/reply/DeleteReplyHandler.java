@@ -1,4 +1,4 @@
-package org.example.handler.course;
+package org.example.handler.reply;
 
 import org.example.Controller;
 import org.example.data.GsonData;
@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 
 import static spark.Spark.halt;
 
-public class DeleteCourseHandler implements Route {
+public class DeleteReplyHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");
@@ -22,29 +22,26 @@ public class DeleteCourseHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            if (!req.attribute("role").equals("creator")) {
-                throw new InvalidFieldException(403, "Forbidden");
+            Controller.validateParams(req, "replyId");
+
+            if (req.queryParams("replyId").isEmpty()) {
+                throw new InvalidFieldException(400, "Reply ID is required");
             }
 
-            Controller.validateParams(req, "courseId");
-
-            if (req.queryParams("courseId").isEmpty()) {
-                throw new InvalidFieldException(400, "Course ID is required");
-            }
-
-            if (req.queryParams("courseId").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "Course ID must be a number");
+            if (req.queryParams("replyId").matches("[^0-9]+")) {
+                throw new InvalidFieldException(400, "Reply ID must be a number");
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM tblcourse WHERE courseid = ? AND author = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.queryParams("courseId")));
+                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM tblreply WHERE replyid = ? AND userid = ?")) {
+                stmt.setInt(1, Integer.parseInt(req.queryParams("replyId")));
                 stmt.setInt(2, req.attribute("userId"));
                 if (stmt.executeUpdate() == 0) {
-                    throw new InvalidFieldException(400, "Course not found");
+                    throw new InvalidFieldException(400, "Reply not found");
                 }
+
                 res.status(200);
-                return GsonData.objectToJson(new ResponseGson<>(false, "Course deleted successfully"));
+                return GsonData.objectToJson(new ResponseGson<>(true, "Reply deleted successfully"));
             }
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));

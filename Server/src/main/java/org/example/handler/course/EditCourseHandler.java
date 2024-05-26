@@ -82,7 +82,7 @@ public class EditCourseHandler implements Route {
                  PreparedStatement stmt = conn.prepareStatement("SELECT thumbnail FROM tblcourse WHERE courseid = ? AND author = ? LIMIT 1")) {
                 SQLParamsChainOfResponsibility paramsChain = Controller.getSQLParamsChain();
                 paramsChain.handle(stmt, 1, Integer.parseInt(req.queryParams("courseId")));
-                paramsChain.handle(stmt, 2, Integer.parseInt(req.attribute("userId")));
+                paramsChain.handle(stmt, 2, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 if (!rs.next()) {
@@ -110,7 +110,7 @@ public class EditCourseHandler implements Route {
                     paramsChain.handle(stmt, i + 1, params.get(i));
                 }
                 stmt.setInt(params.size() + 1, Integer.parseInt(req.queryParams("courseId")));
-                stmt.setInt(params.size() + 2, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(params.size() + 2, req.attribute("userId"));
 
                 if (stmt.executeUpdate() == 0) {
                     throw new InvalidFieldException(404, "Course not found");

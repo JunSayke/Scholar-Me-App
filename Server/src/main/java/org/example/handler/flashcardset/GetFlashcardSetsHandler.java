@@ -27,7 +27,7 @@ public class GetFlashcardSetsHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT * tblflashcardset WHERE userid = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
                 List<FlashcardSetGson> flashcardSets = new ArrayList<>();
 

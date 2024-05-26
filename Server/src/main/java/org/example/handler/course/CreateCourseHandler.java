@@ -64,7 +64,7 @@ public class CreateCourseHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("INSERT INTO tblcourse (author, title, description, thumbnail) VALUES (?, ?, ?, ?)")) {
-                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(1, req.attribute("userId"));
                 stmt.setString(2, req.queryParams("title"));
                 stmt.setString(3, req.queryParams("description"));
                 stmt.setString(4, req.scheme() + req.host() + path);

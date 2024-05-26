@@ -26,7 +26,7 @@ public class DeleteAccountHandler implements Route {
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tbluseraccount WHERE userid = ? LIMIT 1")) {
-                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
+                stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 if (!rs.next()) {
@@ -38,7 +38,7 @@ public class DeleteAccountHandler implements Route {
                 }
 
                 try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tbluseraccount SET status = 'inactive' WHERE userid = ?")) {
-                    stmt2.setInt(1, Integer.parseInt(req.attribute("userId")));
+                    stmt2.setInt(1, req.attribute("userId"));
                     stmt2.executeUpdate();
                     res.status(200);
                     return GsonData.objectToJson(new ResponseGson<>(true, "Account deleted"));
