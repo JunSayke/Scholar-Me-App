@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_container_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_container_dark"
+    android:orientation="vertical"
+    tools:context=".fragments.account.EditAccountFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/edit_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="50dp">
+
+            <LinearLayout
+                android:id="@+id/edit_component_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/edit_lbl_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:text="Profile Image"
+                    android:textColor="@color/secondary_text_color" />
+
+                <ImageView
+                    android:id="@+id/edit_iv_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    app:srcCompat="@android:drawable/ic_menu_camera" />
+
+                <ImageButton
+                    android:id="@+id/edit_btn_profile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/__aa_profile_background"
+                    android:contentDescription="avatar"
+                    android:src="@drawable/__aa_default_user_icon" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edit_component_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:id="@+id/edit_lbl_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Email"
+                    android:textColor="@color/secondary_text_color" />
+
+                <EditText
+                    android:id="@+id/edit_ett_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/__aa_container_light_box"
+                    android:ems="10"
+                    android:hint="email"
+                    android:inputType="textEmailAddress"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/primary_text_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edit_component_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/edit_lbl_firstname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Firstname"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edit_ett_firstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/__aa_container_light_box"
+                    android:ems="10"
+                    android:hint="firstname"
+                    android:inputType="text"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/primary_text_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edit_component_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/edit_lbl_lastname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Lastname"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edit_ett_lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/__aa_container_light_box"
+                    android:ems="10"
+                    android:hint="lastname"
+                    android:inputType="text"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/primary_text_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edit_component_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/edit_lbl_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Password"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edit_ett_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/__aa_container_light_box"
+                    android:ems="10"
+                    android:hint="password"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/primary_text_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edit_component_reenter_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/edit_lbl_reenter_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Re-enter Password"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edit_ett_reenter_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/__aa_container_light_box"
+                    android:ems="10"
+                    android:hint="password"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/primary_text_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edit_component_number"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/edit_lbl_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Phone Number"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edit_ett_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/__aa_container_light_box"
+                    android:ems="10"
+                    android:hint="phone number"
+                    android:inputType="number"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/primary_text_color" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/edit_btn_edit"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/primary_color"
+                android:contentDescription="background"
+                android:text="Edit Account"
+                android:textAllCaps="false"
+                android:textColor="@color/primary_text_color"
+                app:cornerRadius="16dp" />
+
+            <View
+                android:id="@+id/edit_horizontal_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="20dp"
+                android:background="@color/secondary_text_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edit_login_with"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/edit_btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/primary_color"
+                android:contentDescription="submit"
+                android:text="Apply to be a Teacher"
+                android:textAllCaps="false"
+                android:textColor="@color/primary_text_color"
+                app:cornerRadius="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

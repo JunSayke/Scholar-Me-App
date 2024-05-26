@@ -1,0 +1,174 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/message_container_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/main_container_dark"
+	tools:context=".fragments.homepage.MessagesFragment">
+
+	<TextView
+		android:id="@+id/message_txt_notifications"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="20dp"
+		android:layout_marginTop="20dp"
+		android:text="@string/title_notifications"
+		android:textColor="@color/primary_text_color"
+		android:textSize="24sp"
+		android:textStyle="bold"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<LinearLayout
+		android:id="@+id/message_container_tab"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:gravity="center"
+		android:paddingVertical="5dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/message_txt_notifications">
+
+
+		<LinearLayout
+			android:id="@+id/message_container_message_tab"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:orientation="vertical">
+
+			<TextView
+				android:id="@+id/message_txt_message"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:clickable="true"
+				android:padding="1dp"
+				android:text="@string/txt_message_tab"
+				android:textAlignment="center"
+				android:textColor="@color/primary_text_color"
+				android:textSize="16sp" />
+
+			<View
+				android:id="@+id/message_line_message"
+				android:layout_width="80dp"
+				android:layout_height="3dp"
+				android:background="@color/primary_color" />
+
+		</LinearLayout>
+
+		<Space
+			android:layout_width="40dp"
+			android:layout_height="wrap_content" />
+
+		<LinearLayout
+			android:id="@+id/message_container_notification_tab"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:orientation="vertical">
+
+			<TextView
+				android:id="@+id/message_txt_notification"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:clickable="true"
+				android:padding="1dp"
+				android:text="@string/txt_notification_tab"
+				android:textAlignment="center"
+				android:textColor="@color/secondary_text_color"
+				android:textSize="16sp" />
+
+			<View
+				android:id="@+id/message_line_notification"
+				android:layout_width="100dp"
+				android:layout_height="3dp"
+				android:background="@color/primary_color"
+				android:visibility="invisible" />
+
+		</LinearLayout>
+
+
+	</LinearLayout>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/message_component_list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/message_container_tab"
+		app:layout_constraintVertical_bias="0.0">
+
+		<TextView
+			android:id="@+id/messages_txt_empty"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal|center"
+			android:layout_marginTop="200dp"
+			android:gravity="center"
+			android:text="@string/emp_messages"
+			android:textAlignment="center"
+			android:textAllCaps="false"
+			android:textColor="@color/secondary_text_color"
+			android:textSize="16sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/messages_list_message"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginStart="20dp"
+			android:layout_marginEnd="20dp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:listitem="@layout/list_message_header_messages" />
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/notifications_component_list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:visibility="gone"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/message_container_tab"
+		app:layout_constraintVertical_bias="0.0">
+
+		<TextView
+			android:id="@+id/notifications_txt_empty"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal|center"
+			android:layout_marginTop="200dp"
+			android:gravity="center"
+			android:text="@string/emp_messages"
+			android:textAlignment="center"
+			android:textAllCaps="false"
+			android:textColor="@color/secondary_text_color"
+			android:textSize="16sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/notifications_list_message"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginStart="20dp"
+			android:layout_marginEnd="20dp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:listitem="@layout/list_messages_notifications" />
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/courses_nav_graph"
+    app:startDestination="@id/coursesFragment">
+
+    <fragment
+        android:id="@+id/courseDetailsFragment"
+        android:name="com.example.solutionsproject.fragments.courses.CourseDetailsFragment"
+        android:label="fragment_course_details"
+        tools:layout="@layout/fragment_course_details" >
+        <action
+            android:id="@+id/action_courseDetailsFragment_to_coursesFragment"
+            app:destination="@id/coursesFragment" />
+        <argument
+            android:name="modelId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseDashboardFragment"
+        android:name="com.example.solutionsproject.fragments.courses.CourseDashboardFragment"
+        android:label="CourseDashboardFragment" >
+        <action
+            android:id="@+id/action_courseDashboardFragment_to_courseCreatorFragment"
+            app:destination="@id/courseCreatorFragment" />
+        <action
+            android:id="@+id/action_courseDashboardFragment_to_coursesFragment"
+            app:destination="@id/coursesFragment" />
+        <action
+            android:id="@+id/action_courseDashboardFragment_to_contentCreatorFragment"
+            app:destination="@id/contentCreatorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseCreatorFragment"
+        android:name="com.example.solutionsproject.fragments.courses.CourseCreatorFragment"
+        android:label="fragment_course_creator"
+        tools:layout="@layout/fragment_course_creator" >
+        <action
+            android:id="@+id/action_courseCreatorFragment_to_contentCreatorFragment"
+            app:destination="@id/contentCreatorFragment" />
+        <action
+            android:id="@+id/action_courseCreatorFragment_to_courseDashboardFragment"
+            app:destination="@id/courseDashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contentCreatorFragment"
+        android:name="com.example.solutionsproject.fragments.courses.ContentCreatorFragment"
+        android:label="fragment_content_creator"
+        tools:layout="@layout/fragment_content_creator" >
+        <action
+            android:id="@+id/action_contentCreatorFragment_to_courseCreatorFragment"
+            app:destination="@id/courseCreatorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/coursesFragment"
+        android:name="com.example.solutionsproject.fragments.homepage.CoursesFragment"
+        android:label="fragment_courses"
+        tools:layout="@layout/fragment_courses" >
+        <action
+            android:id="@+id/action_coursesFragment_to_courseDetailsFragment"
+            app:destination="@id/courseDetailsFragment" />
+        <action
+            android:id="@+id/action_coursesFragment_to_courseDashboardFragment"
+            app:destination="@id/courseDashboardFragment" />
+    </fragment>
+
+</navigation>
