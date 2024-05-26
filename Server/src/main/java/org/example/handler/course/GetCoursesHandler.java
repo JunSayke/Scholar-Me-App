@@ -1,9 +1,10 @@
-package org.example.handler.course.lesson;
+package org.example.handler.course;
 
 import org.example.Controller;
-import org.example.data.CourseLessonGson;
+import org.example.data.CourseGson;
 import org.example.data.GsonData;
 import org.example.data.ResponseGson;
+import org.example.data.UserGson;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import spark.Request;
@@ -18,7 +19,7 @@ import java.util.List;
 
 import static spark.Spark.halt;
 
-public class GetCourseLessonsHandler implements Route {
+public class GetCoursesHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");
@@ -26,41 +27,37 @@ public class GetCourseLessonsHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            Controller.validateParams(req, "courseId");
-
-            if (req.queryParams("courseId").isEmpty()) {
-                throw new InvalidFieldException(400, "Course ID is required");
-            }
-
-            if (req.queryParams("courseId").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "Course ID must be a number");
-            }
-
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tblcourselesson WHERE courseid = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.queryParams("courseId")));
+                 PreparedStatement stmt = conn.prepareStatement("SELECT c.courseid, up.acctid, up.firstname, up.lastname, up.profilepic, c.title, c.description, c.thumbnail, c.views, c.dateadded, c.dateupdated, SUM(l.duration) as totalDuration FROM tblcourse c JOIN tbluserprofile up ON c.author = up.acctid LEFT JOIN tblcourselesson l ON c.courseid = l.courseid GROUP BY c.courseid")) {
                 ResultSet rs = stmt.executeQuery();
 
-                List<CourseLessonGson> courseLessons = new ArrayList<>();
+                List<CourseGson> courses = new ArrayList<>();
 
                 while (rs.next()) {
-                    CourseLessonGson courseLesson = CourseLessonGson.builder()
-                            .courseLessonId(rs.getInt("courselessonid"))
+                    UserGson author = UserGson.builder()
+                            .userId(rs.getInt("acctid"))
+                            .firstName(rs.getString("firstname"))
+                            .lastName(rs.getString("lastname"))
+                            .profilePic(rs.getString("profilepic"))
+                            .build();
+
+                    CourseGson course = CourseGson.builder()
                             .courseId(rs.getInt("courseid"))
+                            .author(author)
                             .title(rs.getString("title"))
-                            .lessonNumber(rs.getInt("lessonnumber"))
                             .description(rs.getString("description"))
-                            .content(rs.getString("content"))
-                            .duration(rs.getInt("duration"))
-                            .isLocked(rs.getBoolean("islocked"))
+                            .thumbnail(rs.getString("thumbnail"))
+                            .views(rs.getInt("views"))
                             .dateAdded(rs.getTimestamp("dateadded").toLocalDateTime())
                             .dateUpdated(rs.getTimestamp("dateupdated").toLocalDateTime())
+                            .totalDuration(rs.getInt("totalDuration"))
                             .build();
-                    courseLessons.add(courseLesson);
+
+                    courses.add(course);
                 }
 
                 res.status(200);
-                return GsonData.objectToJson(new ResponseGson<>(true, "Course lessons retrieved", courseLessons));
+                return GsonData.objectToJson(new ResponseGson<>(true, "Courses retrieved", courses));
             }
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));

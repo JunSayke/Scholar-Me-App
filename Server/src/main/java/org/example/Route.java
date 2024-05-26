@@ -5,6 +5,7 @@ import org.example.handler.course.*;
 import org.example.handler.course.lesson.AddCourseLessonHandler;
 import org.example.handler.course.lesson.DeleteCourseLessonHandler;
 import org.example.handler.course.lesson.EditCourseLessonHandler;
+import org.example.handler.course.lesson.GetCourseLessonsHandler;
 import org.example.handler.course.review.AddCourseReviewHandler;
 import org.example.handler.flashcard.GetFlashcardSetFlashcardsHandler;
 import org.example.handler.flashcard.choice.AddFlashcardChoiceHandler;
@@ -97,6 +98,8 @@ public class Route {
         delete("/user/creator/delete-course", new DeleteCourseHandler());
         get("/user/courses", new GetUserCoursesHandler());
         get("/user/creator/courses", new GetCreatorCoursesHandler());
+        get("/courses", new GetCoursesHandler());
+        get("/course/lessons", new GetCourseLessonsHandler());
 
         post("/course/add-lesson", new AddCourseLessonHandler());
         put("/course/edit-lesson", new EditCourseLessonHandler());
