@@ -35,7 +35,7 @@ public class EditCourseHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            if (req.attribute("role").equals("creator")) {
+            if (!req.attribute("role").equals("creator")) {
                 throw new InvalidFieldException(403, "Forbidden");
             }
 
