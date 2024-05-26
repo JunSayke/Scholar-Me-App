@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/cdash_container_main"
+    android:background="@color/main_container_dark"
+    android:orientation="vertical"
+    tools:context=".fragments.courses.CourseCreatorFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cdash_container_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="20dp">
+
+        <ImageButton
+            android:id="@+id/cdash_btn_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="30dp"
+            android:background="?android:selectableItemBackground"
+            android:contentDescription="back"
+            android:src="@drawable/__aa_btn_arrow_left" />
+
+        <TextView
+            android:id="@+id/cdash_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_cdash_title"
+            android:textAlignment="center"
+            android:textColor="@color/primary_text_color"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/cdash_component_course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/cdash_component_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cdash_lbl_thumbnail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="Thumbail"
+                android:textColor="@color/secondary_text_color" />
+
+            <ImageView
+                android:id="@+id/cdash_iv_camera"
+                app:srcCompat="@android:drawable/ic_menu_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <ImageButton
+                android:id="@+id/cdash_btn_thumbnail"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/__aa_container_white_box"
+                android:contentDescription="avatar" />
+
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/cdash_ett_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/__aa_container_light_box"
+            android:ems="10"
+            android:hint="course title"
+            android:inputType="text"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            android:textColor="@color/primary_text_color" />
+
+        <EditText
+            android:id="@+id/cdash_ett_description"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/__aa_container_light_box"
+            android:ems="10"
+            android:hint="course description"
+            android:inputType="text|textMultiLine"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="16dp"
+            android:textAlignment="viewStart"
+            android:textColor="@color/primary_text_color" />
+
+        <Button
+            android:id="@+id/cdash_btn_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Add course" />
+
+    </LinearLayout>
+
+</LinearLayout>

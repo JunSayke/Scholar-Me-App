@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/opening_nav_graph"
+    app:startDestination="@id/splashArtFragment">
+
+    <fragment
+        android:id="@+id/openingFragment"
+        android:name="com.example.solutionsproject.fragments.opening.OpeningFragment"
+        android:label="OpeningFragment" >
+        <action
+            android:id="@+id/action_openingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_openingFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.solutionsproject.fragments.opening.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_homepageNavController"
+            app:destination="@id/homepageNavController" />
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.example.solutionsproject.fragments.opening.SignupFragment"
+        android:label="SignupFragment" >
+        <action
+            android:id="@+id/action_signupFragment_to_homepageNavController"
+            app:destination="@id/homepageNavController" />
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homepageNavController"
+        android:name="com.example.solutionsproject.fragments.navcontrollers.HomepageNavContainer"
+        android:label="fragment_homepage_nav_controller"
+        tools:layout="@layout/fragment_homepage_nav_container" />
+    <fragment
+        android:id="@+id/splashArtFragment"
+        android:name="com.example.solutionsproject.fragments.opening.SplashArtFragment"
+        android:label="fragment_splash_art"
+        tools:layout="@layout/fragment_splash_art" >
+        <action
+            android:id="@+id/action_splashArtFragment_to_openingFragment"
+            app:destination="@id/openingFragment" />
+        <action
+            android:id="@+id/action_splashArtFragment_to_homepageNavController"
+            app:destination="@id/homepageNavController" />
+        <action
+            android:id="@+id/action_splashArtFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+</navigation>

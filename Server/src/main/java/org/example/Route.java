@@ -98,6 +98,7 @@ public class Route {
         delete("/user/creator/delete-course", new DeleteCourseHandler());
         get("/user/courses", new GetUserCoursesHandler());
         get("/user/creator/courses", new GetCreatorCoursesHandler());
+
         get("/courses", new GetCoursesHandler());
         get("/course/lessons", new GetCourseLessonsHandler());
 

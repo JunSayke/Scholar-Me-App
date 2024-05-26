@@ -29,6 +29,7 @@ import static spark.Spark.routes;
 public class Controller {
     public static void validateAccessToken(Request req) throws InvalidFieldException {
         String token = req.cookie("access_token");
+
         if (token == null) {
             throw new InvalidFieldException(401, "Missing access token");
         }

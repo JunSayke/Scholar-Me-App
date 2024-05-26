@@ -4,6 +4,7 @@ import org.example.Controller;
 import org.example.data.FlashcardSetGson;
 import org.example.data.GsonData;
 import org.example.data.ResponseGson;
+import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import spark.Request;
 import spark.Response;
@@ -26,7 +27,7 @@ public class GetFlashcardSetsHandler implements Route {
             Controller.validateAccessToken(req);
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT * tblflashcardset WHERE userid = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tblflashcardset WHERE userid = ?")) {
                 stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
                 List<FlashcardSetGson> flashcardSets = new ArrayList<>();
@@ -46,7 +47,10 @@ public class GetFlashcardSetsHandler implements Route {
                 res.status(200);
                 return GsonData.objectToJson(new ResponseGson<>(true, "Flashcard sets retrieved", flashcardSets));
             }
+        } catch (InvalidFieldException e) {
+            halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
+            e.printStackTrace();
             halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;

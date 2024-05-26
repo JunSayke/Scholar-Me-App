@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/flashcardQuestionCreatorFragment"
+        android:name="com.example.solutionsproject.fragments.home.FlashcardQuestionCreatorFragment"
+        android:label="fragment_flashcard_choice_creator"
+        tools:layout="@layout/fragment_flashcard_choice_creator" >
+        <action
+            android:id="@+id/action_flashcardQuestionCreatorFragment_to_flashcardChoiceCreatorFragment"
+            app:destination="@id/flashcardChoiceCreatorFragment" />
+        <action
+            android:id="@+id/action_flashcardQuestionCreatorFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/flashcardChoiceCreatorFragment"
+        android:name="com.example.solutionsproject.fragments.home.FlashcardChoiceCreatorFragment"
+        android:label="FlashcardChoiceCreatorFragment" >
+        <action
+            android:id="@+id/action_flashcardChoiceCreatorFragment_to_flashcardQuestionCreatorFragment"
+            app:destination="@id/flashcardQuestionCreatorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.solutionsproject.fragments.homepage.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_flashcardQuestionCreatorFragment"
+            app:destination="@id/flashcardQuestionCreatorFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_accountNavContainer"
+            app:destination="@id/accountNavContainer" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.solutionsproject.fragments.homepage.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountNavContainer"
+        android:name="com.example.solutionsproject.fragments.navcontrollers.AccountNavContainer"
+        android:label="AccountNavContainer" />
+</navigation>

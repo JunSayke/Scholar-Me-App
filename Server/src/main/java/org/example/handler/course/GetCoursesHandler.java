@@ -23,7 +23,7 @@ public class GetCoursesHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");
-
+        System.err.println(req.cookie("access_token"));
         try {
             Controller.validateAccessToken(req);
 
