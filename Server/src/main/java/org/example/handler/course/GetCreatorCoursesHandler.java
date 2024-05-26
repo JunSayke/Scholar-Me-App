@@ -31,14 +31,14 @@ public class GetCreatorCoursesHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('courseId', courseid, 'author', author, 'title', title, 'description', description, 'thumbnail', thumbnail, 'views', views, 'dateAdded', dateadded, 'dateUpdated', dateupdated) as courses FROM tblcourse WHERE author = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('courseId', courseid, 'title', title, 'description', description, 'thumbnail', thumbnail, 'views', views, 'dateAdded', dateadded, 'dateUpdated', dateupdated) as course FROM tblcourse WHERE author = ?")) {
                 stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 List<CourseGson> courses = new ArrayList<>();
 
                 while (rs.next()) {
-                    courses.add(GsonData.jsonToObject(rs.getString("courses"), CourseGson.class));
+                    courses.add(GsonData.jsonToObject(rs.getString("course"), CourseGson.class));
                 }
 
                 res.status(200);
