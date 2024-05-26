@@ -1,10 +1,7 @@
 package org.example.handler.course;
 
 import org.example.Controller;
-import org.example.data.CourseGson;
-import org.example.data.CourseLearnerGson;
-import org.example.data.GsonData;
-import org.example.data.ResponseGson;
+import org.example.data.*;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import spark.*;
@@ -26,14 +23,35 @@ public class GetUserCoursesHandler implements Route {
             Controller.validateAccessToken(req);
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('courseId', c.courseid, 'userId', cl.userid, 'dateEnrolled', cl.dateenrolled, 'author', JSON_OBJECT('userId', up.userid, 'username', up.username, 'firstName', up.firstname, 'lastName', up.lastname, 'profilePic', up.profilepic), 'title', c.title, 'description', c.description, 'thumbnail', c.thumbnail, 'views', c.views, 'dateAdded', c.dateadded, 'dateUpdated', c.dateupdated) as course FROM tblcourselearner cl JOIN tblcourse c ON cl.userid = c.author JOIN tbluserprofile up ON cl.userid = up.userid WHERE cl.userid = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT cl.userid, cl.dateenrolled, c.courseid, up.acctid, up.firstname, up.lastname, up.profilepic, c.title, c.description, c.thumbnail, c.views, c.dateadded, c.dateupdated, SUM(l.duration) as totalDuration FROM tblcourselearner cl JOIN tblcourse c ON cl.courseid = c.courseid JOIN tbluserprofile up ON c.author = up.acctid LEFT JOIN tblcourselesson l ON c.courseid = l.courseid WHERE cl.userid = ? GROUP BY c.courseid")) {
                 stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 List<CourseLearnerGson> courses = new ArrayList<>();
 
                 while (rs.next()) {
-                    courses.add(GsonData.jsonToObject(rs.getString("course"), CourseLearnerGson.class));
+                    UserGson author = UserGson.builder()
+                            .userId(rs.getInt("acctid"))
+                            .firstName(rs.getString("firstname"))
+                            .lastName(rs.getString("lastname"))
+                            .profilePic(rs.getString("profilepic"))
+                            .build();
+
+                    CourseLearnerGson course = CourseLearnerGson.CourseLearnerGsonBuilder()
+                            .courseId(rs.getInt("courseid"))
+                            .userId(rs.getInt("userid"))
+                            .dateEnrolled(rs.getTimestamp("dateenrolled").toLocalDateTime())
+                            .author(author)
+                            .title(rs.getString("title"))
+                            .description(rs.getString("description"))
+                            .thumbnail(rs.getString("thumbnail"))
+                            .views(rs.getInt("views"))
+                            .dateAdded(rs.getTimestamp("dateadded").toLocalDateTime())
+                            .dateUpdated(rs.getTimestamp("dateupdated").toLocalDateTime())
+                            .totalDuration(rs.getInt("totalDuration"))
+                            .build();
+
+                    courses.add(course);
                 }
                 res.status(200);
                 return GsonData.objectToJson(new ResponseGson<>(true, "Courses retrieved", courses));
@@ -41,6 +59,7 @@ public class GetUserCoursesHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
+//            e.printStackTrace();
             halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;

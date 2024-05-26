@@ -13,6 +13,6 @@ public class CreatorApplicantGson extends GsonData {
     private int creatorApplicantId;
     private int userId;
     private String status;
-    private String dateAdded;
-    private String dateUpdated;
+    private LocalDateTime dateAdded;
+    private LocalDateTime dateUpdated;
 }

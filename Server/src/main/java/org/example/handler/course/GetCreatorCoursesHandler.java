@@ -4,6 +4,7 @@ import org.example.Controller;
 import org.example.data.CourseGson;
 import org.example.data.GsonData;
 import org.example.data.ResponseGson;
+import org.example.data.UserGson;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import spark.Request;
@@ -31,14 +32,33 @@ public class GetCreatorCoursesHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('courseId', courseid, 'title', title, 'description', description, 'thumbnail', thumbnail, 'views', views, 'dateAdded', dateadded, 'dateUpdated', dateupdated) as course FROM tblcourse WHERE author = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT c.courseid, up.acctid, up.firstname, up.lastname, up.profilepic, c.title, c.description, c.thumbnail, c.views, c.dateadded, c.dateupdated, SUM(l.duration) as totalDuration FROM tblcourse c JOIN tbluserprofile up ON c.author = up.acctid LEFT JOIN tblcourselesson l ON c.courseid = l.courseid WHERE c.author = ? GROUP BY c.courseid")) {
                 stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 
                 List<CourseGson> courses = new ArrayList<>();
 
                 while (rs.next()) {
-                    courses.add(GsonData.jsonToObject(rs.getString("course"), CourseGson.class));
+                    UserGson author = UserGson.builder()
+                            .userId(rs.getInt("acctid"))
+                            .firstName(rs.getString("firstname"))
+                            .lastName(rs.getString("lastname"))
+                            .profilePic(rs.getString("profilepic"))
+                            .build();
+
+                    CourseGson course = CourseGson.builder()
+                            .courseId(rs.getInt("courseid"))
+                            .author(author)
+                            .title(rs.getString("title"))
+                            .description(rs.getString("description"))
+                            .thumbnail(rs.getString("thumbnail"))
+                            .views(rs.getInt("views"))
+                            .dateAdded(rs.getTimestamp("dateadded").toLocalDateTime())
+                            .dateUpdated(rs.getTimestamp("dateupdated").toLocalDateTime())
+                            .totalDuration(rs.getInt("totalDuration"))
+                            .build();
+
+                    courses.add(course);
                 }
 
                 res.status(200);
@@ -47,6 +67,7 @@ public class GetCreatorCoursesHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
+//            e.printStackTrace();
             halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;

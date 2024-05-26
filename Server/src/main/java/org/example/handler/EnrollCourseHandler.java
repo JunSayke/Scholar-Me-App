@@ -33,10 +33,18 @@ public class EnrollCourseHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement("INSERT INTO tblcourseleaner (courseid, userid) VALUES (?, ?)")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT 1 FROM tblcourselearner WHERE courseid = ? AND userid = ?")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("courseId")));
                 stmt.setInt(2, req.attribute("userId"));
-                stmt.executeUpdate();
+                if (stmt.executeQuery().next()) {
+                    throw new InvalidFieldException(400, "You are already enrolled in this course");
+                }
+
+                try (PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO tblcourselearner (courseid, userid) VALUES (?, ?)")) {
+                    stmt2.setInt(1, Integer.parseInt(req.queryParams("courseId")));
+                    stmt2.setInt(2, req.attribute("userId"));
+                    stmt2.executeUpdate();
+                }
 
                 res.status(200);
                 return GsonData.objectToJson(new ResponseGson<>(true, "Course enrolled successfully"));
@@ -44,6 +52,7 @@ public class EnrollCourseHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
+            e.printStackTrace();
             halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;

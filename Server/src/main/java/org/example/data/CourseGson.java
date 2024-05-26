@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @Builder
@@ -16,6 +18,7 @@ public class CourseGson extends GsonData {
     protected String description;
     protected String thumbnail;
     protected int views;
-    protected int dateAdded;
-    protected int dateUpdated;
+    protected int totalDuration;
+    protected LocalDateTime dateAdded;
+    protected LocalDateTime dateUpdated;
 }

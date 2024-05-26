@@ -57,8 +57,8 @@ public class GetCreatorApplicantsHandler implements Route {
                             .creatorApplicantId(rs.getInt("creatorapplicantid"))
                             .userId(rs.getInt("userId"))
                             .status(rs.getString("status"))
-                            .dateAdded(String.valueOf(rs.getTimestamp("dateadded")))
-                            .dateUpdated(String.valueOf(rs.getTimestamp("dateupdated")))
+                            .dateAdded(rs.getTimestamp("dateadded").toLocalDateTime())
+                            .dateUpdated(rs.getTimestamp("dateupdated").toLocalDateTime())
                             .build();
                     applicants.add(applicant);
                 }

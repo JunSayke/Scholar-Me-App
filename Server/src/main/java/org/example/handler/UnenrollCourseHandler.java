@@ -38,7 +38,7 @@ public class UnenrollCourseHandler implements Route {
                 stmt.setInt(2, req.attribute("userId"));
 
                 if (stmt.executeUpdate() == 0) {
-                    throw new InvalidFieldException(400, "Course not found");
+                    throw new InvalidFieldException(400, "Course not found or you are not enrolled in this course");
                 }
 
                 res.status(200);

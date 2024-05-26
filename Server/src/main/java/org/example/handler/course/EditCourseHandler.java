@@ -95,7 +95,7 @@ public class EditCourseHandler implements Route {
                     String extension = fileName.substring(fileName.lastIndexOf("."));
                     String path = "/images/course-thumbnail/" + UUID.randomUUID() + extension;
                     updates.add("thumbnail = ?");
-                    params.add(req.scheme() + req.host() + path);
+                    params.add(req.host() + path);
                     dir = Path.of(System.getenv("SERVER_RESOURCE_PATH"), path);
                 }
             }

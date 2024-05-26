@@ -60,7 +60,7 @@ public class Main {
                     + "title VARCHAR(255) NOT NULL,"
                     + "lessonno INT NOT NULL,"
                     + "description TEXT NOT NULL,"
-                    + "content VARCHAR(255) NOT NULL,"
+                    + "content TEXT NOT NULL,"
                     + "duration INT NOT NULL,"
                     + "islocked BOOLEAN NOT NULL DEFAULT 0,"
                     + "dateadded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
@@ -74,7 +74,8 @@ public class Main {
                     + "userid INT NOT NULL,"
                     + "dateenrolled TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                     + "FOREIGN KEY (courseid) REFERENCES tblcourse(courseid) ON DELETE CASCADE,"
-                    + "FOREIGN KEY (userid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE"
+                    + "FOREIGN KEY (userid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE,"
+                    + "UNIQUE (courseid, userid)"
                     + ")"
             );
             stmt.addBatch("CREATE TABLE IF NOT EXISTS tbluserfavorite ("
