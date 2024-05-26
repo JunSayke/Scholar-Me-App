@@ -15,7 +15,7 @@ public class CourseGson extends GsonData {
     protected String title;
     protected String description;
     protected String thumbnail;
-    protected int visits;
+    protected int views;
     protected int dateAdded;
     protected int dateUpdated;
 }

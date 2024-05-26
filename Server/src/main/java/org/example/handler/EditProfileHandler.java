@@ -43,7 +43,7 @@ public class EditProfileHandler implements Route {
                     throw new InvalidFieldException(400, "First name must be between 2 and 30 characters long");
                 }
                 updates.add("up.firstname = ?");
-                params.add(req.queryParams("firstname"));
+                params.add(req.queryParams("firstName"));
             }
 
             if (req.queryParams("lastName") != null) {
@@ -51,7 +51,7 @@ public class EditProfileHandler implements Route {
                     throw new InvalidFieldException(400, "Last name must be between 2 and 30 characters long");
                 }
                 updates.add("up.lastname = ?");
-                params.add(req.queryParams("lastname"));
+                params.add(req.queryParams("lastName"));
             }
 
             if (req.queryParams("phoneNumber") != null) {
@@ -59,7 +59,7 @@ public class EditProfileHandler implements Route {
                     throw new InvalidFieldException(400, "Invalid phone number: must be 11 digits long");
                 }
                 updates.add("up.phonenumber = ?");
-                params.add(req.queryParams("phonenumber"));
+                params.add(req.queryParams("phoneNumber"));
             }
 
             if (req.queryParams("email") != null) {
