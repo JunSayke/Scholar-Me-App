@@ -22,7 +22,7 @@ public class EditReplyHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            Controller.validateParams(req, "replyId", "reply");
+            Controller.validateParams(req, "replyId");
 
             if (req.queryParams("replyId").isEmpty()) {
                 throw new InvalidFieldException(400, "Reply ID is required");
@@ -30,6 +30,10 @@ public class EditReplyHandler implements Route {
 
             if (req.queryParams("replyId").matches("[^0-9]+")) {
                 throw new InvalidFieldException(400, "Reply ID must be a number");
+            }
+
+            if (req.queryParams("reply") == null) {
+                throw new InvalidFieldException(200, "No changes made");
             }
 
             if (req.queryParams("reply").length() < 2 || req.queryParams("reply").length() > 2000) {

@@ -80,7 +80,7 @@ public class Route {
         post("/user/create-flashcard", new CreateFlashcardHandler());
         put("/user/edit-flashcard", new EditFlashcardHandler());
         delete("/user/delete-flashcard", new DeleteFlashcardHandler());
-        get("/user/flashcard-set-flashcards", new GetFlashcardSetFlashcardsHandler());
+        get("/flashcard-set/flashcards", new GetFlashcardSetFlashcardsHandler());
 
         post("/flashcard/add-choice", new AddFlashcardChoiceHandler());
         put("/flashcard/edit-choice", new EditFlashcardChoiceHandler());
@@ -119,7 +119,7 @@ public class Route {
         delete("/user/delete-reply", new DeleteReplyHandler());
         get("/user/replies", new GetUserRepliesHandler());
 
-        post("/user/favorite-course", new MarkFavoriteCourseHandler());
-        delete("/user/unfavorite-course", new UnMarkFavoriteCourseHandler());
+        post("/user/mark-favorite-course", new MarkFavoriteCourseHandler());
+        delete("/user/unmark-favorite-course", new UnMarkFavoriteCourseHandler());
     }
 }

@@ -49,6 +49,9 @@ public class DemoteCreatorHandler implements Route {
                     stmt2.setInt(1, Integer.parseInt(req.queryParams("userId")));
                     stmt2.executeUpdate();
                 }
+
+                Controller.addNotification(Integer.parseInt(req.queryParams("userId")), "Demoted", "You have been demoted from creator to user");
+                res.status(200);
                 return GsonData.objectToJson(new ResponseGson<>(true, "Creator demoted successfully"));
             }
         } catch (InvalidFieldException e) {

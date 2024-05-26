@@ -34,7 +34,7 @@ public class ApproveCreatorApplicantHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tblcreatorapplicant WHERE creatorapplicantid = ? LIMIT 1")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT status, userid FROM tblcreatorapplicant WHERE creatorapplicantid = ? LIMIT 1")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
                 ResultSet rs = stmt.executeQuery();
 
@@ -54,12 +54,14 @@ public class ApproveCreatorApplicantHandler implements Route {
                     stmt2.executeUpdate();
 
                     conn.commit();
-                    res.status(200);
-                    return GsonData.objectToJson(new ResponseGson<>(true, "Application approved"));
                 } catch (Exception e) {
                     conn.rollback();
                     throw e;
                 }
+
+                Controller.addNotification(rs.getInt("userid"), "Approved", "Your application to become a creator has been approved");
+                res.status(200);
+                return GsonData.objectToJson(new ResponseGson<>(true, "Application approved"));
             }
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));

@@ -8,6 +8,7 @@ import org.example.pattern.behavioural.SQLParamsChainOfResponsibility;
 import org.example.pattern.behavioural.SQLParamsInteger;
 import org.example.pattern.behavioural.SQLParamsString;
 import org.example.utils.JwtUtil;
+import org.example.utils.MySQLConnection;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -16,6 +17,9 @@ import spark.routematch.RouteMatch;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,5 +82,15 @@ public class Controller {
         chain.setNext(chain2);
         chain2.setNext(chain3);
         return chain;
+    }
+
+    public static void addNotification(int userId, String title, String message) throws SQLException {
+        try (Connection conn = MySQLConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO tblnotification (userid, title, message) VALUES (?, ?, ?)")) {
+            stmt.setInt(1, userId);
+            stmt.setString(2, title);
+            stmt.setString(3, message);
+            stmt.executeUpdate();
+        }
     }
 }

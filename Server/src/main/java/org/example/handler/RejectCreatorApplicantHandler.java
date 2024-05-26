@@ -34,7 +34,7 @@ public class RejectCreatorApplicantHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tblcreatorapplicant WHERE creatorapplicantid = ? LIMIT 1")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT status, userid FROM tblcreatorapplicant WHERE creatorapplicantid = ? LIMIT 1")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
                 ResultSet rs = stmt.executeQuery();
 
@@ -51,9 +51,11 @@ public class RejectCreatorApplicantHandler implements Route {
                 try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tblcreatorapplicant SET status = 'rejected' WHERE creatorapplicantid = ?")) {
                     stmt2.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
                     stmt2.executeUpdate();
-                    res.status(200);
-                    return GsonData.objectToJson(new ResponseGson<>(true, "Application rejected"));
                 }
+
+                Controller.addNotification(rs.getInt("userid"), "Rejected","Your application to become a creator has been rejected");
+                res.status(200);
+                return GsonData.objectToJson(new ResponseGson<>(true, "Application rejected"));
             }
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));

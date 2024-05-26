@@ -23,7 +23,7 @@ public class AddReplyHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            Controller.validateParams(req, "commentId", "userId", "reply");
+            Controller.validateParams(req, "commentId", "reply");
 
             if (req.queryParams("commentId").isEmpty()) {
                 throw new InvalidFieldException(400, "Comment ID is required");
@@ -33,14 +33,6 @@ public class AddReplyHandler implements Route {
                 throw new InvalidFieldException(400, "Comment ID must be a number");
             }
 
-            if (req.queryParams("userId").isEmpty()) {
-                throw new InvalidFieldException(400, "User ID is required");
-            }
-
-            if (req.queryParams("userId").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "User ID must be a number");
-            }
-
             if (req.queryParams("reply").length() < 2 || req.queryParams("reply").length() > 2000) {
                 throw new InvalidFieldException(400, "Reply must be between 2 and 2,000 characters long");
             }
@@ -48,7 +40,7 @@ public class AddReplyHandler implements Route {
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("INSERT INTO tblreply (commentid, userid, reply) VALUES (?, ?, ?)")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("commentId")));
-                stmt.setInt(2, Integer.parseInt(req.queryParams("userId")));
+                stmt.setInt(2, req.attribute("userId"));
                 stmt.setString(3, req.queryParams("reply"));
                 stmt.executeUpdate();
 

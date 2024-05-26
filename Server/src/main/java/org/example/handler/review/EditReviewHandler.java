@@ -32,6 +32,14 @@ public class EditReviewHandler implements Route {
                 throw new InvalidFieldException(400, "Comment ID must be a number");
             }
 
+            if (req.queryParams("comment") == null) {
+                throw new InvalidFieldException(200, "No changes made");
+            }
+
+            if (req.queryParams("comment").length() < 2 || req.queryParams("comment").length() > 2000) {
+                throw new InvalidFieldException(400, "Comment must be between 2 and 2,000 characters long");
+            }
+
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("UPDATE tblcomment SET comment = ? WHERE commentid = ? AND userid = ?")) {
                 stmt.setString(1, req.queryParams("comment"));

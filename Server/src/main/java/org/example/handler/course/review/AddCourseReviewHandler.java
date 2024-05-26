@@ -23,15 +23,7 @@ public class AddCourseReviewHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            Controller.validateParams(req, "commentId", "courseId", "comment");
-
-            if (req.queryParams("commentId").isEmpty()) {
-                throw new InvalidFieldException(400, "Comment ID is required");
-            }
-
-            if (req.queryParams("commentId").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "Comment ID must be a number");
-            }
+            Controller.validateParams(req,"courseId", "comment");
 
             if (req.queryParams("courseId").isEmpty()) {
                 throw new InvalidFieldException(400, "Course ID is required");
@@ -77,6 +69,8 @@ public class AddCourseReviewHandler implements Route {
                     conn.rollback();
                     throw e;
                 }
+                res.status(200);
+                return GsonData.objectToJson(new ResponseGson<>(true, "Comment added successfully"));
             }
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
