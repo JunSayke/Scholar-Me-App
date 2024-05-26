@@ -2,7 +2,10 @@ package org.example;
 
 import org.example.handler.*;
 import org.example.handler.course.*;
-import org.example.handler.course.lesson.AddCourseLesson;
+import org.example.handler.course.lesson.AddCourseLessonHandler;
+import org.example.handler.course.lesson.DeleteCourseLessonHandler;
+import org.example.handler.course.lesson.EditCourseLessonHandler;
+import org.example.handler.course.review.AddCourseReviewHandler;
 import org.example.handler.flashcard.GetFlashcardSetFlashcardsHandler;
 import org.example.handler.flashcard.choice.AddFlashcardChoiceHandler;
 import org.example.handler.flashcard.choice.DeleteFlashcardChoiceHandler;
@@ -15,6 +18,9 @@ import org.example.handler.flashcardset.GetFlashcardSetsHandler;
 import org.example.handler.flashcard.CreateFlashcardHandler;
 import org.example.handler.flashcard.DeleteFlashcardHandler;
 import org.example.handler.flashcard.EditFlashcardHandler;
+import org.example.handler.review.DeleteReviewHandler;
+import org.example.handler.review.EditReviewHandler;
+import org.example.handler.review.GetUserReviewsHandler;
 
 import java.util.List;
 
@@ -88,21 +94,21 @@ public class Route {
         get("/user/courses", new GetUserCoursesHandler());
         get("/user/creator/courses", new GetCreatorCoursesHandler());
 
-        post("/course/add-lesson", new AddCourseLesson());
-        put("/course/edit-lesson", new EditCourseHandler());
-        delete("/course/delete-lesson", (req, res) -> "Delete lesson");
+        post("/course/add-lesson", new AddCourseLessonHandler());
+        put("/course/edit-lesson", new EditCourseLessonHandler());
+        delete("/course/delete-lesson", new DeleteCourseLessonHandler());
 
-        post("/user/enroll-course", (req, res) -> "Enroll course");
-        delete("/user/unenroll-course", (req, res) -> "Unenroll course");
+        post("/user/enroll-course", new EnrollCourseHandler());
+        delete("/user/unenroll-course", new UnenrollCourseHandler());
 
-        get("/user/notifications", (req, res) -> "Get notifications");
-        delete("/user/delete-notification", (req, res) -> "Delete notification");
+        get("/user/notifications", new GetUserNotificationsHandler());
+        delete("/user/delete-notification", new DeleteUserNotification());
 
-        post("/course/add-review", (req, res) -> "Add review");
+        post("/course/add-review", new AddCourseReviewHandler());
 
-        put("/user/edit-review", (req, res) -> "Edit review");
-        delete("/user/delete-review", (req, res) -> "Delete review");
-        get("/user/reviews", (req, res) -> "Get user reviews");
+        put("/user/edit-review", new EditReviewHandler());
+        delete("/user/delete-review", new DeleteReviewHandler());
+        get("/user/reviews", new GetUserReviewsHandler());
 
         post("/user/add-reply", (req, res) -> "Add reply");
         put("/user/edit-reply", (req, res) -> "Edit reply");

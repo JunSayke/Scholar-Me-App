@@ -58,7 +58,7 @@ public class LoginHandler implements Route {
                 res.cookie("access_token", token);
                 res.status(200);
 
-                return GsonData.objectToJson(new ResponseGson<>(true, "Login successful", Map.of("user", user)));
+                return GsonData.objectToJson(new ResponseGson<>(true, "Login successful", user));
             }
         } catch (InvalidFieldException e) {
 //            e.printStackTrace();

@@ -31,7 +31,7 @@ public class CreateCourseHandler implements Route {
             Part filePart = req.raw().getPart("thumbnail");
             Controller.validateAccessToken(req);
 
-            if (req.attribute("role").equals("creator")) {
+            if (!req.attribute("role").equals("creator")) {
                 throw new InvalidFieldException(403, "Forbidden");
             }
 
@@ -67,7 +67,7 @@ public class CreateCourseHandler implements Route {
                 stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
                 stmt.setString(2, req.queryParams("title"));
                 stmt.setString(3, req.queryParams("description"));
-                stmt.setString(4, req.host() + path);
+                stmt.setString(4, req.scheme() + req.host() + path);
                 stmt.executeUpdate();
 
                 Files.createDirectories(dir.getParent());

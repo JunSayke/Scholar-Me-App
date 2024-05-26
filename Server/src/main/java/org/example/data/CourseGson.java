@@ -1,5 +1,6 @@
 package org.example.data;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor
 public class CourseGson extends GsonData {
     protected int courseId;
     protected int author;

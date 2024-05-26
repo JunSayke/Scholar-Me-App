@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 
 import static spark.Spark.halt;
 
-public class AddCourseLesson implements Route {
+public class AddCourseLessonHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");

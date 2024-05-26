@@ -17,7 +17,7 @@ import java.util.List;
 
 import static spark.Spark.halt;
 
-public class EditCourseLesson implements Route {
+public class EditCourseLessonHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");

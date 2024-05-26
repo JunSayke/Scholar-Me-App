@@ -136,7 +136,7 @@ public class RegisterHandler implements Route {
                 Files.createDirectories(dir.getParent());
                 Files.copy(input, dir, StandardCopyOption.REPLACE_EXISTING);
 
-                stmt3.setString(1, req.host() + path);
+                stmt3.setString(1, req.scheme() + req.host() + path);
                 stmt3.setInt(2, userId);
 
                 if (stmt3.executeUpdate() == 0) {
