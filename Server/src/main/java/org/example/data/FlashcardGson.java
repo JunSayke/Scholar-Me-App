@@ -10,11 +10,10 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
-public class FlashcardSetGson extends GsonData {
-    private int flashcardSetId;
+public class FlashcardGson extends GsonData {
+    private int flashcardId;
     private int userid;
-    private String title;
-    private String description;
+    private String question;
     private LocalDateTime dateAdded;
     private LocalDateTime dateUpdated;
 }

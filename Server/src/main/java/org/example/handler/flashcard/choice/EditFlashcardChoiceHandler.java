@@ -1,4 +1,4 @@
-package org.example.handler;
+package org.example.handler.flashcard.choice;
 
 import org.example.Controller;
 import org.example.data.GsonData;
@@ -11,7 +11,6 @@ import spark.Route;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 

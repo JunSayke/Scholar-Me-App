@@ -3,6 +3,10 @@ package org.example;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.example.exception.InvalidFieldException;
+import org.example.pattern.behavioural.SQLParamsBoolean;
+import org.example.pattern.behavioural.SQLParamsChainOfResponsibility;
+import org.example.pattern.behavioural.SQLParamsInteger;
+import org.example.pattern.behavioural.SQLParamsString;
 import org.example.utils.JwtUtil;
 import spark.Request;
 import spark.Response;
@@ -65,5 +69,14 @@ public class Controller {
         List<RouteMatch> routes = Spark.routes();
         return "Available Routes: " + routes.size()
                 + "\n" + routes.stream().map(route -> route.getHttpMethod() + " - " + route.getMatchUri()).collect(Collectors.joining("\n"));
+    }
+
+    public static SQLParamsChainOfResponsibility getSQLParamsChain() {
+        SQLParamsString chain = new SQLParamsString();
+        SQLParamsInteger chain2 = new SQLParamsInteger();
+        SQLParamsBoolean chain3 = new SQLParamsBoolean();
+        chain.setNext(chain2);
+        chain2.setNext(chain3);
+        return chain;
     }
 }

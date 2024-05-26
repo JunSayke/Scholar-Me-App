@@ -1,4 +1,4 @@
-package org.example.handler;
+package org.example.handler.flashcard;
 
 import org.example.Controller;
 import org.example.data.GsonData;

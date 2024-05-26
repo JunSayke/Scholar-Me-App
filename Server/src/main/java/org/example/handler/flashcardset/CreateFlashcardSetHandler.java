@@ -1,4 +1,4 @@
-package org.example.handler;
+package org.example.handler.flashcardset;
 
 import org.example.Controller;
 import org.example.data.GsonData;
@@ -14,7 +14,7 @@ import java.sql.PreparedStatement;
 
 import static spark.Spark.halt;
 
-public class DeleteFlashcardChoiceHandler implements Route {
+public class CreateFlashcardSetHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");
@@ -22,28 +22,22 @@ public class DeleteFlashcardChoiceHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            Controller.validateParams(req, "flashcardChoiceId");
+            // Check if any required field is missing
+            Controller.validateParams(req, "title", "description");
 
-            if (req.queryParams("flashcardChoiceId").isEmpty()) {
-                throw new InvalidFieldException(400, "Flashcard choice ID is required");
+            // Validate fields
+            if (req.queryParams("title").length() < 2 || req.queryParams("title").length() > 30) {
+                throw new InvalidFieldException(400, "Title must be between 2 and 30 characters long");
             }
 
-            if (req.queryParams("flashcardChoiceId").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "Flashcard choice ID must be a number");
-            }
-
-            // Delete flashcard choice
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM tblflashcardchoice WHERE flashcardchoiceid = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardChoiceId")));
+                 PreparedStatement stmt = conn.prepareStatement("INSERT INTO tblflashcardset (userid, title, description) VALUES (?, ?, ?)")) {
+                stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
+                stmt.setString(2, req.queryParams("title"));
+                stmt.setString(3, req.queryParams("description"));
                 stmt.executeUpdate();
-
-                if (stmt.getUpdateCount() == 0) {
-                    throw new InvalidFieldException(400, "Flashcard choice not found");
-                }
-
                 res.status(200);
-                return GsonData.objectToJson(new ResponseGson<>(true, "Flashcard choice deleted successfully"));
+                return GsonData.objectToJson(new ResponseGson<>(true, "Flashcard set created"));
             }
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));

@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 
 import static spark.Spark.halt;
 
-public class UserProfileHandler implements Route {
+public class GetUserProfileHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");
@@ -29,7 +29,7 @@ public class UserProfileHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement("SELECT ua.userid, ua.username, ua.email, ua.role, ua.status, ua.dateadded, ua.dateupdated, up.firstname, up.lastname, up.phonenumber, up.profilepic FROM tbluseraccount ua JOIN tbluserprofile up ON ua.userid = up.acctid WHERE ua.userid = ? LIMIT 1")) {
+                PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('userId', ua.userid, 'username', ua.username, 'email', ua.email, 'firstName', up.firstname, 'lastName', up.lastname, 'phoneNumber', up.phonenumber, 'profilePic', up.profilepic, 'role', ua.role, 'dateAdded', ua.dateadded, 'dateUpdated', ua.dateupdated) as user FROM tbluseraccount ua JOIN tbluserprofile up ON ua.userid = up.acctid WHERE ua.userid = ? LIMIT 1")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("userId")));
                 ResultSet rs = stmt.executeQuery();
 
@@ -37,20 +37,7 @@ public class UserProfileHandler implements Route {
                     throw new InvalidFieldException(404, "User not found");
                 }
 
-                UserGson user = UserGson.builder()
-                        .userId(rs.getInt("userId"))
-                        .username(rs.getString("username"))
-                        .email(rs.getString("email"))
-                        .role(rs.getString("role"))
-                        .firstName(rs.getString("firstname"))
-                        .lastName(rs.getString("lastname"))
-                        .phoneNumber(rs.getString("phonenumber"))
-                        .profilePic(rs.getString("profilepic"))
-                        .status(rs.getString("status"))
-                        .dateAdded(rs.getTimestamp("dateadded").toLocalDateTime())
-                        .dateUpdated(rs.getTimestamp("dateupdated").toLocalDateTime())
-                        .build();
-
+                UserGson user = GsonData.jsonToObject(rs.getString("user"), UserGson.class);
                 res.status(200);
                 return GsonData.objectToJson(new ResponseGson<>(true, "User profile retrieved", user));
             }

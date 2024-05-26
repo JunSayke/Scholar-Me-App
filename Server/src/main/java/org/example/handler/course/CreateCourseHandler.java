@@ -1,4 +1,4 @@
-package org.example.handler;
+package org.example.handler.course;
 
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.Part;

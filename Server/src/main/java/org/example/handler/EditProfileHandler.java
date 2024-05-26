@@ -33,9 +33,7 @@ public class EditProfileHandler implements Route {
 
         try {
             // Check if any required field is missing
-            System.err.println(req.scheme());
             Controller.validateAccessToken(req);
-            Part filePart = req.raw().getPart("profilePic");
 
             List<String> updates = new ArrayList<>();
             List<String> params = new ArrayList<>();
@@ -80,12 +78,13 @@ public class EditProfileHandler implements Route {
                 params.add(BCrypt.hashpw(req.queryParams("password"), BCrypt.gensalt()));
             }
 
+            Part filePart = req.raw().getPart("profilePic");
+            Path dir = null;
+
             // Check if at least one optional field is present
             if (updates.isEmpty() && filePart == null) {
                 throw new InvalidFieldException(200, "No changes made");
             }
-
-            Path dir = null;
 
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("SELECT profilepic FROM tbluserprofile WHERE acctid = ? LIMIT 1")) {
@@ -97,14 +96,14 @@ public class EditProfileHandler implements Route {
 
                 if (filePart != null) {
                     if (rs.getString("profilepic") != null) {
-                        Path oldFile = Path.of(System.getenv("SERVER_RESOURCE_PATH"), rs.getString("profilepic").substring(req.host().length()));
+                        Path oldFile = Path.of(System.getenv("SERVER_RESOURCE_PATH"), rs.getString("profilepic").substring(req.scheme().length() + req.host().length()));
                         Files.deleteIfExists(oldFile);
                     }
                     String fileName = filePart.getSubmittedFileName();
                     String extension = fileName.substring(fileName.lastIndexOf("."));
                     String path = "/images/profile/" + UUID.randomUUID() + extension;
                     updates.add("up.profilepic = ?");
-                    params.add(req.host() + path);
+                    params.add(req.scheme() + req.host() + path);
                     dir = Path.of(System.getenv("SERVER_RESOURCE_PATH"), path);
                 }
             }

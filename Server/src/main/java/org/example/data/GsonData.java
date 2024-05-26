@@ -2,7 +2,7 @@ package org.example.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.example.utils.LocalDateTimeAdapter;
+import org.example.pattern.adapter.LocalDateTimeAdapter;
 import org.json.JSONObject;
 import org.json.JSONException;
 

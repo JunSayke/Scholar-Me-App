@@ -1,4 +1,4 @@
-package org.example.handler;
+package org.example.handler.flashcardset;
 
 import org.example.Controller;
 import org.example.data.FlashcardSetGson;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import static spark.Spark.halt;
 
-public class FlashcardSetsHandler implements Route {
+public class GetFlashcardSetsHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");
@@ -26,7 +26,7 @@ public class FlashcardSetsHandler implements Route {
             Controller.validateAccessToken(req);
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tblflashcardset WHERE userid = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT * tblflashcardset WHERE userid = ?")) {
                 stmt.setInt(1, Integer.parseInt(req.attribute("userId")));
                 ResultSet rs = stmt.executeQuery();
                 List<FlashcardSetGson> flashcardSets = new ArrayList<>();
@@ -34,7 +34,7 @@ public class FlashcardSetsHandler implements Route {
                 while (rs.next()) {
                     FlashcardSetGson flashcardSet = FlashcardSetGson.builder()
                             .flashcardSetId(rs.getInt("flashcardsetid"))
-                            .userid(rs.getInt("userId"))
+                            .userid(rs.getInt("userid"))
                             .title(rs.getString("title"))
                             .description(rs.getString("description"))
                             .dateAdded(rs.getTimestamp("dateadded").toLocalDateTime())
@@ -43,7 +43,8 @@ public class FlashcardSetsHandler implements Route {
                     flashcardSets.add(flashcardSet);
                 }
 
-                return GsonData.objectToJson(new ResponseGson<>(true, "", flashcardSets));
+                res.status(200);
+                return GsonData.objectToJson(new ResponseGson<>(true, "Flashcard sets retrieved", flashcardSets));
             }
         } catch (Exception e) {
             halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));

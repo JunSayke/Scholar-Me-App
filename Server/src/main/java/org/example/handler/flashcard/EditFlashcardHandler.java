@@ -1,4 +1,4 @@
-package org.example.handler;
+package org.example.handler.flashcard;
 
 import org.example.Controller;
 import org.example.data.GsonData;
@@ -59,7 +59,9 @@ public class EditFlashcardHandler implements Route {
             try (PreparedStatement stmt = conn.prepareStatement("UPDATE tblflashcard SET question = ? WHERE flashcardid = ?")) {
                 stmt.setString(1, req.queryParams("question"));
                 stmt.setInt(2, Integer.parseInt(req.queryParams("flashcardId")));
-                stmt.executeUpdate();
+                if (stmt.executeUpdate() == 0) {
+                    throw new InvalidFieldException(404, "Flashcard not found");
+                }
             }
         }
     }
@@ -71,11 +73,11 @@ public class EditFlashcardHandler implements Route {
                     throw new InvalidFieldException(400, "Flashcard set ID must be a number and is required");
                 }
                 stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardSetId")));
-            } else {
-                stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardSetId")));
+                stmt.setInt(2, Integer.parseInt(req.queryParams("flashcardId")));
+                if (stmt.executeUpdate() == 0) {
+                    throw new InvalidFieldException(404, "Flashcard not found");
+                }
             }
-            stmt.setInt(2, Integer.parseInt(req.queryParams("flashcardId")));
-            stmt.executeUpdate();
         }
     }
 }
