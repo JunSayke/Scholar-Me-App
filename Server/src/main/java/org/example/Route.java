@@ -21,6 +21,7 @@ import org.example.handler.flashcard.EditFlashcardHandler;
 import org.example.handler.reply.AddReplyHandler;
 import org.example.handler.reply.DeleteReplyHandler;
 import org.example.handler.reply.EditReplyHandler;
+import org.example.handler.reply.GetUserRepliesHandler;
 import org.example.handler.review.DeleteReviewHandler;
 import org.example.handler.review.EditReviewHandler;
 import org.example.handler.review.GetUserReviewsHandler;
@@ -116,9 +117,9 @@ public class Route {
         post("/user/add-reply", new AddReplyHandler());
         put("/user/edit-reply", new EditReplyHandler());
         delete("/user/delete-reply", new DeleteReplyHandler());
-        get("/user/replies", (req, res) -> "Get user replies");
+        get("/user/replies", new GetUserRepliesHandler());
 
-        post("/user/favorite-course", (req, res) -> "Favorite course");
-        delete("/user/unfavorite-course", (req, res) -> "Unfavorite course");
+        post("/user/favorite-course", new MarkFavoriteCourseHandler());
+        delete("/user/unfavorite-course", new UnMarkFavoriteCourseHandler());
     }
 }

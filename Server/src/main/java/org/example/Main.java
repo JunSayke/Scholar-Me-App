@@ -83,7 +83,8 @@ public class Main {
                     + "courseid INT NOT NULL,"
                     + "dateadded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                     + "FOREIGN KEY (userid) REFERENCES tbluseraccount(userid) ON DELETE CASCADE,"
-                    + "FOREIGN KEY (courseid) REFERENCES tblcourse(courseid) ON DELETE CASCADE"
+                    + "FOREIGN KEY (courseid) REFERENCES tblcourse(courseid) ON DELETE CASCADE,"
+                    + "UNIQUE (userid, courseid)"
                     + ")"
             );
             stmt.addBatch("CREATE TABLE IF NOT EXISTS tblflashcardset ("

@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CourseGson extends GsonData {
     protected int courseId;
-    protected int author;
+    protected UserGson author;
     protected String title;
     protected String description;
     protected String thumbnail;
