@@ -10,7 +10,7 @@ public class CourseLearnerGson extends CourseGson {
     private int userId;
     private int dateEnrolled;
 
-    @Builder
+    @Builder(builderMethodName = "CourseLearnerGsonBuilder")
     public CourseLearnerGson(int courseId, int author, String title, String description, String thumbnail, int visits, int dateAdded, int dateUpdated, int userId, int dateEnrolled) {
         super(courseId, author, title, description, thumbnail, visits, dateAdded, dateUpdated);
         this.userId = userId;
