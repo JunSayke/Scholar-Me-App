@@ -81,6 +81,10 @@ public class CourseDashboardFragment extends Fragment {
         binding.cdashBtnCreateCourse.setOnClickListener(v ->{
             mainFacade.getCoursesNavController().navigate(R.id.action_courseDashboardFragment_to_courseCreatorFragment);
         });
+
+        binding.cdashBtnOpenAre.setOnClickListener(v ->{
+            mainFacade.getCoursesNavController().navigate(R.id.action_courseDashboardFragment_to_contentCreatorFragment);
+        });
     }
 
     private void func(String Id){

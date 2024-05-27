@@ -1,6 +1,7 @@
 package com.example.solutionsproject.fragments.homepage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +60,9 @@ public class CoursesFragment extends Fragment {
                         data,
                         itemId -> {
                             CoursesFragmentDirections.ActionCoursesFragmentToCourseDetailsFragment action =
-                                    CoursesFragmentDirections.actionCoursesFragmentToCourseDetailsFragment();
-                            action.setModelId(itemId);
+                                    CoursesFragmentDirections.actionCoursesFragmentToCourseDetailsFragment(Integer.parseInt(itemId));
+                            action.setCourseId(Integer.parseInt(itemId));
+                            Log.d(TAG, itemId);
                             mainFacade.getCoursesNavController().navigate(action);
                         }
                 ));
@@ -73,7 +75,7 @@ public class CoursesFragment extends Fragment {
             }
         };
 
-        mainFacade.getCreatorCourses(responseListener);
+        mainFacade.getCourses(responseListener);
 
         initActions();
     }

@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Uri uri = getIntent().getData();
         if (uri != null) {
-            if (Objects.equals(uri.getHost(), "http://192.168.1.7:6969")) {
+            if (Objects.equals(uri.getHost(), "http://192.168.89.211:6969")) {
                 String apiAccessToken = uri.getQueryParameter("api_access_token");
 
                 if (apiAccessToken != null) {

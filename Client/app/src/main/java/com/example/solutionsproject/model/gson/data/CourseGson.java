@@ -6,6 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class CourseGson extends GsonData{
+    @SerializedName("courseId")
     private String id;
 
     @SerializedName("author")

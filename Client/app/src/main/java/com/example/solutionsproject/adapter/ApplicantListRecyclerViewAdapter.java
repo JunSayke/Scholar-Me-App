@@ -65,8 +65,8 @@ public class ApplicantListRecyclerViewAdapter extends RecyclerView.Adapter<Appli
             super(itemView);
             txtContent = itemView.findViewById(R.id.messages_requests_txt_title);
             txtDate = itemView.findViewById(R.id.messages_requests_txt_date);
-            btnAccept = itemView.findViewById(R.id.messages_requests_btn_close);
-            btnReject = itemView.findViewById(R.id.messages_requests_btn_save);
+            btnAccept = itemView.findViewById(R.id.messages_requests_btn_save);
+            btnReject = itemView.findViewById(R.id.messages_requests_btn_close);
             btnAccept.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onAcceptItemClickListener != null) {

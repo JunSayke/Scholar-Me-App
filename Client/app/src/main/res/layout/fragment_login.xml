@@ -25,7 +25,10 @@
         android:id="@+id/login_btn_debug"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to homepage" />
+        android:text="Go to homepage"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/login_scroll_container"

@@ -13,11 +13,8 @@
         <action
             android:id="@+id/action_courseDetailsFragment_to_coursesFragment"
             app:destination="@id/coursesFragment" />
-        <argument
-            android:name="modelId"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+        <argument android:name="courseId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/courseDashboardFragment"

@@ -42,12 +42,27 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/cdash_btn_create_course"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:text="Create a course" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cdash_btn_create_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_weight="1"
+            android:text="Create a course" />
+
+        <Button
+            android:id="@+id/cdash_btn_open_are"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_weight="1"
+            android:text="Content Editor" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

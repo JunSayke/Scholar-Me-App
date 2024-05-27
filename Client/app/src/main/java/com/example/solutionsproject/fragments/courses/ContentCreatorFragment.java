@@ -50,5 +50,6 @@ public class ContentCreatorFragment extends Fragment {
         binding.contentBtnBack.setOnClickListener(v ->{
             mainFacade.getCoursesNavController().navigate(R.id.action_contentCreatorFragment_to_courseCreatorFragment);
         });
+
     }
 }

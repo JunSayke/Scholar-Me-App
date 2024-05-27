@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ public class CourseDetailsFragment extends Fragment {
     private final String TAG = "CourseDetails_Fragment";
     private MainFacade mainFacade;
     private FragmentCourseDetailsBinding binding;
-    private String modelId;
+    private int courseId;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCourseDetailsBinding.inflate(inflater, container, false);
@@ -35,8 +36,9 @@ public class CourseDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        modelId = CourseDetailsFragmentArgs.fromBundle(getArguments()).getModelId();
+        CourseDetailsFragmentArgs args = CourseDetailsFragmentArgs.fromBundle(getArguments());
+        courseId = args.getCourseId();
+        Log.d(TAG, "ID:" + courseId);
     }
 
     @Override
