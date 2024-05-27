@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/messages_notifications_btn_course"
+        android:id="@+id/messages_notifications_btn_delete"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"

@@ -19,7 +19,7 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/flashcard_question_txt_title"
+        android:id="@+id/flashcard_question_txt_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -30,7 +30,7 @@
         android:textSize="18sp" />
 
     <ImageButton
-        android:id="@+id/flashcard_question_btn_course"
+        android:id="@+id/flashcard_question_btn_open"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@drawable/__aa_container_primary_box"

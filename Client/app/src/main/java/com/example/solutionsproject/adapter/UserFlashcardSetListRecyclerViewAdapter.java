@@ -41,6 +41,7 @@ public class UserFlashcardSetListRecyclerViewAdapter extends RecyclerView.Adapte
     public void onBindViewHolder(@NonNull UserFlashcardSetListRecyclerViewAdapter.ViewHolder holder, int position) {
         FlashcardSetGson model = flashcardSetGsonList.get(position);
         holder.txtTitle.setText(model.getTitle());
+        holder.txtDescription.setText(model.getDescription());
     }
 
     @Override

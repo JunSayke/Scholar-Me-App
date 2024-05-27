@@ -6,7 +6,7 @@ public class FlashcardChoiceGson extends GsonData {
     private int flashcardChoiceId;
     private int flashcardId;
     private String choice;
-    private boolean isAnswer;
+    private Boolean isAnswer;
     private LocalDateTime dateAdded;
     private LocalDateTime dateUpdated;
 }

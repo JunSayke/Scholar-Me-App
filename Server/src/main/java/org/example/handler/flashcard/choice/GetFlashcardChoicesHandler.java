@@ -37,7 +37,7 @@ public class GetFlashcardChoicesHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('flashcardChoiceId', flashcardchoiceid, 'flashcardId', flashcardid, 'choice', choice, 'isAnswer', isanswer, 'dateAdded', dateadded, 'dateUpdated', dateupdated) as flashcardchoices FROM tblflashcardchoice WHERE flashcardid = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT JSON_OBJECT('flashcardChoiceId', flashcardchoiceid, 'flashcardId', flashcardid, 'choice', choice, 'isAnswer', IF(isanswer=1, true, false), 'dateAdded', dateadded, 'dateUpdated', dateupdated) as flashcardchoices FROM tblflashcardchoice WHERE flashcardid = ?")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardId")));
                 ResultSet rs = stmt.executeQuery();
 
@@ -52,6 +52,7 @@ public class GetFlashcardChoicesHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
+            e.printStackTrace();
             halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;

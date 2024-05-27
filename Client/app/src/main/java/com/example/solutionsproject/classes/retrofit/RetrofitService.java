@@ -4,8 +4,11 @@ import androidx.annotation.Nullable;
 
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
+import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
+import com.example.solutionsproject.model.gson.data.FlashcardGson;
 import com.example.solutionsproject.model.gson.data.FlashcardSetGson;
 import com.example.solutionsproject.model.gson.data.GsonData;
+import com.example.solutionsproject.model.gson.data.NotificationGson;
 import com.example.solutionsproject.model.gson.data.UserGson;
 import com.example.solutionsproject.model.gson.data.response.SuccessGson;
 
@@ -19,7 +22,6 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -118,7 +120,7 @@ public interface RetrofitService {
     @FormUrlEncoded
     @PUT("/user/edit-flashcard-set")
     Call<SuccessGson<GsonData>> editFlashcardSet(
-            @Field("flashcardSetId") String flashcardSetId,
+            @Field("flashcardSetId") int flashcardSetId,
             @Nullable @Field("title") String title,
             @Nullable @Field("description") String description
     );
@@ -126,10 +128,43 @@ public interface RetrofitService {
     @Headers({"Authorization: scholarmeapp2024_api_key"})
     @DELETE("/user/delete-flashcard-set")
     Call<SuccessGson<GsonData>> deleteFlashcardSet(
-            @Query("flashcardSetId") String flashcardSetId
+            @Query("flashcardSetId") int flashcardSetId
     );
 
     @Headers({"Authorization: scholarmeapp2024_api_key"})
     @GET("/user/flashcard-sets")
     Call<SuccessGson<List<FlashcardSetGson>>> getFlashcardSets();
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @FormUrlEncoded
+    @POST("/user/create-flashcard")
+    Call<SuccessGson<GsonData>> createFlashcard(
+            @Field("flashcardSetId") int flashcardSetId,
+            @Field("question") String question
+    );
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @GET("/flashcard-set/flashcards")
+    Call<SuccessGson<List<FlashcardGson>>> getFlashcardSetFlashcards(
+            @Query("flashcardSetId") int flashcardSetId
+    );
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @GET("/user/notifications")
+    Call<SuccessGson<List<NotificationGson>>> getUserNotifications();
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @FormUrlEncoded
+    @POST("/flashcard/add-choice")
+    Call<SuccessGson<GsonData>> addFlashcardChoice(
+            @Field("flashcardId") int flashcardId,
+            @Field("choice") String choice,
+            @Field("isAnswer") boolean isAnswer
+    );
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @GET("/flashcard/choices")
+    Call<SuccessGson<List<FlashcardChoiceGson>>> getFlashcardChoices(
+            @Query("flashcardId") int flashcardId
+    );
 }

@@ -85,7 +85,11 @@ public class HomeFragment extends Fragment {
 				binding.homeListFlashcardsets.setAdapter(new UserFlashcardSetListRecyclerViewAdapter(
 						mainFacade.getMainActivity().getApplicationContext(),
 						data,
-						itemId -> mainFacade.getHomeNavController().navigate(R.id.action_homeFragment_to_flashcardQuestionCreatorFragment)
+						flashcardSetId -> {
+							HomeFragmentDirections.ActionHomeFragmentToFlashcardQuestionCreatorFragment action =
+									HomeFragmentDirections.actionHomeFragmentToFlashcardQuestionCreatorFragment(Integer.parseInt(flashcardSetId));
+							mainFacade.getHomeNavController().navigate(action);
+						}
 				));
 				binding.homeListFlashcardsets.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 			}
@@ -113,10 +117,6 @@ public class HomeFragment extends Fragment {
 		binding.homeBtnAdSearch.setOnClickListener(v ->{
 			mainFacade.getHomeNavController().navigate(R.id.action_homeFragment_to_searchFragment);
 		});
-
-//		binding.homeBtnCreateFlashcard.setOnClickListener(v ->{
-//			mainFacade.getHomeNavController().navigate(R.id.action_homeFragment_to_flashcardQuestionCreatorFragment);
-//		});
 
 		binding.homeBtnCreateFlashcardset.setOnClickListener(v ->{
 			mainFacade.popupCreateFlashcardSet(binding.getRoot());

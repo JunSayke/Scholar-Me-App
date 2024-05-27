@@ -39,9 +39,9 @@ public class CreateFlashcardHandler implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("INSERT INTO tblflashcard (flashcardsetid, question) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+                 PreparedStatement stmt = conn.prepareStatement("INSERT INTO tblflashcard (userid, question) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
                 conn.setAutoCommit(false);
-                stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardSetId")));
+                stmt.setInt(1, req.attribute("userId"));
                 stmt.setString(2, req.queryParams("question"));
                 stmt.executeUpdate();
 
@@ -65,6 +65,7 @@ public class CreateFlashcardHandler implements Route {
         } catch (InvalidFieldException e) {
             halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
         } catch (Exception e) {
+            e.printStackTrace();
             halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
         }
         return null;

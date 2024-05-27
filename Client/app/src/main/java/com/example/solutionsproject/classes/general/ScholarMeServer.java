@@ -8,8 +8,11 @@ import androidx.annotation.Nullable;
 import com.example.solutionsproject.classes.retrofit.RetrofitFacade;
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
+import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
+import com.example.solutionsproject.model.gson.data.FlashcardGson;
 import com.example.solutionsproject.model.gson.data.FlashcardSetGson;
 import com.example.solutionsproject.model.gson.data.GsonData;
+import com.example.solutionsproject.model.gson.data.NotificationGson;
 import com.example.solutionsproject.model.gson.data.UserGson;
 import com.example.solutionsproject.model.gson.data.response.ErrorGson;
 import com.example.solutionsproject.model.gson.data.response.ResponseGson;
@@ -205,7 +208,7 @@ public class ScholarMeServer extends RetrofitFacade {
 
     public void editFlashcardSet(
             final Callback<SuccessGson<GsonData>> callback,
-            final String flashcardSetId,
+            final int flashcardSetId,
             @Nullable final String title,
             @Nullable final String description
     ){
@@ -214,7 +217,7 @@ public class ScholarMeServer extends RetrofitFacade {
 
     public void deleteFlashcardSet(
             final Callback<SuccessGson<GsonData>> callback,
-            final String flashcardSetId
+            final int flashcardSetId
     ){
         getRetrofitService().deleteFlashcardSet(flashcardSetId).enqueue(callback);
     }
@@ -223,6 +226,43 @@ public class ScholarMeServer extends RetrofitFacade {
             final Callback<SuccessGson<List<FlashcardSetGson>>> callback
     ){
         getRetrofitService().getFlashcardSets().enqueue(callback);
+    }
+
+    public void createFlashcard(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int flashcardSetId,
+            final String question
+    ){
+        getRetrofitService().createFlashcard(flashcardSetId, question).enqueue(callback);
+    }
+
+    public void getFlashcardSetFlashcards(
+            final Callback<SuccessGson<List<FlashcardGson>>> callback,
+            final int flashcardSetId
+    ){
+        getRetrofitService().getFlashcardSetFlashcards(flashcardSetId).enqueue(callback);
+    }
+
+    public void getUserNotifications(
+            final Callback<SuccessGson<List<NotificationGson>>> callback
+    ){
+        getRetrofitService().getUserNotifications().enqueue(callback);
+    }
+
+    public void addFlashcardChoice(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int flashcardId,
+            final String choice,
+            final boolean isAnswer
+    ){
+        getRetrofitService().addFlashcardChoice(flashcardId, choice, isAnswer).enqueue(callback);
+    }
+
+    public void getFlashcardChoices(
+            final Callback<SuccessGson<List<FlashcardChoiceGson>>> callback,
+            final int flashcardId
+    ){
+        getRetrofitService().getFlashcardChoices(flashcardId).enqueue(callback);
     }
 
     // -- END OF SERVER FUNC

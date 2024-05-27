@@ -5,14 +5,23 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.solutionsproject.R;
+import com.example.solutionsproject.adapter.FlashcardListRecyclerViewAdapter;
 import com.example.solutionsproject.classes.general.MainFacade;
+import com.example.solutionsproject.classes.general.ScholarMeServer;
 import com.example.solutionsproject.databinding.FragmentFlashcardQuestionCreatorBinding;
+import com.example.solutionsproject.model.gson.data.FlashcardGson;
+import com.example.solutionsproject.model.gson.data.GsonData;
+
+import java.util.List;
 
 public class FlashcardQuestionCreatorFragment extends Fragment {
 
@@ -37,6 +46,48 @@ public class FlashcardQuestionCreatorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        FlashcardQuestionCreatorFragmentArgs args = FlashcardQuestionCreatorFragmentArgs.fromBundle(getArguments());
+        int flashcardSetId = args.getFlashcardSetId();
+
+        Log.e("TESTING", String.valueOf(flashcardSetId));
+
+        mainFacade.getFlashcardSetFlashcards(new ScholarMeServer.ResponseListener<List<FlashcardGson>>() {
+            @Override
+            public void onSuccess(List<FlashcardGson> data) {
+                mainFacade.makeToast("Flashcards loaded!", Toast.LENGTH_SHORT);
+
+                binding.fqcListQuestions.setAdapter(new FlashcardListRecyclerViewAdapter(
+                        mainFacade.getMainActivity().getApplicationContext(),
+                        data,
+                        flashcardId -> {
+                            FlashcardQuestionCreatorFragmentDirections.ActionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment action =
+                                    FlashcardQuestionCreatorFragmentDirections.actionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment(Integer.parseInt(flashcardId), flashcardSetId);
+                            mainFacade.getHomeNavController().navigate(action);
+                        }
+                ));
+                binding.fqcListQuestions.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
+            }
+
+            @Override
+            public void onFailure(String message) {
+                mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+            }
+        }, flashcardSetId);
+
+        binding.fqcBtnFlashcard.setOnClickListener(v -> {
+            mainFacade.createFlashcard(new ScholarMeServer.ResponseListener<GsonData>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    mainFacade.makeToast("Flashcard created!", Toast.LENGTH_SHORT);
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+                }
+            }, flashcardSetId, binding.fqcEttQuestion.getText().toString());
+        });
+
         initActions();
     }
 
@@ -49,10 +100,6 @@ public class FlashcardQuestionCreatorFragment extends Fragment {
     private void initActions(){
         binding.fqcBtnBack.setOnClickListener(v ->{
             mainFacade.getHomeNavController().navigate(R.id.action_flashcardQuestionCreatorFragment_to_homeFragment);
-        });
-
-        binding.fqcBtnFlashcard.setOnClickListener(v ->{
-            mainFacade.getHomeNavController().navigate(R.id.action_flashcardQuestionCreatorFragment_to_flashcardChoiceCreatorFragment);
         });
     }
 }

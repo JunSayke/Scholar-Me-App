@@ -24,8 +24,11 @@ import com.example.solutionsproject.model.data.livedata.UserGsonViewModel;
 import com.example.solutionsproject.model.data.livedata.UserGsonViewModelFactory;
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
+import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
+import com.example.solutionsproject.model.gson.data.FlashcardGson;
 import com.example.solutionsproject.model.gson.data.FlashcardSetGson;
 import com.example.solutionsproject.model.gson.data.GsonData;
+import com.example.solutionsproject.model.gson.data.NotificationGson;
 import com.example.solutionsproject.model.gson.data.UserGson;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -212,7 +215,7 @@ public class MainFacade {
 
     public void editFlashcardSet(
             final ScholarMeServer.ResponseListener<GsonData> responseListener,
-            final String flashcardSetId,
+            final int flashcardSetId,
             @Nullable final String title,
             @Nullable final String description
     ){
@@ -221,7 +224,7 @@ public class MainFacade {
 
     public void deleteFlashcardSet(
             final ScholarMeServer.ResponseListener<GsonData> responseListener,
-            final String flashcardSetId
+            final int flashcardSetId
     ){
         server.deleteFlashcardSet(ScholarMeServer.getCallback(responseListener), flashcardSetId);
     }
@@ -230,6 +233,43 @@ public class MainFacade {
             final ScholarMeServer.ResponseListener<List<FlashcardSetGson>> responseListener
     ){
         server.getFlashcardSets(ScholarMeServer.getCallback(responseListener));
+    }
+
+    public void createFlashcard(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int flashcardSetId,
+            final String question
+    ){
+        server.createFlashcard(ScholarMeServer.getCallback(responseListener), flashcardSetId, question);
+    }
+
+    public void getFlashcardSetFlashcards(
+            final ScholarMeServer.ResponseListener<List<FlashcardGson>> responseListener,
+            final int flashcardSetId
+    ){
+        server.getFlashcardSetFlashcards(ScholarMeServer.getCallback(responseListener), flashcardSetId);
+    }
+
+    public void getUserNotifications(
+            final ScholarMeServer.ResponseListener<List<NotificationGson>> responseListener
+    ){
+        server.getUserNotifications(ScholarMeServer.getCallback(responseListener));
+    }
+
+    public void addFlashcardChoice(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int flashcardId,
+            final String choice,
+            final boolean isAnswer
+    ){
+        server.addFlashcardChoice(ScholarMeServer.getCallback(responseListener), flashcardId, choice, isAnswer);
+    }
+
+    public void getFlashcardChoices(
+            final ScholarMeServer.ResponseListener<List<FlashcardChoiceGson>> responseListener,
+            final int flashcardId
+    ){
+        server.getFlashcardChoices(ScholarMeServer.getCallback(responseListener), flashcardId);
     }
 
     //-- START OF MISCELLANEOUS --

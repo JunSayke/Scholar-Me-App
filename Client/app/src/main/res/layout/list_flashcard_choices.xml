@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/check_mark" />
 
     <TextView
-        android:id="@+id/flashcard_choice_txt_title"
+        android:id="@+id/flashcard_choice_txt_choice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
