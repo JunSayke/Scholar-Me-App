@@ -12,6 +12,7 @@ import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
 import com.example.solutionsproject.model.gson.data.FlashcardSetGson;
 import com.example.solutionsproject.model.gson.data.GsonData;
+import com.example.solutionsproject.model.gson.data.LessonGson;
 import com.example.solutionsproject.model.gson.data.NotificationGson;
 import com.example.solutionsproject.model.gson.data.UserGson;
 import com.example.solutionsproject.model.gson.data.response.ErrorGson;
@@ -38,7 +39,7 @@ public class ScholarMeServer extends RetrofitFacade {
     private static final String TAG = "ScholarMeServer";
 
     public ScholarMeServer(){
-        super("http://192.168.248.179:6969");
+        super("http://192.168.1.11:6969");
     }
 
     public void login(
@@ -197,6 +198,28 @@ public class ScholarMeServer extends RetrofitFacade {
     ){
         getRetrofitService().getCourses().enqueue(callback);
     }
+
+    // -- LESSON CRUD
+    public void createLesson(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int courseId,
+            final String title,
+            final String lessonNumber,
+            @Nullable final String description,
+            final String content,
+            final String duration
+    ) {
+        getRetrofitService().createLesson(courseId, title, lessonNumber, description, content, duration).enqueue(callback);
+    }
+
+    public void getCourseLesson(
+            final Callback<SuccessGson<List<LessonGson>>> callback,
+            final int courseId
+    ){
+        getRetrofitService().getCourseLesson(courseId).enqueue(callback);
+    }
+
+    // -- FLASHCARD CRUD
 
     public void createFlashcardSet(
             final Callback<SuccessGson<GsonData>> callback,

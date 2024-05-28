@@ -76,6 +76,12 @@ public class LoginFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
     // -- LOADING METHODS --
     private void showLoadingScreen(){
         mainFacade.showLoadingScreen();
@@ -85,11 +91,5 @@ public class LoginFragment extends Fragment {
     private void hideLoadingScreen(){
         mainFacade.hideLoadingScreen();
         binding.loginBtnSubmit.setClickable(true);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

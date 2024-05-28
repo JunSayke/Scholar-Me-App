@@ -21,6 +21,9 @@ public class CourseGson extends GsonData{
     @SerializedName("thumbnail")
     private String thumbnailUrl;
 
+    @SerializedName("totalDuration")
+    private String totalDuration;
+
     @SerializedName("dateAdded")
     private String dateAdded;
 

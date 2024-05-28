@@ -62,7 +62,7 @@ public class CoursesFragment extends Fragment {
                             CoursesFragmentDirections.ActionCoursesFragmentToCourseDetailsFragment action =
                                     CoursesFragmentDirections.actionCoursesFragmentToCourseDetailsFragment(Integer.parseInt(itemId));
                             action.setCourseId(Integer.parseInt(itemId));
-                            Log.d(TAG, itemId);
+                            //Log.d(TAG, itemId);
                             mainFacade.getCoursesNavController().navigate(action);
                         }
                 ));

@@ -15,18 +15,6 @@
         android:layout_height="wrap_content"
         android:paddingVertical="20dp">
 
-        <ImageButton
-            android:id="@+id/search_btn_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="30dp"
-            android:background="?android:selectableItemBackground"
-            android:contentDescription="back"
-            android:src="@drawable/__aa_btn_arrow_left"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/search_tv_title"
             android:layout_width="wrap_content"
@@ -203,7 +191,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/list_course_list"/>
     </LinearLayout>
 
 </LinearLayout>

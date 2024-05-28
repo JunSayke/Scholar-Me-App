@@ -1,17 +1,17 @@
 package com.example.solutionsproject.fragments.homepage;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
+import com.example.solutionsproject.R;
 import com.example.solutionsproject.adapter.CourseListRecyclerViewAdapter;
 import com.example.solutionsproject.classes.general.MainFacade;
 import com.example.solutionsproject.classes.general.ScholarMeServer;
@@ -58,8 +58,9 @@ public class SearchFragment extends Fragment {
                 mainFacade.makeToast(message, Toast.LENGTH_SHORT);
             }
         };
-
         mainFacade.getCourses(responseListener);
+
+        initActions();
     }
 
     @Override
@@ -69,6 +70,10 @@ public class SearchFragment extends Fragment {
     }
 
     private void func(String Id){
+
+    }
+
+    private void initActions(){
 
     }
 }

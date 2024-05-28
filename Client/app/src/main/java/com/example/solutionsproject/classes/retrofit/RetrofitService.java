@@ -8,6 +8,7 @@ import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
 import com.example.solutionsproject.model.gson.data.FlashcardSetGson;
 import com.example.solutionsproject.model.gson.data.GsonData;
+import com.example.solutionsproject.model.gson.data.LessonGson;
 import com.example.solutionsproject.model.gson.data.NotificationGson;
 import com.example.solutionsproject.model.gson.data.UserGson;
 import com.example.solutionsproject.model.gson.data.response.SuccessGson;
@@ -107,6 +108,27 @@ public interface RetrofitService {
     @Headers({"Authorization: scholarmeapp2024_api_key"})
     @GET("/courses")
     Call<SuccessGson<List<CourseGson>>> getCourses();
+
+    // -- LESSON CRUD
+    @FormUrlEncoded
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @POST("/course/add-lesson")
+    Call<SuccessGson<GsonData>> createLesson(
+            @Query("courseId") int courseId,
+            @Field("title") String title,
+            @Field("lessonNumber") String lessonNumber,
+            @Field("description") String description,
+            @Field("content") String content,
+            @Field("duration") String duration
+    );
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @GET("/course/lessons")
+    Call<SuccessGson<List<LessonGson>>> getCourseLesson(
+            @Query("courseId") int courseId
+    );
+
+    // -- FLASHCARDS CRUD
 
     @Headers({"Authorization: scholarmeapp2024_api_key"})
     @FormUrlEncoded

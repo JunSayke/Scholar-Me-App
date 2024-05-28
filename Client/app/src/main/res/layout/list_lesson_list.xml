@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/flashcard_choice_container_main"
+    android:id="@+id/lesson_list_container_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="10dp"
@@ -9,7 +9,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/flashcard_question_number"
+        android:id="@+id/lesson_list_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -19,18 +19,18 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/flashcard_question_txt_question"
+        android:id="@+id/lesson_list_txt_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginHorizontal="10dp"
         android:layout_weight="1"
-        android:text="@string/placeholder_content_title"
+        android:text="@string/placeholder_lesson_title"
         android:textColor="@color/primary_text_color"
         android:textSize="18sp" />
 
     <ImageButton
-        android:id="@+id/flashcard_question_btn_open"
+        android:id="@+id/lesson_list_btn_open"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@drawable/__aa_container_primary_box"

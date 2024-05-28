@@ -6,17 +6,22 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.solutionsproject.R;
+import com.example.solutionsproject.adapter.LessonListRecyclerViewAdapter;
 import com.example.solutionsproject.classes.general.MainFacade;
 import com.example.solutionsproject.classes.general.ScholarMeServer;
 import com.example.solutionsproject.classes.general.TimerService;
 import com.example.solutionsproject.databinding.FragmentCourseDetailsBinding;
 import com.example.solutionsproject.model.gson.data.CourseGson;
+import com.example.solutionsproject.model.gson.data.LessonGson;
 
 import java.util.List;
 import java.util.Timer;
@@ -49,12 +54,12 @@ public class CourseDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         CourseDetailsFragmentArgs args = CourseDetailsFragmentArgs.fromBundle(getArguments());
         courseId = args.getCourseId();
-        Log.d(TAG, "ID:" + courseId);
 
-        final ScholarMeServer.ResponseListener<List<CourseGson>> responseListener = new ScholarMeServer.ResponseListener<List<CourseGson>>() {
+        final ScholarMeServer.ResponseListener<List<CourseGson>> getCourseResponseListener = new ScholarMeServer.ResponseListener<List<CourseGson>>() {
             @Override
             public void onSuccess(List<CourseGson> data) {
                 for(CourseGson course: data){
+                    Log.d(TAG, data.toString());
                     if(courseId == Integer.parseInt(course.getId())){
                         fillPlaceholder(course);
                     }
@@ -66,7 +71,34 @@ public class CourseDetailsFragment extends Fragment {
 
             }
         };
-        mainFacade.getCourses(responseListener);
+        mainFacade.getCourses(getCourseResponseListener);
+
+        final ScholarMeServer.ResponseListener<List<LessonGson>> getLessonsResponseListener = new ScholarMeServer.ResponseListener<List<LessonGson>>() {
+            @Override
+            public void onSuccess(List<LessonGson> data) {
+                binding.cdListCourses.setAdapter(new LessonListRecyclerViewAdapter(
+                        mainFacade.getMainActivity().getApplicationContext(),
+                        data,
+                        (courseLessonId, courseId) -> {
+                            CourseDetailsFragmentDirections.ActionCourseDetailsFragmentToLessonDetailsFragment action =
+                                    CourseDetailsFragmentDirections.actionCourseDetailsFragmentToLessonDetailsFragment(Integer.parseInt(courseLessonId), Integer.parseInt(courseId));
+                            action.setCourseId(Integer.parseInt(courseId));
+                            action.setCourseLessonId(Integer.parseInt(courseLessonId));
+
+                            mainFacade.getCoursesNavController().navigate(action);
+                        }
+
+                ));
+                binding.cdListCourses.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
+            }
+
+            @Override
+            public void onFailure(String message) {
+                mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+            }
+        };
+
+        mainFacade.getCourseLesson(getLessonsResponseListener, courseId);
 
         initActions();
     }
@@ -85,18 +117,20 @@ public class CourseDetailsFragment extends Fragment {
     }
 
     private void initActions(){
-
+        binding.cdBtnBack.setOnClickListener(v -> {
+            mainFacade.getCoursesNavController().navigate(R.id.action_courseDetailsFragment_to_coursesFragment);
+        });
 
         binding.cdBtnStart.setOnClickListener(v -> {
-            if(isRunning){
-                stopService(v);
-                binding.cdBtnStart.setText("Start Timer");
-                isRunning = false;
-            }else{
-                startService(v);
-                binding.cdBtnStart.setText("Stop Timer");
-                isRunning = true;
-            }
+//            if(isRunning){
+//                stopService(v);
+//                binding.cdBtnStart.setText("Start Timer");
+//                isRunning = false;
+//            }else{
+//                startService(v);
+//                binding.cdBtnStart.setText("Stop Timer");
+//                isRunning = true;
+//            }
         });
     }
 

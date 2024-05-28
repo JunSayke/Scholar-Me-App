@@ -37,7 +37,9 @@
     <string name="txt_course_description_title">About the course</string>
     //course dashboard fragment
     <string name="txt_cdash_title">Your Courses Dashboard</string>
-    <string name="txt_content_title">Content Creator</string>
+    <string name="txt_lesson_title">Lesson Creator</string>
+    //lesson dashboard fragment
+    <string name="txt_ldash_title">Your Lesson Dashboard</string>
     //settings fragment
     <string name="txt_settings_preferences">Preferences</string>
     <string name="txt_settings_social">Socials</string>
@@ -76,7 +78,7 @@
     <string name="placeholder_timer_alarm">door bell.mp4</string>
     <string name="placeholder_course_title">course title</string>
     <string name="placeholder_course_detail">0h : 0 Lessons</string>
-    <string name="placeholder_content_title">content title</string>
+    <string name="placeholder_lesson_title">lesson title</string>
     <string name="placeholder_course_description">course description</string>
     <string name="placeholder_flashcard_title">flashcard name</string>
     <string name="placeholder_flashcard_question">question content</string>

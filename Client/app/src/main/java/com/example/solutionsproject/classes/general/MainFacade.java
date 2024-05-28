@@ -28,6 +28,7 @@ import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
 import com.example.solutionsproject.model.gson.data.FlashcardSetGson;
 import com.example.solutionsproject.model.gson.data.GsonData;
+import com.example.solutionsproject.model.gson.data.LessonGson;
 import com.example.solutionsproject.model.gson.data.NotificationGson;
 import com.example.solutionsproject.model.gson.data.UserGson;
 
@@ -212,6 +213,29 @@ public class MainFacade {
     ){
         server.createFlashcardSet(ScholarMeServer.getCallback(responseListener), title, description);
     }
+
+    // -- LESSON CRUD
+
+    public void createLesson(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int courseId,
+            final String title,
+            final String lessonNumber,
+            @Nullable final String description,
+            final String content,
+            final String duration
+    ){
+        server.createLesson(ScholarMeServer.getCallback(responseListener), courseId, title, lessonNumber, description, content, duration);
+    }
+
+    public void getCourseLesson(
+            final ScholarMeServer.ResponseListener<List<LessonGson>> responseListener,
+            final int courseId
+    ){
+        server.getCourseLesson(ScholarMeServer.getCallback(responseListener), courseId);
+    }
+
+    // -- FLASHCARD CRUD
 
     public void editFlashcardSet(
             final ScholarMeServer.ResponseListener<GsonData> responseListener,

@@ -39,10 +39,11 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
     @Override
     public void onBindViewHolder(@NonNull CourseListRecyclerViewAdapter.ViewHolder holder, int position) {
         CourseGson model = courseGsonList.get(position);
-        String fullname = model.getAuthor().getFirstName() + " " + model.getAuthor().getLastName();
+        String fullName = model.getAuthor().getFirstName() + " " + model.getAuthor().getLastName();
+        String fullDetail = model.getTotalDuration() + " Lessons";
         holder.txtTitle.setText(model.getTitle());
-        holder.txtAuthor.setText(fullname);
-        holder.txtDetail.setText(model.getDateUpdated());
+        holder.txtAuthor.setText(fullName);
+        holder.txtDetail.setText(fullDetail);
     }
 
     @Override

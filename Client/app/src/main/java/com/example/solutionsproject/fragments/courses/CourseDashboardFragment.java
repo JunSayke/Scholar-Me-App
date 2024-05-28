@@ -51,7 +51,12 @@ public class CourseDashboardFragment extends Fragment {
                 binding.cdashListChoices.setAdapter(new CourseListRecyclerViewAdapter(
                         mainFacade.getMainActivity().getApplicationContext(),
                         data,
-                        itemId -> func(itemId)//TODO: ADD ACTION
+                        itemId -> {
+                            CourseDashboardFragmentDirections.ActionCourseDashboardFragmentToLessonDashboardFragment action =
+                                    CourseDashboardFragmentDirections.actionCourseDashboardFragmentToLessonDashboardFragment(Integer.parseInt(itemId));
+                            action.setCourseId(Integer.parseInt(itemId));
+                            mainFacade.getCoursesNavController().navigate(action);
+                        }
                 ));
                 binding.cdashListChoices.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
             }
@@ -80,10 +85,6 @@ public class CourseDashboardFragment extends Fragment {
 
         binding.cdashBtnCreateCourse.setOnClickListener(v ->{
             mainFacade.getCoursesNavController().navigate(R.id.action_courseDashboardFragment_to_courseCreatorFragment);
-        });
-
-        binding.cdashBtnOpenAre.setOnClickListener(v ->{
-            mainFacade.getCoursesNavController().navigate(R.id.action_courseDashboardFragment_to_contentCreatorFragment);
         });
     }
 
