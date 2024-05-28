@@ -38,7 +38,7 @@ public class ScholarMeServer extends RetrofitFacade {
     private static final String TAG = "ScholarMeServer";
 
     public ScholarMeServer(){
-        super("http://192.168.210.179:6969");
+        super("http://192.168.248.179:6969");
     }
 
     public void login(

@@ -190,7 +190,7 @@
                 android:backgroundTint="@color/primary_color"
                 android:contentDescription="button_primary__background_"
                 android:gravity="center"
-                android:text="@string/btn_learn_now" />
+                android:text="@string/start_timer" />
 
 
         </LinearLayout>
