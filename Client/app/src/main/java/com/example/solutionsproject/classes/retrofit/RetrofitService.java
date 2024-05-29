@@ -2,6 +2,7 @@ package com.example.solutionsproject.classes.retrofit;
 
 import androidx.annotation.Nullable;
 
+import com.example.solutionsproject.classes.general.MainFacade;
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
 import com.example.solutionsproject.model.gson.data.CommentGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
@@ -35,14 +36,14 @@ import retrofit2.http.Query;
 public interface RetrofitService {
 
     @FormUrlEncoded
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @POST("user/login")
     Call<SuccessGson<UserGson>> login(
             @Field("email") String email,
             @Field("password") String password
     );
     @Multipart
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @POST("user/register")
     Call<SuccessGson<GsonData>> register(
             @Part @Nullable MultipartBody.Part profilePic,
@@ -50,7 +51,7 @@ public interface RetrofitService {
     );
 
     @Multipart
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @PUT("user/edit-profile")
     Call<SuccessGson<GsonData>> updateProfile(
             @Part @Nullable MultipartBody.Part thumbnail,
@@ -58,23 +59,23 @@ public interface RetrofitService {
     );
 
     // -- ROLE FUNCTIONS
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @POST("/user/apply-creator")
     Call<SuccessGson<GsonData>> applyCreator();
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/user/admin/creator-applicants")
     Call<SuccessGson<List<ApplicantsGson>>> getApplicants();
 
     @FormUrlEncoded
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @POST("/user/admin/approve-creator")
     Call<SuccessGson<GsonData>> approveCreator(
             @Field("creatorapplicantid") String creatorApplicantId
     );
 
     @FormUrlEncoded
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @POST("/user/admin/reject-creator")
     Call<SuccessGson<GsonData>> rejectCreator(
             @Field("creatorapplicantid") String creatorApplicantId
@@ -83,7 +84,7 @@ public interface RetrofitService {
     // -- COURSE CRUD
 
     @Multipart
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @POST("/user/creator/create-course")
     Call<SuccessGson<GsonData>> createCourse(
         @Part @Nullable MultipartBody.Part thumbnail,
@@ -91,28 +92,28 @@ public interface RetrofitService {
     );
 
     @Multipart
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @PUT("/user/creator/edit-course")
     Call<SuccessGson<GsonData>> updateCourse(
             @Part @Nullable MultipartBody.Part thumbnail,
             @PartMap Map<String, RequestBody> fields
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/user/creator/courses")
     Call<SuccessGson<List<CourseGson>>> getCreatorCourses();
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/user/courses")
     Call<SuccessGson<List<CourseGson>>> getUserCourses();
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/courses")
     Call<SuccessGson<List<CourseGson>>> getCourses();
 
     // -- LESSON CRUD
     @FormUrlEncoded
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @POST("/course/add-lesson")
     Call<SuccessGson<GsonData>> createLesson(
             @Query("courseId") int courseId,
@@ -123,7 +124,7 @@ public interface RetrofitService {
             @Field("duration") String duration
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/course/lessons")
     Call<SuccessGson<List<LessonGson>>> getCourseLesson(
             @Query("courseId") int courseId
@@ -131,7 +132,7 @@ public interface RetrofitService {
 
     // -- FLASHCARDS CRUD
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @FormUrlEncoded
     @POST("/user/create-flashcard-set")
     Call<SuccessGson<GsonData>> createFlashcardSet(
@@ -139,7 +140,7 @@ public interface RetrofitService {
             @Field("description") String description
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @FormUrlEncoded
     @PUT("/user/edit-flashcard-set")
     Call<SuccessGson<GsonData>> editFlashcardSet(
@@ -148,17 +149,17 @@ public interface RetrofitService {
             @Nullable @Field("description") String description
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @DELETE("/user/delete-flashcard-set")
     Call<SuccessGson<GsonData>> deleteFlashcardSet(
             @Query("flashcardSetId") int flashcardSetId
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/user/flashcard-sets")
     Call<SuccessGson<List<FlashcardSetGson>>> getFlashcardSets();
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @FormUrlEncoded
     @POST("/user/create-flashcard")
     Call<SuccessGson<GsonData>> createFlashcard(
@@ -166,17 +167,17 @@ public interface RetrofitService {
             @Field("question") String question
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/flashcard-set/flashcards")
     Call<SuccessGson<List<FlashcardGson>>> getFlashcardSetFlashcards(
             @Query("flashcardSetId") int flashcardSetId
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/user/notifications")
     Call<SuccessGson<List<NotificationGson>>> getUserNotifications();
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @FormUrlEncoded
     @POST("/flashcard/add-choice")
     Call<SuccessGson<GsonData>> addFlashcardChoice(
@@ -185,20 +186,20 @@ public interface RetrofitService {
             @Field("isAnswer") boolean isAnswer
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/flashcard/choices")
     Call<SuccessGson<List<FlashcardChoiceGson>>> getFlashcardChoices(
             @Query("flashcardId") int flashcardId
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @FormUrlEncoded
     @POST("/discussion/add-comment")
     Call<SuccessGson<GsonData>> addDiscussionComment(
             @Field("comment") String comment
     );
 
-    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @Headers({"Authorization: " + MainFacade.API_KEY})
     @GET("/discussion/get-comments")
     Call<SuccessGson<List<CommentGson>>> getDiscussionComments();
 }

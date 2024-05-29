@@ -48,9 +48,9 @@ public class AddReplyHandler implements Route {
                 return GsonData.objectToJson(new ResponseGson<>(true, "Reply added successfully"));
             }
         } catch (InvalidFieldException e) {
-            halt(e.getStatusCode(), GsonData.objectToJson(new ResponseGson<>(false, e.getMessage())));
+            halt(e.getStatusCode(), GsonData.objectToJson(ResponseGson.builder().status(false).message(e.getMessage()).build()));
         } catch (Exception e) {
-            halt(500, GsonData.objectToJson(new ResponseGson<>(false, "Something went wrong in the server")));
+            halt(500, GsonData.objectToJson(ResponseGson.builder().status(false).message("Something went wrong in the server").build()));
         }
         return null;
     }

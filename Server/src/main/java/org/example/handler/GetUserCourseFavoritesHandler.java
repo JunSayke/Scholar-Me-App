@@ -1,4 +1,4 @@
-package org.example.handler.course;
+package org.example.handler;
 
 import org.example.Controller;
 import org.example.data.CourseGson;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import static spark.Spark.halt;
 
-public class GetCreatorCoursesHandler implements Route {
+public class GetUserCourseFavoritesHandler implements Route {
     @Override
     public Object handle(Request req, Response res) throws Exception {
         res.type("application/json");
@@ -27,12 +27,8 @@ public class GetCreatorCoursesHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            if (!req.attribute("role").equals("creator")) {
-                throw new InvalidFieldException(403, "Forbidden");
-            }
-
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT c.courseid, up.acctid, up.firstname, up.lastname, up.profilepic, c.title, c.description, c.thumbnail, c.views, c.dateadded, c.dateupdated, SUM(l.duration) as totalDuration FROM tblcourse c JOIN tbluserprofile up ON c.author = up.acctid LEFT JOIN tblcourselesson l ON c.courseid = l.courseid WHERE c.author = ? GROUP BY c.courseid")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT c.courseid, up.acctid, up.firstname, up.lastname, up.profilepic, c.title, c.description, c.thumbnail, c.views, c.dateadded, c.dateupdated, SUM(l.duration) as totalDuration FROM tbluserfavorite uf JOIN tblcourse c ON uf.courseid = c.courseid JOIN tbluserprofile up ON c.author = up.acctid LEFT JOIN tblcourselesson l ON c.courseid = l.courseid WHERE uf.userid = ? GROUP BY c.courseid")) {
                 stmt.setInt(1, req.attribute("userId"));
                 ResultSet rs = stmt.executeQuery();
 

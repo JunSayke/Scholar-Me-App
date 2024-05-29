@@ -99,6 +99,7 @@ public class Route {
         delete("/user/creator/delete-course", new DeleteCourseHandler());
         get("/user/courses", new GetUserCoursesHandler());
         get("/user/creator/courses", new GetCreatorCoursesHandler());
+        get("/user/favorite-courses", new GetUserCourseFavoritesHandler());
 
         get("/courses", new GetCoursesHandler());
         get("/course/lessons", new GetCourseLessonsHandler());

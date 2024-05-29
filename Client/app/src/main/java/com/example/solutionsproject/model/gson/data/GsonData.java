@@ -32,6 +32,10 @@ public abstract class GsonData {
     }
 
     public static <T> T jsonToObject(String json, Class<T> classOfT) {
-        return gson.fromJson(json, classOfT);
+        try {
+            return gson.fromJson(json, classOfT); // Check if the string is a valid JSON
+        } catch (Exception e) {
+            return null; // Return null if the string is not a valid JSON
+        }
     }
 }

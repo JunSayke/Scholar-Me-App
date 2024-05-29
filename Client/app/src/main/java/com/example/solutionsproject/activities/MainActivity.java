@@ -3,13 +3,8 @@ package com.example.solutionsproject.activities;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -17,7 +12,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.solutionsproject.R;
 import com.example.solutionsproject.classes.general.MainFacade;
-import com.example.solutionsproject.classes.retrofit.WebSocketClient;
+import com.example.solutionsproject.classes.retrofit.ChatWebSocketService;
 import com.example.solutionsproject.databinding.ActivityMainBinding;
 import com.example.solutionsproject.model.gson.data.UserGson;
 import com.google.gson.Gson;
@@ -46,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         assert navHostFragment != null;
         NavController navController = navHostFragment.getNavController();
 
-        WebSocketClient client = new WebSocketClient();
+        ChatWebSocketService client = new ChatWebSocketService();
         client.connect();
-        client.sendMessage("1", "Hello, world!");
+        client.sendMessage(1, "Hello, world!");
 
         mainFacade.setOpeningNavController(navController);
         mainFacade.setCurrentNavController(navController);

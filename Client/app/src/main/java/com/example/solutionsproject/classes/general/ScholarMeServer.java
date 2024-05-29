@@ -40,18 +40,20 @@ public class ScholarMeServer extends RetrofitFacade {
     private static final String TAG = "ScholarMeServer";
     private static String ipAddress;
 
-    static {
-        try {
-            MainFacade mainFacade = MainFacade.getInstance();
-            ipAddress = mainFacade.getIpAddress() + ":" + mainFacade.getServerPort();
-        } catch (Exception e) {
-            ipAddress = "10.0.2.2";
-            throw new RuntimeException(e);
-        }
-    }
+//    static {
+//        try {
+//            MainFacade mainFacade = MainFacade.getInstance();
+//            ipAddress = mainFacade.getIpAddress() + ":" + mainFacade.getServerPort();
+//        } catch (Exception e) {
+//            ipAddress = "10.0.2.2";
+//            Log.e(TAG, ipAddress);
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public ScholarMeServer(){
-        super("http://" + ipAddress);
+//        super("http://" + ipAddress);
+        super("http://10.0.2.2:6969");
     }
 
     public void login(

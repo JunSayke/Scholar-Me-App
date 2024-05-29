@@ -8,6 +8,7 @@ import lombok.Getter;
 public abstract class ResponseGson<T> extends GsonData {
     private boolean status;
     private String message;
+    private int code;
 
     public boolean getStatus() {
         return status;

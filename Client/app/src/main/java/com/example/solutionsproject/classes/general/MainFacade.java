@@ -80,6 +80,7 @@ public class MainFacade {
     public static final String KEY_LONG_BREAK_TIME = "long_break_time_minutes";
     public static final String KEY_BREAK_INTERVAL = "break_time_interval";
     public static final String KEY_VOLUME_LEVEL = "volume_level";
+    public static final String API_KEY = "scholarmeapp2024_api_key";
 
     private MainFacade(@Nullable MainActivity mainActivity){
         if(mainActivity != null) setMainActivity(mainActivity);
