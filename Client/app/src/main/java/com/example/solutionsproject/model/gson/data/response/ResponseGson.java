@@ -5,7 +5,7 @@ import com.example.solutionsproject.model.gson.data.GsonData;
 import lombok.Getter;
 
 @Getter
-public abstract class ResponseGson<T> extends GsonData {
+public abstract class ResponseGson extends GsonData {
     private boolean status;
     private String message;
     private int code;

@@ -49,10 +49,11 @@ public class ChatWebSocketHandler {
     @OnWebSocketMessage
     public void onMessage(Session session, String message) throws IOException {
         JSONObject json;
+
         try {
             json = new JSONObject(message);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             session.getRemote().sendString(GsonData.objectToJson(new ResponseGson<>(false, "Invalid message format")));
             return;
         }
@@ -142,10 +143,10 @@ public class ChatWebSocketHandler {
                 }
             }
         } catch (InvalidFieldException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             session.getRemote().sendString(GsonData.objectToJson(ResponseGson.builder().status(false).message(e.getMessage()).code(e.getStatusCode()).build()));
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             session.getRemote().sendString(GsonData.objectToJson(ResponseGson.builder().status(false).message("Something went wrong in the server").code(500).build()));
         }
     }

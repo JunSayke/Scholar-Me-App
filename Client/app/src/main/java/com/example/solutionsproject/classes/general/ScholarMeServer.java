@@ -341,7 +341,7 @@ public class ScholarMeServer extends RetrofitFacade {
 
             @Override
             public void onResponse(@NonNull Call<SuccessGson<T1>> call, @NonNull Response<SuccessGson<T1>> response) {
-                ResponseGson<?> body = null;
+                ResponseGson body = null;
                 try{
                     if(response.isSuccessful()){
                         assert response.body() != null;

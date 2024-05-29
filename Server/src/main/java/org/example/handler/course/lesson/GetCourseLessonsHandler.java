@@ -48,7 +48,7 @@ public class GetCourseLessonsHandler implements Route {
                             .courseLessonId(rs.getInt("courselessonid"))
                             .courseId(rs.getInt("courseid"))
                             .title(rs.getString("title"))
-                            .lessonNumber(rs.getInt("lessonnumber"))
+                            .lessonNumber(rs.getInt("lessonno"))
                             .description(rs.getString("description"))
                             .content(rs.getString("content"))
                             .duration(rs.getInt("duration"))

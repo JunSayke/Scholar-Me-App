@@ -4,25 +4,47 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.solutionsproject.adapter.DiscussionCommentListRecyclerViewAdapter;
 import com.example.solutionsproject.classes.general.MainFacade;
+import com.example.solutionsproject.model.gson.data.CommentGson;
 import com.example.solutionsproject.model.gson.data.GsonData;
-import com.example.solutionsproject.model.gson.data.MessageGson;
 import com.example.solutionsproject.model.gson.data.response.ResponseGson;
+import com.example.solutionsproject.model.gson.data.response.SuccessGson;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-import okhttp3.Response;
-
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class ChatWebSocketService {
+import lombok.Setter;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+import okio.ByteString;
 
+public class ChatWebSocketService {
     private WebSocket webSocket;
+    @Setter
+    private DiscussionCommentListRecyclerViewAdapter adapter;
+
+    Thread pingThread = new Thread(() -> {
+        while (!Thread.currentThread().isInterrupted()) {
+            if (webSocket != null) {
+                webSocket.send(ByteString.EMPTY);
+            }
+
+            try {
+                Thread.sleep(25000); // Sleep for 25 seconds
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Preserve the interrupt status
+            }
+        }
+    });
 
     public void connect() {
         OkHttpClient client = new OkHttpClient.Builder()
@@ -43,10 +65,23 @@ public class ChatWebSocketService {
             @Override
             public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
                 Log.d("WebSocket TEST", "Received message: " + text);
-                ResponseGson<?> message = GsonData.jsonToObject(text, ResponseGson.class);
+                Type type = new TypeToken<SuccessGson<CommentGson>>(){}.getType();
+                SuccessGson<CommentGson> response = new Gson().fromJson(text, type);
 
-                if (message != null) {
-                    Log.d("WebSocket TEST", message.toString());
+                if (response != null) {
+                    CommentGson newComment = response.getData();
+
+                    try {
+                        MainFacade.getInstance().getMainActivity().runOnUiThread(() -> {
+                            try {
+                                adapter.addData(newComment);
+                            } catch (Exception e) {
+                                Log.e("TESTING1", "Error in addData: " + e.getMessage());
+                            }
+                        });
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
@@ -60,6 +95,8 @@ public class ChatWebSocketService {
                 System.out.println("WebSocket connection failed: " + t.getMessage());
             }
         });
+
+        pingThread.start();
     }
 
     public void sendMessage(int userId, String message) {
@@ -74,5 +111,7 @@ public class ChatWebSocketService {
         if (webSocket != null) {
             webSocket.close(1000, "Closing connection");
         }
+        pingThread.interrupt();
     }
+
 }

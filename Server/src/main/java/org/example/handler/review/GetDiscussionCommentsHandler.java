@@ -28,7 +28,7 @@ public class GetDiscussionCommentsHandler implements Route {
             Controller.validateAccessToken(req);
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT c.commentid, c.userid, c.comment, c.dateadded, c.dateupdated, up.firstname, up.lastname, up.profilepic FROM tbldiscussioncomment dc JOIN tblcomment c ON dc.commentid = c.commentid JOIN tbluserprofile up ON c.userid = up.userid")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT c.commentid, c.userid, c.comment, c.dateadded, c.dateupdated, up.firstname, up.lastname, up.profilepic FROM tbldiscussioncomment dc JOIN tblcomment c ON dc.commentid = c.commentid LEFT JOIN tbluserprofile up ON c.userid = up.acctid ORDER BY c.dateadded")) {
                 ResultSet rs = stmt.executeQuery();
 
                 List<CommentGson> comments = new ArrayList<>();
@@ -51,6 +51,7 @@ public class GetDiscussionCommentsHandler implements Route {
                     comments.add(comment);
                 }
 
+                System.err.println("Comments retrieved: " + comments);
                 res.status(200);
                 return GsonData.objectToJson(new ResponseGson<>(true, "Comments retrieved", comments));
             }

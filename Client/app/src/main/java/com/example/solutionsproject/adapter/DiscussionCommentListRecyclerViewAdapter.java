@@ -1,6 +1,7 @@
 package com.example.solutionsproject.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,12 @@ public class DiscussionCommentListRecyclerViewAdapter extends RecyclerView.Adapt
     @Override
     public int getItemCount() {
         return commentGsonList.size();
+    }
+
+    public void addData(CommentGson newData) {
+        this.commentGsonList.add(newData); // Add newData at the beginning of the list
+        notifyItemInserted(commentGsonList.size() - 1); // Notify the adapter that an item has been inserted at the beginning
+        notifyDataSetChanged(); // Notify the adapter that the data set has changed
     }
 
     @Getter
