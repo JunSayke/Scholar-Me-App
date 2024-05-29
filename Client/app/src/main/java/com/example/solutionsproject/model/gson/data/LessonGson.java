@@ -6,10 +6,11 @@ import lombok.Getter;
 
 @Getter
 public class LessonGson {
-    private String courseLessonId;
+    @SerializedName("courseLessonId")
+    private int courseLessonId;
 
     @SerializedName("courseId")
-    private String courseId;
+    private int courseId;
 
     @SerializedName("title")
     private String title;

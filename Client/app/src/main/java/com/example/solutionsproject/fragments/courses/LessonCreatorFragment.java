@@ -67,7 +67,7 @@ public class LessonCreatorFragment extends Fragment {
             showLoadingScreen();
 
             String title = String.valueOf(binding.lessonEttTitle.getText());
-            Log.d(TAG, title);
+            //Log.d(TAG, title);
             String lessonContent = binding.lessonAreditor.getHtml();
             String lessonNumber = String.valueOf(binding.lessonEttLessonno.getText());
             String duration = String.valueOf(binding.lessonEttDuration.getText());

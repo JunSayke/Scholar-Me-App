@@ -18,8 +18,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/fave_txt_no_courses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:text="@string/emp_courses"
+                android:textColor="@color/secondary_text_color"
+                android:textSize="16sp" />
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cdash_list_choices"
+                android:id="@+id/fave_list_choices"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="20dp"

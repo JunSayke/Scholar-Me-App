@@ -15,6 +15,18 @@
         android:layout_height="wrap_content"
         android:paddingVertical="20dp">
 
+        <Button
+            android:id="@+id/cd_btn_unenroll"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/main_container_light"
+            android:contentDescription="button_primary__background_"
+            android:gravity="center"
+            android:text="Unenroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageButton
             android:id="@+id/cd_btn_back"
             android:layout_width="48dp"
@@ -136,6 +148,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/cd_txt_no_courses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingTop="10dp"
+                    android:text="@string/emp_courses"
+                    android:textColor="@color/secondary_text_color"
+                    android:textSize="16sp" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cd_list_courses"
                     android:layout_width="match_parent"
@@ -147,18 +170,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:listitem="@layout/list_lesson_list"/>
+                    tools:listitem="@layout/list_lesson_list" />
 
-                <TextView
-                    android:id="@+id/cd_txt_no_courses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:paddingTop="10dp"
-                    android:text="@string/emp_courses"
-                    android:textColor="@color/secondary_text_color"
-                    android:textSize="16sp" />
             </LinearLayout>
         </ScrollView>
 
@@ -190,7 +203,7 @@
                 android:backgroundTint="@color/primary_color"
                 android:contentDescription="button_primary__background_"
                 android:gravity="center"
-                android:text="@string/start_timer" />
+                android:text="Configure Pomodoro" />
 
 
         </LinearLayout>
