@@ -2,6 +2,7 @@ package org.example;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.eclipse.jetty.websocket.api.Session;
 import org.example.exception.InvalidFieldException;
 import org.example.pattern.behavioural.SQLParamsBoolean;
 import org.example.pattern.behavioural.SQLParamsChainOfResponsibility;
@@ -21,12 +22,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static spark.Spark.halt;
 import static spark.Spark.routes;
 
 public class Controller {
+
     public static void validateAccessToken(Request req) throws InvalidFieldException {
         String token = req.cookie("access_token");
 

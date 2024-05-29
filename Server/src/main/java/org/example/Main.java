@@ -164,6 +164,12 @@ public class Main {
                     + "dateupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
                     + ")"
             );
+            stmt.addBatch("CREATE TABLE IF NOT EXISTS tbldiscussioncomment ("
+                    + "discussioncommentid INT PRIMARY KEY AUTO_INCREMENT,"
+                    + "commentid INT NOT NULL,"
+                    + "FOREIGN KEY (commentid) REFERENCES tblcomment(commentid) ON DELETE CASCADE"
+                    + ")"
+            );
             stmt.addBatch("CREATE TABLE IF NOT EXISTS tblcoursecomment ("
                     + "coursecommentid INT PRIMARY KEY AUTO_INCREMENT,"
                     + "courseid INT NOT NULL,"

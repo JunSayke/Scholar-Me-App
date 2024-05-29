@@ -67,7 +67,7 @@ public class CreateCourseHandler implements Route {
                 stmt.setInt(1, req.attribute("userId"));
                 stmt.setString(2, req.queryParams("title"));
                 stmt.setString(3, req.queryParams("description"));
-                stmt.setString(4, req.host() + path);
+                stmt.setString(4, path);
                 stmt.executeUpdate();
 
                 Files.createDirectories(dir.getParent());

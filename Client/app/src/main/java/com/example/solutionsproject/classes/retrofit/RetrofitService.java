@@ -3,6 +3,7 @@ package com.example.solutionsproject.classes.retrofit;
 import androidx.annotation.Nullable;
 
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
+import com.example.solutionsproject.model.gson.data.CommentGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
 import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
@@ -189,4 +190,15 @@ public interface RetrofitService {
     Call<SuccessGson<List<FlashcardChoiceGson>>> getFlashcardChoices(
             @Query("flashcardId") int flashcardId
     );
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @FormUrlEncoded
+    @POST("/discussion/add-comment")
+    Call<SuccessGson<GsonData>> addDiscussionComment(
+            @Field("comment") String comment
+    );
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @GET("/discussion/get-comments")
+    Call<SuccessGson<List<CommentGson>>> getDiscussionComments();
 }

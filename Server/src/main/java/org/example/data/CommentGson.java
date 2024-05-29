@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CommentGson extends GsonData {
     private int commentId;
-    private int userId;
+    private UserGson user;
     private String comment;
     private LocalDateTime dateAdded;
     private LocalDateTime dateUpdated;

@@ -30,6 +30,7 @@ import com.example.solutionsproject.databinding.ActivityMainBinding;
 import com.example.solutionsproject.model.data.livedata.UserGsonViewModel;
 import com.example.solutionsproject.model.data.livedata.UserGsonViewModelFactory;
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
+import com.example.solutionsproject.model.gson.data.CommentGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
 import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
@@ -311,6 +312,19 @@ public class MainFacade {
             final int flashcardId
     ){
         server.getFlashcardChoices(ScholarMeServer.getCallback(responseListener), flashcardId);
+    }
+
+    public void addDiscussionComment(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final String comment
+    ){
+        server.addDiscussionComment(ScholarMeServer.getCallback(responseListener), comment);
+    }
+
+    public void getDiscussionComments(
+            final ScholarMeServer.ResponseListener<List<CommentGson>> responseListener
+    ){
+        server.getDiscussionComments(ScholarMeServer.getCallback(responseListener));
     }
 
     //-- START OF MISCELLANEOUS --

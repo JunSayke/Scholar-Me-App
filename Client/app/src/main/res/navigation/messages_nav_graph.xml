@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/messages_nav_graph"
-    app:startDestination="@id/messagesFragment">
+    app:startDestination="@id/messengerFragment">
     <fragment
         android:id="@+id/messengerFragment"
         android:name="com.example.solutionsproject.fragments.messages.MessengerFragment"

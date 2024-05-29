@@ -103,7 +103,7 @@ public class EditProfileHandler implements Route {
                     String extension = fileName.substring(fileName.lastIndexOf("."));
                     String path = "/images/profile/" + UUID.randomUUID() + extension;
                     updates.add("up.profilepic = ?");
-                    params.add(req.host() + path);
+                    params.add(path);
                     dir = Path.of(System.getenv("SERVER_RESOURCE_PATH"), path);
                 }
             }

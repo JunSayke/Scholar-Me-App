@@ -7,6 +7,9 @@ import org.example.handler.course.lesson.DeleteCourseLessonHandler;
 import org.example.handler.course.lesson.EditCourseLessonHandler;
 import org.example.handler.course.lesson.GetCourseLessonsHandler;
 import org.example.handler.course.review.AddCourseReviewHandler;
+import org.example.handler.flashcard.CreateFlashcardHandler;
+import org.example.handler.flashcard.DeleteFlashcardHandler;
+import org.example.handler.flashcard.EditFlashcardHandler;
 import org.example.handler.flashcard.GetFlashcardSetFlashcardsHandler;
 import org.example.handler.flashcard.choice.AddFlashcardChoiceHandler;
 import org.example.handler.flashcard.choice.DeleteFlashcardChoiceHandler;
@@ -16,16 +19,12 @@ import org.example.handler.flashcardset.CreateFlashcardSetHandler;
 import org.example.handler.flashcardset.DeleteFlashcardSetHandler;
 import org.example.handler.flashcardset.EditFlashcardSetHandler;
 import org.example.handler.flashcardset.GetFlashcardSetsHandler;
-import org.example.handler.flashcard.CreateFlashcardHandler;
-import org.example.handler.flashcard.DeleteFlashcardHandler;
-import org.example.handler.flashcard.EditFlashcardHandler;
 import org.example.handler.reply.AddReplyHandler;
 import org.example.handler.reply.DeleteReplyHandler;
 import org.example.handler.reply.EditReplyHandler;
 import org.example.handler.reply.GetUserRepliesHandler;
-import org.example.handler.review.DeleteReviewHandler;
-import org.example.handler.review.EditReviewHandler;
-import org.example.handler.review.GetUserReviewsHandler;
+import org.example.handler.review.*;
+import org.example.handler.websocket.ChatWebSocketHandler;
 
 import java.util.List;
 
@@ -36,6 +35,8 @@ public class Route {
 
     public static void launch(int port) {
         port(port);
+        webSocket("/chat", ChatWebSocketHandler.class);
+        init();
 
         before((req, res) -> {
             res.header("Access-Control-Allow-Origin", "*");
@@ -117,6 +118,8 @@ public class Route {
         put("/user/edit-review", new EditReviewHandler());
         delete("/user/delete-review", new DeleteReviewHandler());
         get("/user/reviews", new GetUserReviewsHandler());
+        post("/discussion/add-comment", new AddDiscussionCommentHandler());
+        post("/discussion/get-comments", new GetDiscussionCommentsHandler());
 
         post("/user/add-reply", new AddReplyHandler());
         put("/user/edit-reply", new EditReplyHandler());

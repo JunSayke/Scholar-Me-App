@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.example.solutionsproject.classes.retrofit.RetrofitFacade;
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
+import com.example.solutionsproject.model.gson.data.CommentGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
 import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
@@ -299,6 +300,19 @@ public class ScholarMeServer extends RetrofitFacade {
         getRetrofitService().getFlashcardChoices(flashcardId).enqueue(callback);
     }
 
+    public void addDiscussionComment(
+            final Callback<SuccessGson<GsonData>> callback,
+            final String comment
+    ){
+        Log.e("TESTING", "addDiscussionComment: " + comment);
+        getRetrofitService().addDiscussionComment(comment).enqueue(callback);
+    }
+
+    public void getDiscussionComments(
+            final Callback<SuccessGson<List<CommentGson>>> callback
+    ){
+        getRetrofitService().getDiscussionComments().enqueue(callback);
+    }
     // -- END OF SERVER FUNC
 
 

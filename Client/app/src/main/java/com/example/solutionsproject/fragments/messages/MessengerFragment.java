@@ -5,14 +5,21 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.solutionsproject.R;
+import com.example.solutionsproject.adapter.DiscussionCommentListRecyclerViewAdapter;
 import com.example.solutionsproject.classes.general.MainFacade;
+import com.example.solutionsproject.classes.general.ScholarMeServer;
 import com.example.solutionsproject.databinding.FragmentMessengerBinding;
+import com.example.solutionsproject.model.gson.data.CommentGson;
+import com.example.solutionsproject.model.gson.data.GsonData;
+
+import java.util.List;
 
 public class MessengerFragment extends Fragment {
 
@@ -36,6 +43,38 @@ public class MessengerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mainFacade.getDiscussionComments(new ScholarMeServer.ResponseListener<List<CommentGson>>() {
+            @Override
+            public void onSuccess(List<CommentGson> data) {
+                mainFacade.makeToast("Comments loaded", Toast.LENGTH_SHORT);
+                binding.messengerListChats.setAdapter(new DiscussionCommentListRecyclerViewAdapter(
+                        mainFacade.getMainActivity().getApplicationContext(),
+                        data
+                ));
+
+                binding.messengerListChats.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
+            }
+
+            @Override
+            public void onFailure(String message) {
+                mainFacade.makeToast("Failed to load comments", Toast.LENGTH_SHORT);
+            }
+        });
+
+        binding.cdashBtnSend.setOnClickListener(v -> {
+            mainFacade.addDiscussionComment(new ScholarMeServer.ResponseListener<GsonData>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    mainFacade.makeToast("Comment added", Toast.LENGTH_SHORT);
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    mainFacade.makeToast("Failed to add comment", Toast.LENGTH_SHORT);
+                }
+            }, binding.cdashEttMessage.getText().toString());
+        });
     }
 
     @Override

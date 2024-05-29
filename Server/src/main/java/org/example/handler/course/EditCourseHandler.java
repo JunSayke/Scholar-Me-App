@@ -95,7 +95,7 @@ public class EditCourseHandler implements Route {
                     String extension = fileName.substring(fileName.lastIndexOf("."));
                     String path = "/images/course-thumbnail/" + UUID.randomUUID() + extension;
                     updates.add("thumbnail = ?");
-                    params.add(req.host() + path);
+                    params.add(path);
                     dir = Path.of(System.getenv("SERVER_RESOURCE_PATH"), path);
                 }
             }
@@ -118,7 +118,7 @@ public class EditCourseHandler implements Route {
 
                 if (filePart != null) {
                     if (currThumbnailPath != null) {
-                        Path oldFile = Path.of(System.getenv("SERVER_RESOURCE_PATH"), currThumbnailPath.substring(req.scheme().length() + req.host().length()));
+                        Path oldFile = Path.of(System.getenv("SERVER_RESOURCE_PATH"), currThumbnailPath);
                         Files.deleteIfExists(oldFile);
                     }
                     Files.createDirectories(dir.getParent());

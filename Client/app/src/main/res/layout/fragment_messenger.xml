@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/main_container_dark"
-        android:paddingVertical="20dp">
+        android:paddingVertical="20dp"
+        android:visibility="gone">
 
         <ImageButton
             android:id="@+id/cdash_btn_thumbnail"
@@ -63,6 +64,38 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="20dp">
+
+            <EditText
+                android:id="@+id/cdash_ett_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/__aa_container_main_box"
+                android:ems="10"
+                android:hint="message"
+                android:inputType="text"
+                android:paddingVertical="20dp"
+                android:paddingLeft="10dp"
+                android:textColor="@color/primary_text_color" />
+
+            <Button
+                android:id="@+id/cdash_btn_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/primary_color"
+                android:text="Send"
+                android:textColor="@color/primary_text_color" />
+        </LinearLayout>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -75,44 +108,12 @@
                 android:paddingHorizontal="20dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                    android:id="@+id/messenger_list_chats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/list_messages_messages"/>
+                    tools:listitem="@layout/list_messages_messages" />
             </LinearLayout>
         </ScrollView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="20dp">
-
-            <EditText
-                android:id="@+id/editTextText2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/__aa_container_main_box"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="message"
-                android:paddingVertical="20dp"
-                android:paddingLeft="10dp"
-                android:textColor="@color/primary_text_color" />
-
-            <Button
-                android:id="@+id/cdash_btn_course2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/primary_color"
-                android:text="Send"
-                android:textColor="@color/primary_text_color" />
-        </LinearLayout>
 
     </LinearLayout>
 
