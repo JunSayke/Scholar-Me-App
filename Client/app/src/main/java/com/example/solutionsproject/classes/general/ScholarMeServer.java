@@ -37,9 +37,20 @@ import retrofit2.Response;
 
 public class ScholarMeServer extends RetrofitFacade {
     private static final String TAG = "ScholarMeServer";
+    private static String ipAddress;
+
+    static {
+        try {
+            MainFacade mainFacade = MainFacade.getInstance();
+            ipAddress = mainFacade.getIpAddress() + ":" + mainFacade.getServerPort();
+        } catch (Exception e) {
+            ipAddress = "10.0.2.2";
+            throw new RuntimeException(e);
+        }
+    }
 
     public ScholarMeServer(){
-        super("http://192.168.1.11:6969");
+        super("http://" + ipAddress);
     }
 
     public void login(

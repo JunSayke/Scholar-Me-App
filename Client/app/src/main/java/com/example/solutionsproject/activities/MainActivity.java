@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private ActivityMainBinding binding;
     private MainFacade mainFacade;
+    private String ipAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainFacade = MainFacade.getInstance(this);
         mainFacade.setMainBinding(binding);
+        ipAddress = mainFacade.getIpAddress() + ":" + mainFacade.getServerPort();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.mainFragmentContainer);
         assert navHostFragment != null;
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Uri uri = getIntent().getData();
         if (uri != null) {
-            if (Objects.equals(uri.getHost(), "http://192.168.1.11:6969")) {
+            if (Objects.equals(uri.getHost(), "http://" + ipAddress)) {
                 String apiAccessToken = uri.getQueryParameter("api_access_token");
 
                 if (apiAccessToken != null) {

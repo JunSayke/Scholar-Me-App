@@ -2,8 +2,15 @@ package com.example.solutionsproject.classes.general;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.InetAddresses;
+import android.net.wifi.WifiManager;
+import android.os.Looper;
+import android.text.format.Formatter;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,18 +43,27 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Handler;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 public class MainFacade {
+
+    private final String IpAddress = "192.168.1.11";
+    private final String serverPort = "6969";
+
     public static final String TAG = "Main Facade";
     private static final MainFacade mainFacade = new MainFacade(null);
+    private ScholarMeServer server;
     private static FragmentActivity mainActivity;
-    private final ScholarMeServer server = new ScholarMeServer();
     @Setter
     private ActivityMainBinding mainBinding;
     @Setter
@@ -87,6 +103,7 @@ public class MainFacade {
         sessionManager = new SessionManager(mainActivity.getApplicationContext());
         userGsonViewModelFactory = new UserGsonViewModelFactory(mainActivity.getApplicationContext());
         //TODO: other server related stuff
+        server = new ScholarMeServer();
 
         Set<String> PREF_COOKIES = sessionManager.getCookies();
         if (!PREF_COOKIES.isEmpty()) {

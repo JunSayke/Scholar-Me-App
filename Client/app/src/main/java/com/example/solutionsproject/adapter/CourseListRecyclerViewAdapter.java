@@ -5,16 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.solutionsproject.R;
+import com.example.solutionsproject.classes.general.MainFacade;
 import com.example.solutionsproject.model.gson.data.CourseGson;
 
 import java.util.List;
 
+import coil.Coil;
+import coil.ImageLoader;
+import coil.request.ImageRequest;
+import coil.transform.CircleCropTransformation;
+import coil.transform.RoundedCornersTransformation;
 import lombok.Getter;
 
 public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseListRecyclerViewAdapter.ViewHolder> {
@@ -22,11 +29,14 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
     private final Context context;
     private final List<CourseGson> courseGsonList;
     private final CourseListRecyclerViewAdapter.OnItemClickListener onItemClickListener;
+    private MainFacade mainFacade;
+    private ImageLoader imageLoader;
 
-    public CourseListRecyclerViewAdapter(Context context, List<CourseGson> courseGsonList, OnItemClickListener onItemClickListener) {
+    public CourseListRecyclerViewAdapter(Context context, List<CourseGson> courseGsonList, OnItemClickListener onItemClickListener, MainFacade mainFacade) {
         this.context = context;
         this.courseGsonList = courseGsonList;
         this.onItemClickListener = onItemClickListener;
+        this.mainFacade = mainFacade;
     }
 
     @NonNull
@@ -44,6 +54,16 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
         holder.txtTitle.setText(model.getTitle());
         holder.txtAuthor.setText(fullName);
         holder.txtDetail.setText(fullDetail);
+
+        imageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());
+        String imageUrl = "http://" + mainFacade.getIpAddress() + ":" + mainFacade.getServerPort() + model.getThumbnailUrl();
+        ImageRequest request = new ImageRequest.Builder(mainFacade.getMainActivity().getApplicationContext())
+                .data(imageUrl)
+                .error(R.drawable.__aa_ad_box_1)
+                .target(holder.ivThumbnail)
+                .transformations(new RoundedCornersTransformation())
+                .build();
+        imageLoader.enqueue(request);
     }
 
     @Override
@@ -57,12 +77,14 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
 
     @Getter
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private final ImageView ivThumbnail;
         private final TextView txtAuthor;
         private final TextView txtTitle;
         private final TextView txtDetail;
         private final ImageButton btnOpen;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            ivThumbnail = itemView.findViewById(R.id.course_list_iv_thumbnail);
             txtAuthor = itemView.findViewById(R.id.course_list_txt_creator);
             txtTitle = itemView.findViewById(R.id.course_list_txt_title);
             txtDetail = itemView.findViewById(R.id.course_list_txt_course_detail);

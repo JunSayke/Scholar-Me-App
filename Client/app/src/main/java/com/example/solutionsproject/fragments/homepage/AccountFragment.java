@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import com.example.solutionsproject.model.gson.data.UserGson;
 import coil.Coil;
 import coil.ImageLoader;
 import coil.request.ImageRequest;
+import coil.transform.CircleCropTransformation;
 
 public class AccountFragment extends Fragment {
     private final String TAG = "Account_Fragment";
@@ -36,16 +36,18 @@ public class AccountFragment extends Fragment {
         }catch (Exception e){
             throw new RuntimeException(e);
         }
-        imageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());
 
         UserGson userGson = mainFacade.getSessionManager().getUserGson();
         binding.accountTxtRole.setText(userGson.getRole());
         binding.accountTxtName.setText(userGson.getUserName());
 
+        imageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());
+        String imageUrl = "http://" + mainFacade.getIpAddress() + ":" + mainFacade.getServerPort() + userGson.getProfilePicUrl();
         ImageRequest request = new ImageRequest.Builder(mainFacade.getMainActivity().getApplicationContext())
-                .data(userGson.getProfilePicUrl())
-                .error(R.drawable.__aa_default_user_icon)
+                .data(imageUrl)
+                .error(R.drawable.vector_wrong_mark)
                 .target(binding.accountIvProfile)
+                .transformations(new CircleCropTransformation())
                 .build();
         imageLoader.enqueue(request);
 

@@ -24,10 +24,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import coil.Coil;
+import coil.ImageLoader;
+import coil.request.ImageRequest;
+import coil.transform.CircleCropTransformation;
+
 public class HomeFragment extends Fragment {
 	private final String TAG = "Home_Fragment";
 	private MainFacade mainFacade;
 	private FragmentHomeBinding binding;
+	ImageLoader imageLoader;
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -44,11 +50,15 @@ public class HomeFragment extends Fragment {
 		String introduction = "Hi, " + userGson.getFirstName() + "!";
 		binding.homeTxtNamePlaceholder.setText(introduction);
 
-		Picasso.get()
-				.load(userGson.getProfilePicUrl())
-				.placeholder(R.drawable.__aa_default_user_icon)
-				.error(R.drawable.__aa_default_user_icon)
-				.into(binding.homeIvProfile);
+		imageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());
+		String imageUrl = "http://" + mainFacade.getIpAddress() + ":" + mainFacade.getServerPort() + userGson.getProfilePicUrl();
+		ImageRequest request = new ImageRequest.Builder(mainFacade.getMainActivity().getApplicationContext())
+				.data(imageUrl)
+				.error(R.drawable.vector_wrong_mark)
+				.target(binding.homeIvProfile)
+				.transformations(new CircleCropTransformation())
+				.build();
+		imageLoader.enqueue(request);
 
 		return root;
 	}
@@ -110,9 +120,6 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void initActions(){
-		binding.homeIvProfile.setOnClickListener(v -> {
-			mainFacade.getHomeNavController().navigate(R.id.action_homeFragment_to_accountNavContainer);
-		});
 
 		binding.homeBtnAdSearch.setOnClickListener(v ->{
 			mainFacade.getHomeNavController().navigate(R.id.action_homeFragment_to_searchFragment);

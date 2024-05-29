@@ -56,7 +56,7 @@ public class CourseDashboardFragment extends Fragment {
                                     CourseDashboardFragmentDirections.actionCourseDashboardFragmentToLessonDashboardFragment(Integer.parseInt(itemId));
                             action.setCourseId(Integer.parseInt(itemId));
                             mainFacade.getCoursesNavController().navigate(action);
-                        }
+                        }, mainFacade
                 ));
                 binding.cdashListChoices.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
             }

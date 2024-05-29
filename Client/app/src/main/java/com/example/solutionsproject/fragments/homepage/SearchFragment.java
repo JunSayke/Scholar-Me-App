@@ -49,6 +49,7 @@ public class SearchFragment extends Fragment {
                         mainFacade.getMainActivity().getApplicationContext(),
                         data,
                         itemId -> func(itemId)//TODO: ADD ACTION
+                        ,mainFacade
                 ));
                 binding.searchListCourses.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
             }

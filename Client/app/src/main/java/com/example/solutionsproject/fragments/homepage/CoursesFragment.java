@@ -22,10 +22,16 @@ import com.example.solutionsproject.model.gson.data.UserGson;
 
 import java.util.List;
 
+import coil.Coil;
+import coil.ImageLoader;
+import coil.request.ImageRequest;
+import coil.transform.CircleCropTransformation;
+
 public class CoursesFragment extends Fragment {
     private final String TAG = "Courses_Fragment";
     private MainFacade mainFacade;
     private FragmentCoursesBinding binding;
+    ImageLoader imageLoader;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCoursesBinding.inflate(inflater, container, false);
@@ -43,6 +49,16 @@ public class CoursesFragment extends Fragment {
         }else{
             binding.coursesBtnCreateCourse.setVisibility(View.GONE);
         }
+
+        imageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());
+        String imageUrl = "http://" + mainFacade.getIpAddress() + ":" + mainFacade.getServerPort() + userGson.getProfilePicUrl();
+        ImageRequest request = new ImageRequest.Builder(mainFacade.getMainActivity().getApplicationContext())
+                .data(imageUrl)
+                .error(R.drawable.vector_wrong_mark)
+                .target(binding.coursesIvProfile)
+                .transformations(new CircleCropTransformation())
+                .build();
+        imageLoader.enqueue(request);
 
 
         return root;
@@ -64,7 +80,7 @@ public class CoursesFragment extends Fragment {
                             action.setCourseId(Integer.parseInt(itemId));
                             //Log.d(TAG, itemId);
                             mainFacade.getCoursesNavController().navigate(action);
-                        }
+                        }, mainFacade
                 ));
                 binding.courseListCourses.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
             }
