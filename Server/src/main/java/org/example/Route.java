@@ -119,9 +119,8 @@ public class Route {
         put("/user/edit-review", new EditReviewHandler());
         delete("/user/delete-review", new DeleteReviewHandler());
         get("/user/reviews", new GetUserReviewsHandler());
-
         post("/discussion/add-comment", new AddDiscussionCommentHandler());
-        get("/discussion/get-comments", new GetDiscussionCommentsHandler());
+        post("/discussion/get-comments", new GetDiscussionCommentsHandler());
 
         post("/user/add-reply", new AddReplyHandler());
         put("/user/edit-reply", new EditReplyHandler());

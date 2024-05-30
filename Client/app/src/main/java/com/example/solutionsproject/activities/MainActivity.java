@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         assert navHostFragment != null;
         NavController navController = navHostFragment.getNavController();
 
+        ChatWebSocketService client = new ChatWebSocketService();
+        client.connect();
+        client.sendMessage(1, "Hello, world!");
+
         mainFacade.setOpeningNavController(navController);
         mainFacade.setCurrentNavController(navController);
 

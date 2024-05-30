@@ -22,7 +22,15 @@ public class AddDiscussionCommentHandler implements Route {
         try {
             Controller.validateAccessToken(req);
 
-            Controller.validateParams(req, "comment");
+            Controller.validateParams(req, "discussionId", "comment");
+
+            if (req.queryParams("discussionId").isEmpty()) {
+                throw new InvalidFieldException(400, "Discussion ID is required");
+            }
+
+            if (req.queryParams("discussionId").matches("[^0-9]+")) {
+                throw new InvalidFieldException(400, "Discussion ID must be a number");
+            }
 
             if (req.queryParams("comment").length() < 2 || req.queryParams("comment").length() > 255) {
                 throw new InvalidFieldException(400, "Comment must be between 2 and 255 characters long");
