@@ -111,8 +111,8 @@ public class HomeFragment extends Fragment {
 				mainFacade.makeToast(message, Toast.LENGTH_SHORT);
 			}
 		});
-
-		binding.homeTxtTimeWork.setText(String.valueOf(userCourseCount));
+		String courseCount = userCourseCount > 1 ? userCourseCount + " Lessons" : userCourseCount + " Lesson";
+		binding.homeTxtTimeWork.setText(courseCount);
 
 		initActions();
 	}

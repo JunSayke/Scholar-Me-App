@@ -56,6 +56,12 @@ public interface RetrofitService {
             @PartMap Map<String, RequestBody> fields
     );
 
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @GET("/user/profile")
+    Call<SuccessGson<UserGson>> getUserProfile(
+            @Query("userId") int userId
+    );
+
     // -- ROLE FUNCTIONS
     @Headers({"Authorization: scholarmeapp2024_api_key"})
     @POST("/user/apply-creator")
