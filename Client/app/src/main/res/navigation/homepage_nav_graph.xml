@@ -33,23 +33,7 @@
         android:id="@+id/menuSearch"
         android:name="com.example.solutionsproject.fragments.homepage.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_menuSearch_to_courseDemoFragment"
-            app:destination="@id/courseDemoFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/courseDemoFragment"
-        android:name="com.example.solutionsproject.fragments.homepage.CourseDemoFragment"
-        android:label="fragment_course_demo"
-        tools:layout="@layout/fragment_course_demo" >
-        <action
-            android:id="@+id/action_courseDemoFragment_to_menuSearch"
-            app:destination="@id/menuSearch" />
-        <argument
-            android:name="courseId"
-            app:argType="integer" />
-    </fragment>
+        tools:layout="@layout/fragment_search" />
 
 
 </navigation>

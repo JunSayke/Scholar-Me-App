@@ -7,8 +7,7 @@ import lombok.Getter;
 @Getter
 public class UserGson extends GsonData{
     @SerializedName("userId")
-    @SerializedName("userId")
-    private String userId;
+    private String id;
 
     @SerializedName("profilePic")
     private String profilePicUrl;

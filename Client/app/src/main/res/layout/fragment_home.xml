@@ -72,7 +72,7 @@
 
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:id="@+id/home_component_learned_today"
-			android:layout_width="0dp"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginStart="40dp"
 			android:layout_marginTop="135dp"
@@ -90,7 +90,7 @@
 				android:layout_height="21.2dp"
 				android:layout_marginStart="16dp"
 				android:layout_marginTop="15dp"
-				android:text="Courses Enrolled"
+				android:text="@string/txt_learned_today"
 				android:textColor="@color/secondary_text_color"
 				android:textSize="12sp"
 				app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,6 @@
 				android:text="@string/btn_my_courses"
 				android:textColor="@color/primary_color"
 				android:textSize="12sp"
-				android:visibility="gone"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent" />
@@ -143,7 +142,6 @@
 					android:layout_marginBottom="5dp"
 					android:text="@string/placeholder_time_min_goal"
 					android:textColor="@color/secondary_text_color"
-					android:visibility="gone"
 					app:layout_constraintBottom_toTopOf="@+id/home_progress_time"
 					app:layout_constraintStart_toEndOf="@+id/home_txt_time_work"
 					app:layout_constraintTop_toTopOf="parent" />
@@ -209,7 +207,6 @@
 				android:layout_marginTop="5dp"
 				android:backgroundTint="@color/primary_color"
 				android:text="@string/btn_search_more"
-				android:visibility="gone"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/home_txt_title_ad_search" />

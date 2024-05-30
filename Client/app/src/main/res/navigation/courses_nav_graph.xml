@@ -80,9 +80,6 @@
         <argument
             android:name="courseId"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_lessonDashboardFragment_to_lessonEditorFragment"
-            app:destination="@id/lessonEditorFragment" />
     </fragment>
     <fragment
         android:id="@+id/lessonDetailsFragment"
@@ -97,20 +94,6 @@
             app:argType="integer" />
         <argument
             android:name="courseId"
-            app:argType="integer" />
-    </fragment>
-    <fragment
-        android:id="@+id/lessonEditorFragment"
-        android:name="com.example.solutionsproject.fragments.courses.LessonEditorFragment"
-        android:label="LessonEditorFragment" >
-        <action
-            android:id="@+id/action_lessonEditorFragment_to_lessonDashboardFragment"
-            app:destination="@id/lessonDashboardFragment" />
-        <argument
-            android:name="courseId"
-            app:argType="integer" />
-        <argument
-            android:name="courseLessonId"
             app:argType="integer" />
     </fragment>
 
