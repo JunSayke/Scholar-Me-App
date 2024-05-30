@@ -1,0 +1,341 @@
+Index: app/src/main/java/com/example/solutionsproject/adapter/DiscussionCommentListRecyclerViewAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.adapter;\r\n\r\nimport android.content.Context;\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.solutionsproject.R;\r\nimport com.example.solutionsproject.model.gson.data.CommentGson;\r\n\r\nimport java.util.List;\r\n\r\nimport lombok.Getter;\r\n\r\npublic class DiscussionCommentListRecyclerViewAdapter extends RecyclerView.Adapter<DiscussionCommentListRecyclerViewAdapter.ViewHolder> {\r\n\r\n    private final Context context;\r\n    private final List<CommentGson> commentGsonList;\r\n\r\n    public DiscussionCommentListRecyclerViewAdapter(Context context, List<CommentGson> commentGsonList) {\r\n        this.context = context;\r\n        this.commentGsonList = commentGsonList;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public DiscussionCommentListRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_messages_messages, parent, false);\r\n        return new ViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull DiscussionCommentListRecyclerViewAdapter.ViewHolder holder, int position) {\r\n        CommentGson model = commentGsonList.get(position);\r\n        holder.txtContent.setText(model.getComment());\r\n        holder.txtDate.setText(model.getDateAdded());\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return commentGsonList.size();\r\n    }\r\n\r\n    public void addData(CommentGson newData) {\r\n        this.commentGsonList.add(newData); // Add newData at the beginning of the list\r\n        notifyItemInserted(commentGsonList.size() - 1); // Notify the adapter that an item has been inserted at the beginning\r\n        notifyDataSetChanged(); // Notify the adapter that the data set has changed\r\n    }\r\n\r\n    @Getter\r\n    public static class ViewHolder extends RecyclerView.ViewHolder {\r\n        private final TextView txtContent;\r\n        private final TextView txtDate;\r\n        public ViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n            txtContent = itemView.findViewById(R.id.messages_notifications_txt_content);\r\n            txtDate = itemView.findViewById(R.id.messages_notifications_txt_date);\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/adapter/DiscussionCommentListRecyclerViewAdapter.java b/app/src/main/java/com/example/solutionsproject/adapter/DiscussionCommentListRecyclerViewAdapter.java
+--- a/app/src/main/java/com/example/solutionsproject/adapter/DiscussionCommentListRecyclerViewAdapter.java	(revision d6481a4e75947c674f1e9375cd8149837b6ac5d5)
++++ b/app/src/main/java/com/example/solutionsproject/adapter/DiscussionCommentListRecyclerViewAdapter.java	(date 1717015062337)
+@@ -20,11 +20,13 @@
+ public class DiscussionCommentListRecyclerViewAdapter extends RecyclerView.Adapter<DiscussionCommentListRecyclerViewAdapter.ViewHolder> {
+ 
+     private final Context context;
++    private final RecyclerView recyclerView;
+     private final List<CommentGson> commentGsonList;
+ 
+-    public DiscussionCommentListRecyclerViewAdapter(Context context, List<CommentGson> commentGsonList) {
++    public DiscussionCommentListRecyclerViewAdapter(Context context, List<CommentGson> commentGsonList, RecyclerView recyclerView) {
+         this.context = context;
+         this.commentGsonList = commentGsonList;
++        this.recyclerView = recyclerView;
+     }
+ 
+     @NonNull
+@@ -49,7 +51,7 @@
+     public void addData(CommentGson newData) {
+         this.commentGsonList.add(newData); // Add newData at the beginning of the list
+         notifyItemInserted(commentGsonList.size() - 1); // Notify the adapter that an item has been inserted at the beginning
+-        notifyDataSetChanged(); // Notify the adapter that the data set has changed
++        recyclerView.scrollToPosition(getItemCount() - 1);
+     }
+ 
+     @Getter
+Index: app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardSetGson.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.model.gson.data;\r\n\r\nimport lombok.Getter;\r\n\r\n@Getter\r\npublic class FlashcardSetGson extends GsonData {\r\n    private int flashcardSetId;\r\n    private int userid;\r\n    private String title;\r\n    private String description;\r\n    private String dateAdded;\r\n    private String dateUpdated;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardSetGson.java b/app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardSetGson.java
+--- a/app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardSetGson.java	(revision d6481a4e75947c674f1e9375cd8149837b6ac5d5)
++++ b/app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardSetGson.java	(date 1717016132238)
+@@ -1,13 +1,56 @@
+ package com.example.solutionsproject.model.gson.data;
+ 
++import android.os.Parcel;
++import android.os.Parcelable;
++
++import androidx.annotation.NonNull;
++
+ import lombok.Getter;
++import lombok.Setter;
+ 
+ @Getter
+-public class FlashcardSetGson extends GsonData {
++@Setter
++public class FlashcardSetGson extends GsonData implements Parcelable {
+     private int flashcardSetId;
+     private int userid;
+     private String title;
+     private String description;
+     private String dateAdded;
+     private String dateUpdated;
++
++    protected FlashcardSetGson(Parcel in) {
++        flashcardSetId = in.readInt();
++        userid = in.readInt();
++        title = in.readString();
++        description = in.readString();
++        dateAdded = in.readString();
++        dateUpdated = in.readString();
++    }
++
++    public static final Creator<FlashcardSetGson> CREATOR = new Creator<FlashcardSetGson>() {
++        @Override
++        public FlashcardSetGson createFromParcel(Parcel in) {
++            return new FlashcardSetGson(in);
++        }
++
++        @Override
++        public FlashcardSetGson[] newArray(int size) {
++            return new FlashcardSetGson[size];
++        }
++    };
++
++    @Override
++    public int describeContents() {
++        return 0;
++    }
++
++    @Override
++    public void writeToParcel(@NonNull Parcel dest, int flags) {
++        dest.writeInt(flashcardSetId);
++        dest.writeInt(userid);
++        dest.writeString(title);
++        dest.writeString(description);
++        dest.writeString(dateAdded);
++        dest.writeString(dateUpdated);
++    }
+ }
+Index: app/src/main/java/com/example/solutionsproject/adapter/UserFlashcardSetListRecyclerViewAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.adapter;\r\n\r\nimport android.content.Context;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageButton;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.solutionsproject.R;\r\nimport com.example.solutionsproject.model.gson.data.FlashcardSetGson;\r\nimport com.example.solutionsproject.model.gson.data.FlashcardSetGson;\r\n\r\nimport java.util.List;\r\n\r\nimport lombok.Getter;\r\n\r\npublic class UserFlashcardSetListRecyclerViewAdapter extends RecyclerView.Adapter<UserFlashcardSetListRecyclerViewAdapter.ViewHolder>{\r\n\r\n    private final Context context;\r\n    private final List<FlashcardSetGson> flashcardSetGsonList;\r\n    private final UserFlashcardSetListRecyclerViewAdapter.OnItemClickListener onItemClickListener;\r\n\r\n    public UserFlashcardSetListRecyclerViewAdapter(Context context, List<FlashcardSetGson> flashcardSetGsonList, UserFlashcardSetListRecyclerViewAdapter.OnItemClickListener onItemClickListener) {\r\n        this.context = context;\r\n        this.flashcardSetGsonList = flashcardSetGsonList;\r\n        this.onItemClickListener = onItemClickListener;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public UserFlashcardSetListRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_flashcardset, parent, false);\r\n        return new UserFlashcardSetListRecyclerViewAdapter.ViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull UserFlashcardSetListRecyclerViewAdapter.ViewHolder holder, int position) {\r\n        FlashcardSetGson model = flashcardSetGsonList.get(position);\r\n        holder.txtTitle.setText(model.getTitle());\r\n        holder.txtDescription.setText(model.getDescription());\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return flashcardSetGsonList.size();\r\n    }\r\n\r\n    public interface OnItemClickListener {\r\n        void onItemClick(String itemId);\r\n    }\r\n\r\n    @Getter\r\n    public class ViewHolder extends RecyclerView.ViewHolder {\r\n        private final TextView txtTitle;\r\n        private final TextView txtDescription;\r\n        private final ImageButton btnOpen;\r\n        public ViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n            txtTitle = itemView.findViewById(R.id.flashcardset_list_txt_title);\r\n            txtDescription = itemView.findViewById(R.id.flashcardset_list_txt_desc);\r\n            btnOpen = itemView.findViewById(R.id.flashcardset_list_btn_open);\r\n            btnOpen.setOnClickListener(v -> {\r\n                int position = getBindingAdapterPosition();\r\n                if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {\r\n                    onItemClickListener.onItemClick(String.valueOf(flashcardSetGsonList.get(position).getFlashcardSetId()));\r\n                }\r\n            });\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/adapter/UserFlashcardSetListRecyclerViewAdapter.java b/app/src/main/java/com/example/solutionsproject/adapter/UserFlashcardSetListRecyclerViewAdapter.java
+--- a/app/src/main/java/com/example/solutionsproject/adapter/UserFlashcardSetListRecyclerViewAdapter.java	(revision d6481a4e75947c674f1e9375cd8149837b6ac5d5)
++++ b/app/src/main/java/com/example/solutionsproject/adapter/UserFlashcardSetListRecyclerViewAdapter.java	(date 1717016837586)
+@@ -50,7 +50,7 @@
+     }
+ 
+     public interface OnItemClickListener {
+-        void onItemClick(String itemId);
++        void onItemClick(FlashcardSetGson item);
+     }
+ 
+     @Getter
+@@ -66,7 +66,7 @@
+             btnOpen.setOnClickListener(v -> {
+                 int position = getBindingAdapterPosition();
+                 if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
+-                    onItemClickListener.onItemClick(String.valueOf(flashcardSetGsonList.get(position).getFlashcardSetId()));
++                    onItemClickListener.onItemClick(flashcardSetGsonList.get(position));
+                 }
+             });
+         }
+Index: app/src/main/java/com/example/solutionsproject/fragments/homepage/HomeFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.fragments.homepage;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\n\r\nimport com.example.solutionsproject.R;\r\nimport com.example.solutionsproject.adapter.UserCourseListRecyclerViewAdapter;\r\nimport com.example.solutionsproject.adapter.UserFlashcardSetListRecyclerViewAdapter;\r\nimport com.example.solutionsproject.classes.general.MainFacade;\r\nimport com.example.solutionsproject.classes.general.ScholarMeServer;\r\nimport com.example.solutionsproject.databinding.FragmentHomeBinding;\r\nimport com.example.solutionsproject.model.gson.data.CourseGson;\r\nimport com.example.solutionsproject.model.gson.data.FlashcardSetGson;\r\nimport com.example.solutionsproject.model.gson.data.UserGson;\r\nimport com.squareup.picasso.Picasso;\r\n\r\nimport java.util.List;\r\n\r\nimport coil.Coil;\r\nimport coil.ImageLoader;\r\nimport coil.request.ImageRequest;\r\nimport coil.transform.CircleCropTransformation;\r\n\r\npublic class HomeFragment extends Fragment {\r\n\tprivate final String TAG = \"Home_Fragment\";\r\n\tprivate MainFacade mainFacade;\r\n\tprivate FragmentHomeBinding binding;\r\n\tImageLoader imageLoader;\r\n\t@Override\r\n\tpublic View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {\r\n\t\tbinding = FragmentHomeBinding.inflate(inflater, container, false);\r\n\t\tView root = binding.getRoot();\r\n\r\n\t\ttry{\r\n\t\t\tmainFacade = MainFacade.getInstance();\r\n\t\t}catch (Exception e){\r\n\t\t\tthrow new RuntimeException(e);\r\n\t\t}\r\n\r\n\t\tUserGson userGson = mainFacade.getSessionManager().getUserGson();\r\n\r\n\t\tString introduction = \"Hi, \" + userGson.getFirstName() + \"!\";\r\n\t\tbinding.homeTxtNamePlaceholder.setText(introduction);\r\n\r\n\t\timageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());\r\n\t\tString imageUrl = \"http://\" + mainFacade.getIpAddress() + \":\" + mainFacade.getServerPort() + userGson.getProfilePicUrl();\r\n\t\tImageRequest request = new ImageRequest.Builder(mainFacade.getMainActivity().getApplicationContext())\r\n\t\t\t\t.data(imageUrl)\r\n\t\t\t\t.error(R.drawable.vector_wrong_mark)\r\n\t\t\t\t.target(binding.homeIvProfile)\r\n\t\t\t\t.transformations(new CircleCropTransformation())\r\n\t\t\t\t.build();\r\n\t\timageLoader.enqueue(request);\r\n\r\n\t\treturn root;\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n\t\tsuper.onViewCreated(view, savedInstanceState);\r\n\r\n\t\tfinal ScholarMeServer.ResponseListener<List<CourseGson>> responseListener = new ScholarMeServer.ResponseListener<List<CourseGson>>() {\r\n\t\t\t@Override\r\n\t\t\tpublic void onSuccess(List<CourseGson> data) {\r\n\t\t\t\tbinding.homeListCourses.setAdapter(new UserCourseListRecyclerViewAdapter(\r\n\t\t\t\t\t\tmainFacade.getMainActivity().getApplicationContext(),\r\n\t\t\t\t\t\tdata,\r\n\t\t\t\t\t\titemId -> func(itemId)//TODO: ADD ACTION\r\n\t\t\t\t));\r\n\t\t\t\tbinding.homeListCourses.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));\r\n\t\t\t}\r\n\r\n\t\t\t@Override\r\n\t\t\tpublic void onFailure(String message) {\r\n\t\t\t\tmainFacade.makeToast(message, Toast.LENGTH_SHORT);\r\n\t\t\t}\r\n\t\t};\r\n\r\n\t\tmainFacade.getUserCourses(responseListener);\r\n\r\n\t\tmainFacade.getFlashcardSets(new ScholarMeServer.ResponseListener<List<FlashcardSetGson>>() {\r\n\t\t\t@Override\r\n\t\t\tpublic void onSuccess(List<FlashcardSetGson> data) {\r\n\t\t\t\tif (!data.isEmpty()){\r\n\t\t\t\t\tbinding.homeTxtNoFlashcardset.setVisibility(View.GONE);\r\n\t\t\t\t}\r\n\t\t\t\tbinding.homeListFlashcardsets.setAdapter(new UserFlashcardSetListRecyclerViewAdapter(\r\n\t\t\t\t\t\tmainFacade.getMainActivity().getApplicationContext(),\r\n\t\t\t\t\t\tdata,\r\n\t\t\t\t\t\tflashcardSetId -> {\r\n\t\t\t\t\t\t\tHomeFragmentDirections.ActionHomeFragmentToFlashcardQuestionCreatorFragment action =\r\n\t\t\t\t\t\t\t\t\tHomeFragmentDirections.actionHomeFragmentToFlashcardQuestionCreatorFragment(Integer.parseInt(flashcardSetId));\r\n\t\t\t\t\t\t\tmainFacade.getHomeNavController().navigate(action);\r\n\t\t\t\t\t\t}\r\n\t\t\t\t));\r\n\t\t\t\tbinding.homeListFlashcardsets.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));\r\n\t\t\t}\r\n\r\n\t\t\t@Override\r\n\t\t\tpublic void onFailure(String message) {\r\n\t\t\t\tmainFacade.makeToast(message, Toast.LENGTH_SHORT);\r\n\t\t\t}\r\n\t\t});\r\n\r\n\t\tinitActions();\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void onDestroyView() {\r\n\t\tsuper.onDestroyView();\r\n\t\tbinding = null;\r\n\t}\r\n\r\n\tprivate void initActions(){\r\n\r\n\t\tbinding.homeBtnAdSearch.setOnClickListener(v ->{\r\n\t\t\tmainFacade.getHomeNavController().navigate(R.id.action_homeFragment_to_searchFragment);\r\n\t\t});\r\n\r\n\t\tbinding.homeBtnCreateFlashcardset.setOnClickListener(v ->{\r\n\t\t\tmainFacade.popupCreateFlashcardSet(binding.getRoot());\r\n\t\t});\r\n\t}\r\n\r\n\tprivate void func(String Id){\r\n\r\n\t}\r\n\r\n}\r\n\t\r\n\t
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/fragments/homepage/HomeFragment.java b/app/src/main/java/com/example/solutionsproject/fragments/homepage/HomeFragment.java
+--- a/app/src/main/java/com/example/solutionsproject/fragments/homepage/HomeFragment.java	(revision d6481a4e75947c674f1e9375cd8149837b6ac5d5)
++++ b/app/src/main/java/com/example/solutionsproject/fragments/homepage/HomeFragment.java	(date 1717016995222)
+@@ -67,48 +67,48 @@
+ 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+ 		super.onViewCreated(view, savedInstanceState);
+ 
+-		final ScholarMeServer.ResponseListener<List<CourseGson>> responseListener = new ScholarMeServer.ResponseListener<List<CourseGson>>() {
+-			@Override
+-			public void onSuccess(List<CourseGson> data) {
+-				binding.homeListCourses.setAdapter(new UserCourseListRecyclerViewAdapter(
+-						mainFacade.getMainActivity().getApplicationContext(),
+-						data,
+-						itemId -> func(itemId)//TODO: ADD ACTION
+-				));
+-				binding.homeListCourses.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
+-			}
++		final ScholarMeServer.ResponseListener<List<CourseGson>> responseListener = new ScholarMeServer.ResponseListener<>() {
++            @Override
++            public void onSuccess(List<CourseGson> data) {
++                binding.homeListCourses.setAdapter(new UserCourseListRecyclerViewAdapter(
++                        mainFacade.getMainActivity().getApplicationContext(),
++                        data,
++                        itemId -> func(itemId)//TODO: ADD ACTION
++                ));
++                binding.homeListCourses.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
++            }
+ 
+-			@Override
+-			public void onFailure(String message) {
+-				mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+-			}
+-		};
++            @Override
++            public void onFailure(String message) {
++                mainFacade.makeToast(message, Toast.LENGTH_SHORT);
++            }
++        };
+ 
+ 		mainFacade.getUserCourses(responseListener);
+ 
+-		mainFacade.getFlashcardSets(new ScholarMeServer.ResponseListener<List<FlashcardSetGson>>() {
+-			@Override
+-			public void onSuccess(List<FlashcardSetGson> data) {
+-				if (!data.isEmpty()){
+-					binding.homeTxtNoFlashcardset.setVisibility(View.GONE);
+-				}
+-				binding.homeListFlashcardsets.setAdapter(new UserFlashcardSetListRecyclerViewAdapter(
+-						mainFacade.getMainActivity().getApplicationContext(),
+-						data,
+-						flashcardSetId -> {
+-							HomeFragmentDirections.ActionHomeFragmentToFlashcardQuestionCreatorFragment action =
+-									HomeFragmentDirections.actionHomeFragmentToFlashcardQuestionCreatorFragment(Integer.parseInt(flashcardSetId));
+-							mainFacade.getHomeNavController().navigate(action);
+-						}
+-				));
+-				binding.homeListFlashcardsets.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+-			}
++		mainFacade.getFlashcardSets(new ScholarMeServer.ResponseListener<>() {
++            @Override
++            public void onSuccess(List<FlashcardSetGson> data) {
++                if (!data.isEmpty()) {
++                    binding.homeTxtNoFlashcardset.setVisibility(View.GONE);
++                }
++                binding.homeListFlashcardsets.setAdapter(new UserFlashcardSetListRecyclerViewAdapter(
++                        mainFacade.getMainActivity().getApplicationContext(),
++                        data,
++                        item -> {
++                            HomeFragmentDirections.ActionHomeFragmentToFlashcardQuestionCreatorFragment action =
++                                    HomeFragmentDirections.actionHomeFragmentToFlashcardQuestionCreatorFragment(item);
++                            mainFacade.getHomeNavController().navigate(action);
++                        }
++                ));
++                binding.homeListFlashcardsets.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
++            }
+ 
+-			@Override
+-			public void onFailure(String message) {
+-				mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+-			}
+-		});
++            @Override
++            public void onFailure(String message) {
++                mainFacade.makeToast(message, Toast.LENGTH_SHORT);
++            }
++        });
+ 
+ 		initActions();
+ 	}
+Index: app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.fragments.home;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\n\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.solutionsproject.R;\r\nimport com.example.solutionsproject.adapter.FlashcardListRecyclerViewAdapter;\r\nimport com.example.solutionsproject.classes.general.MainFacade;\r\nimport com.example.solutionsproject.classes.general.ScholarMeServer;\r\nimport com.example.solutionsproject.databinding.FragmentFlashcardQuestionCreatorBinding;\r\nimport com.example.solutionsproject.model.gson.data.FlashcardGson;\r\nimport com.example.solutionsproject.model.gson.data.GsonData;\r\n\r\nimport java.util.List;\r\n\r\npublic class FlashcardQuestionCreatorFragment extends Fragment {\r\n\r\n    private final String TAG = \"FlashcardQuestionCreator_Fragment\";\r\n    private MainFacade mainFacade;\r\n    private FragmentFlashcardQuestionCreatorBinding binding;\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {\r\n        binding = FragmentFlashcardQuestionCreatorBinding.inflate(inflater, container, false);\r\n        View root = binding.getRoot();\r\n\r\n        try{\r\n            mainFacade = MainFacade.getInstance();\r\n        }catch (Exception e){\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        return root;\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n        FlashcardQuestionCreatorFragmentArgs args = FlashcardQuestionCreatorFragmentArgs.fromBundle(getArguments());\r\n        int flashcardSetId = args.getFlashcardSetId();\r\n\r\n        Log.e(\"TESTING\", String.valueOf(flashcardSetId));\r\n\r\n        mainFacade.getFlashcardSetFlashcards(new ScholarMeServer.ResponseListener<List<FlashcardGson>>() {\r\n            @Override\r\n            public void onSuccess(List<FlashcardGson> data) {\r\n                mainFacade.makeToast(\"Flashcards loaded!\", Toast.LENGTH_SHORT);\r\n\r\n                binding.fqcListQuestions.setAdapter(new FlashcardListRecyclerViewAdapter(\r\n                        mainFacade.getMainActivity().getApplicationContext(),\r\n                        data,\r\n                        flashcardId -> {\r\n                            FlashcardQuestionCreatorFragmentDirections.ActionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment action =\r\n                                    FlashcardQuestionCreatorFragmentDirections.actionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment(Integer.parseInt(flashcardId), flashcardSetId);\r\n                            mainFacade.getHomeNavController().navigate(action);\r\n                        }\r\n                ));\r\n                binding.fqcListQuestions.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));\r\n            }\r\n\r\n            @Override\r\n            public void onFailure(String message) {\r\n                mainFacade.makeToast(message, Toast.LENGTH_SHORT);\r\n            }\r\n        }, flashcardSetId);\r\n\r\n        binding.fqcBtnFlashcard.setOnClickListener(v -> {\r\n            mainFacade.createFlashcard(new ScholarMeServer.ResponseListener<GsonData>() {\r\n                @Override\r\n                public void onSuccess(GsonData data) {\r\n                    mainFacade.makeToast(\"Flashcard created!\", Toast.LENGTH_SHORT);\r\n                }\r\n\r\n                @Override\r\n                public void onFailure(String message) {\r\n                    mainFacade.makeToast(message, Toast.LENGTH_SHORT);\r\n                }\r\n            }, flashcardSetId, binding.fqcEttQuestion.getText().toString());\r\n        });\r\n\r\n        initActions();\r\n    }\r\n\r\n    @Override\r\n    public void onDestroyView() {\r\n        super.onDestroyView();\r\n        binding = null;\r\n    }\r\n\r\n    private void initActions(){\r\n        binding.fqcBtnBack.setOnClickListener(v ->{\r\n            mainFacade.getHomeNavController().navigate(R.id.action_flashcardQuestionCreatorFragment_to_homeFragment);\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java b/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java
+--- a/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java	(revision d6481a4e75947c674f1e9375cd8149837b6ac5d5)
++++ b/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java	(date 1717015570781)
+@@ -49,8 +49,6 @@
+         FlashcardQuestionCreatorFragmentArgs args = FlashcardQuestionCreatorFragmentArgs.fromBundle(getArguments());
+         int flashcardSetId = args.getFlashcardSetId();
+ 
+-        Log.e("TESTING", String.valueOf(flashcardSetId));
+-
+         mainFacade.getFlashcardSetFlashcards(new ScholarMeServer.ResponseListener<List<FlashcardGson>>() {
+             @Override
+             public void onSuccess(List<FlashcardGson> data) {
+Index: app/src/main/res/navigation/home_nav_graph.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<navigation xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/home_nav_graph\"\r\n    app:startDestination=\"@id/homeFragment\">\r\n\r\n    <fragment\r\n        android:id=\"@+id/flashcardQuestionCreatorFragment\"\r\n        android:name=\"com.example.solutionsproject.fragments.home.FlashcardQuestionCreatorFragment\"\r\n        android:label=\"fragment_flashcard_choice_creator\"\r\n        tools:layout=\"@layout/fragment_flashcard_choice_creator\" >\r\n        <action\r\n            android:id=\"@+id/action_flashcardQuestionCreatorFragment_to_flashcardChoiceCreatorFragment\"\r\n            app:destination=\"@id/flashcardChoiceCreatorFragment\" />\r\n        <action\r\n            android:id=\"@+id/action_flashcardQuestionCreatorFragment_to_homeFragment\"\r\n            app:destination=\"@id/homeFragment\" />\r\n        <argument\r\n            android:name=\"flashcardSetId\"\r\n            app:argType=\"integer\" />\r\n    </fragment>\r\n    <fragment\r\n        android:id=\"@+id/flashcardChoiceCreatorFragment\"\r\n        android:name=\"com.example.solutionsproject.fragments.home.FlashcardChoiceCreatorFragment\"\r\n        android:label=\"FlashcardChoiceCreatorFragment\" >\r\n        <action\r\n            android:id=\"@+id/action_flashcardChoiceCreatorFragment_to_flashcardQuestionCreatorFragment\"\r\n            app:destination=\"@id/flashcardQuestionCreatorFragment\" />\r\n        <argument\r\n            android:name=\"flashcardId\"\r\n            app:argType=\"integer\" />\r\n        <argument android:name=\"flashcardSetId\"\r\n            app:argType=\"integer\" />\r\n    </fragment>\r\n    <fragment\r\n        android:id=\"@+id/homeFragment\"\r\n        android:name=\"com.example.solutionsproject.fragments.homepage.HomeFragment\"\r\n        android:label=\"fragment_home\"\r\n        tools:layout=\"@layout/fragment_home\" >\r\n        <action\r\n            android:id=\"@+id/action_homeFragment_to_flashcardQuestionCreatorFragment\"\r\n            app:destination=\"@id/flashcardQuestionCreatorFragment\" />\r\n        <action\r\n            android:id=\"@+id/action_homeFragment_to_searchFragment\"\r\n            app:destination=\"@id/searchFragment\" />\r\n        <action\r\n            android:id=\"@+id/action_homeFragment_to_accountNavContainer\"\r\n            app:destination=\"@id/accountNavContainer\" />\r\n    </fragment>\r\n    <fragment\r\n        android:id=\"@+id/searchFragment\"\r\n        android:name=\"com.example.solutionsproject.fragments.homepage.SearchFragment\"\r\n        android:label=\"fragment_search\"\r\n        tools:layout=\"@layout/fragment_search\" >\r\n        <action\r\n            android:id=\"@+id/action_searchFragment_to_homeFragment\"\r\n            app:destination=\"@id/homeFragment\" />\r\n    </fragment>\r\n    <fragment\r\n        android:id=\"@+id/accountNavContainer\"\r\n        android:name=\"com.example.solutionsproject.fragments.navcontrollers.AccountNavContainer\"\r\n        android:label=\"AccountNavContainer\" />\r\n</navigation>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/navigation/home_nav_graph.xml b/app/src/main/res/navigation/home_nav_graph.xml
+--- a/app/src/main/res/navigation/home_nav_graph.xml	(revision d6481a4e75947c674f1e9375cd8149837b6ac5d5)
++++ b/app/src/main/res/navigation/home_nav_graph.xml	(date 1717016837581)
+@@ -17,8 +17,8 @@
+             android:id="@+id/action_flashcardQuestionCreatorFragment_to_homeFragment"
+             app:destination="@id/homeFragment" />
+         <argument
+-            android:name="flashcardSetId"
+-            app:argType="integer" />
++            android:name="flashcardSet"
++            app:argType="com.example.solutionsproject.model.gson.data.FlashcardSetGson" />
+     </fragment>
+     <fragment
+         android:id="@+id/flashcardChoiceCreatorFragment"
+Index: app/src/main/java/com/example/solutionsproject/fragments/messages/MessengerFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.fragments.messages;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\n\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.solutionsproject.adapter.DiscussionCommentListRecyclerViewAdapter;\r\nimport com.example.solutionsproject.classes.general.MainFacade;\r\nimport com.example.solutionsproject.classes.general.ScholarMeServer;\r\nimport com.example.solutionsproject.classes.retrofit.ChatWebSocketService;\r\nimport com.example.solutionsproject.databinding.FragmentMessengerBinding;\r\nimport com.example.solutionsproject.model.gson.data.CommentGson;\r\nimport com.example.solutionsproject.model.gson.data.GsonData;\r\n\r\nimport java.util.List;\r\n\r\npublic class MessengerFragment extends Fragment {\r\n\r\n    private final String TAG = \"Messenger_Fragment\";\r\n    private MainFacade mainFacade;\r\n    private FragmentMessengerBinding binding;\r\n\r\n    private final ChatWebSocketService chatWebSocketService = new ChatWebSocketService();\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {\r\n        binding = FragmentMessengerBinding.inflate(inflater, container, false);\r\n        View root = binding.getRoot();\r\n\r\n        try{\r\n            mainFacade = MainFacade.getInstance();\r\n        }catch (Exception e){\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        return root;\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n        mainFacade.getDiscussionComments(new ScholarMeServer.ResponseListener<>() {\r\n            @Override\r\n            public void onSuccess(List<CommentGson> data) {\r\n                mainFacade.makeToast(\"Comments loaded\", Toast.LENGTH_SHORT);\r\n\r\n                DiscussionCommentListRecyclerViewAdapter adapter = new DiscussionCommentListRecyclerViewAdapter(\r\n                        mainFacade.getMainActivity().getApplicationContext(),\r\n                        data\r\n                );\r\n\r\n                binding.messengerListChats.setAdapter(adapter);\r\n                LinearLayoutManager layoutManager = new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext());\r\n                layoutManager.setStackFromEnd(true); // This will make the layout start from the end of the list\r\n\r\n                binding.messengerListChats.setLayoutManager(layoutManager);\r\n                // Set the adapter in the ChatWebSocketService\r\n                chatWebSocketService.setAdapter(adapter);\r\n            }\r\n\r\n            @Override\r\n            public void onFailure(String message) {\r\n                mainFacade.makeToast(\"Failed to load comments\", Toast.LENGTH_SHORT);\r\n            }\r\n        });\r\n\r\n        chatWebSocketService.connect();\r\n        binding.cdashBtnSend.setOnClickListener(v -> {\r\n            chatWebSocketService.sendMessage(Integer.parseInt(mainFacade.getSessionManager().getUserGson().getId()), binding.cdashEttMessage.getText().toString());\r\n\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public void onDestroyView() {\r\n        super.onDestroyView();\r\n        binding = null;\r\n        chatWebSocketService.close();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/fragments/messages/MessengerFragment.java b/app/src/main/java/com/example/solutionsproject/fragments/messages/MessengerFragment.java
+--- a/app/src/main/java/com/example/solutionsproject/fragments/messages/MessengerFragment.java	(revision d6481a4e75947c674f1e9375cd8149837b6ac5d5)
++++ b/app/src/main/java/com/example/solutionsproject/fragments/messages/MessengerFragment.java	(date 1717014815591)
+@@ -55,7 +55,8 @@
+ 
+                 DiscussionCommentListRecyclerViewAdapter adapter = new DiscussionCommentListRecyclerViewAdapter(
+                         mainFacade.getMainActivity().getApplicationContext(),
+-                        data
++                        data,
++                        binding.messengerListChats
+                 );
+ 
+                 binding.messengerListChats.setAdapter(adapter);
+Index: app/src/main/res/layout/fragment_messenger.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@color/main_container_light\"\r\n    android:gravity=\"center\"\r\n    android:orientation=\"vertical\"\r\n    tools:context=\".fragments.messages.MessengerFragment\">\r\n\r\n    <!-- TODO: Update blank fragment layout -->\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/messenger_list_chats\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_margin=\"20dp\"\r\n        android:layout_weight=\"1\"\r\n        tools:listitem=\"@layout/list_messages_messages\" />\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"20dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:paddingVertical=\"20dp\">\r\n\r\n        <EditText\r\n            android:id=\"@+id/cdash_ett_message\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"20dp\"\r\n            android:layout_weight=\"1\"\r\n            android:background=\"@drawable/__aa_container_dark_box\"\r\n            android:ems=\"10\"\r\n            android:hint=\"message\"\r\n            android:inputType=\"text\"\r\n            android:paddingVertical=\"20dp\"\r\n            android:paddingLeft=\"10dp\"\r\n            android:textColor=\"@color/primary_text_color\"\r\n            android:textColorHint=\"#e9e9e9\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/cdash_btn_send\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"20dp\"\r\n            android:layout_marginEnd=\"20dp\"\r\n            android:layout_marginBottom=\"10dp\"\r\n            android:backgroundTint=\"@color/primary_color\"\r\n            android:text=\"Send\"\r\n            android:textColor=\"@color/primary_text_color\" />\r\n    </LinearLayout>\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:id=\"@+id/cdash_container_header\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:background=\"@color/main_container_dark\"\r\n        android:paddingVertical=\"20dp\"\r\n        android:visibility=\"gone\">\r\n\r\n        <ImageButton\r\n            android:id=\"@+id/cdash_btn_thumbnail\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/__aa_container_white_box\"\r\n            android:contentDescription=\"avatar\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.21\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n        <ImageButton\r\n            android:id=\"@+id/cdash_btn_back\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"?android:selectableItemBackground\"\r\n            android:contentDescription=\"back\"\r\n            android:src=\"@drawable/__aa_btn_arrow_left\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/cdash_tv_title\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"@string/placeholder_account_name\"\r\n            android:textAlignment=\"center\"\r\n            android:textColor=\"@color/primary_text_color\"\r\n            android:textSize=\"24sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.1\"\r\n            app:layout_constraintStart_toEndOf=\"@+id/cdash_btn_thumbnail\"\r\n            app:layout_constraintTop_toTopOf=\"parent\" />\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_messenger.xml b/app/src/main/res/layout/fragment_messenger.xml
+--- a/app/src/main/res/layout/fragment_messenger.xml	(revision d6481a4e75947c674f1e9375cd8149837b6ac5d5)
++++ b/app/src/main/res/layout/fragment_messenger.xml	(date 1717014582643)
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+@@ -13,18 +13,23 @@
+ 
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/messenger_list_chats"
+-        android:layout_width="match_parent"
+-        android:layout_height="0dp"
+-        android:layout_margin="20dp"
+-        android:layout_weight="1"
++        android:layout_width="300dp"
++        android:layout_height="wrap_content"
++        app:layout_constraintBottom_toTopOf="@+id/linearLayout11"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
+         tools:listitem="@layout/list_messages_messages" />
+ 
+     <LinearLayout
++        android:id="@+id/linearLayout11"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_marginBottom="20dp"
+         android:orientation="horizontal"
+-        android:paddingVertical="20dp">
++        android:paddingVertical="20dp"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent">
+ 
+         <EditText
+             android:id="@+id/cdash_ett_message"
+@@ -100,4 +105,4 @@
+             app:layout_constraintTop_toTopOf="parent" />
+     </androidx.constraintlayout.widget.ConstraintLayout>
+ 
+-</LinearLayout>
+\ No newline at end of file
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file

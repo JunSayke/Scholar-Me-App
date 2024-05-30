@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Client.iml" filepath="$PROJECT_DIR$/.idea/Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Client.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Client.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Client.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Client.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Client.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Client.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Client.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Client.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/are/Client.are.iml" filepath="$PROJECT_DIR$/.idea/modules/are/Client.are.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/are/Client.are.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/are/Client.are.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/are/Client.are.main.iml" filepath="$PROJECT_DIR$/.idea/modules/are/Client.are.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/are/Client.are.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/are/Client.are.unitTest.iml" />
+    </modules>
+  </component>
+</project>

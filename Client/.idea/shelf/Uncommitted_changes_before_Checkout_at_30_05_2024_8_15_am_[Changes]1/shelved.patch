@@ -1,0 +1,169 @@
+Index: app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardGson.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.model.gson.data;\r\n\r\nimport lombok.Getter;\r\n\r\n@Getter\r\npublic class FlashcardGson extends GsonData {\r\n    private int flashcardId;\r\n    private int userid;\r\n    private String question;\r\n    private String dateAdded;\r\n    private String dateUpdated;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardGson.java b/app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardGson.java
+--- a/app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardGson.java	
++++ b/app/src/main/java/com/example/solutionsproject/model/gson/data/FlashcardGson.java	
+@@ -1,12 +1,53 @@
+ package com.example.solutionsproject.model.gson.data;
+ 
++import android.os.Parcel;
++import android.os.Parcelable;
++
++import androidx.annotation.NonNull;
++
+ import lombok.Getter;
++import lombok.Setter;
+ 
+ @Getter
+-public class FlashcardGson extends GsonData {
++@Setter
++public class FlashcardGson extends GsonData implements Parcelable {
+     private int flashcardId;
+     private int userid;
+     private String question;
+     private String dateAdded;
+     private String dateUpdated;
++
++    protected FlashcardGson(Parcel in) {
++        flashcardId = in.readInt();
++        userid = in.readInt();
++        question = in.readString();
++        dateAdded = in.readString();
++        dateUpdated = in.readString();
++    }
++
++    public static final Creator<FlashcardGson> CREATOR = new Creator<FlashcardGson>() {
++        @Override
++        public FlashcardGson createFromParcel(Parcel in) {
++            return new FlashcardGson(in);
++        }
++
++        @Override
++        public FlashcardGson[] newArray(int size) {
++            return new FlashcardGson[size];
++        }
++    };
++
++    @Override
++    public int describeContents() {
++        return 0;
++    }
++
++    @Override
++    public void writeToParcel(@NonNull Parcel dest, int flags) {
++        dest.writeInt(flashcardId);
++        dest.writeInt(userid);
++        dest.writeString(question);
++        dest.writeString(dateAdded);
++        dest.writeString(dateUpdated);
++    }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardChoiceCreatorFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.fragments.home;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\n\r\nimport com.example.solutionsproject.adapter.FlashcardChoiceListRecyclerViewAdapter;\r\nimport com.example.solutionsproject.classes.general.MainFacade;\r\nimport com.example.solutionsproject.classes.general.ScholarMeServer;\r\nimport com.example.solutionsproject.databinding.FragmentFlashcardChoiceCreatorBinding;\r\nimport com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;\r\nimport com.example.solutionsproject.model.gson.data.GsonData;\r\n\r\nimport java.util.List;\r\n\r\npublic class FlashcardChoiceCreatorFragment extends Fragment {\r\n\r\n    private final String TAG = \"FlashcardChoiceCreator_Fragment\";\r\n    private MainFacade mainFacade;\r\n    private FragmentFlashcardChoiceCreatorBinding binding;\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {\r\n        binding = FragmentFlashcardChoiceCreatorBinding.inflate(inflater, container, false);\r\n        View root = binding.getRoot();\r\n\r\n        try{\r\n            mainFacade = MainFacade.getInstance();\r\n        }catch (Exception e){\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        return root;\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n        FlashcardChoiceCreatorFragmentArgs args = FlashcardChoiceCreatorFragmentArgs.fromBundle(getArguments());\r\n        int flashcardId = args.getFlashcardId();\r\n\r\n        mainFacade.getFlashcardChoices(new ScholarMeServer.ResponseListener<List<FlashcardChoiceGson>>() {\r\n            @Override\r\n            public void onSuccess(List<FlashcardChoiceGson> data) {\r\n                mainFacade.makeToast(\"Flashcard choices loaded\", Toast.LENGTH_SHORT);\r\n                binding.fccListChoices.setAdapter(new FlashcardChoiceListRecyclerViewAdapter(\r\n                        mainFacade.getMainActivity().getApplicationContext(),\r\n                        data\r\n                ));\r\n\r\n                binding.fccListChoices.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));\r\n            }\r\n\r\n            @Override\r\n            public void onFailure(String message) {\r\n                mainFacade.makeToast(message, Toast.LENGTH_SHORT);\r\n            }\r\n        }, flashcardId);\r\n\r\n        binding.fccBtnFlashcard.setOnClickListener(v -> {\r\n            mainFacade.addFlashcardChoice(new ScholarMeServer.ResponseListener<GsonData>() {\r\n                @Override\r\n                public void onSuccess(GsonData data) {\r\n                    mainFacade.makeToast(\"Flashcard choice added\", Toast.LENGTH_SHORT);\r\n                }\r\n\r\n                @Override\r\n                public void onFailure(String message) {\r\n                    mainFacade.makeToast(message, Toast.LENGTH_SHORT);\r\n                }\r\n            }, flashcardId, binding.fccEttChoice.getText().toString(), binding.fccCbChoice.isChecked());\r\n        });\r\n\r\n        initActions();\r\n    }\r\n\r\n    @Override\r\n    public void onDestroyView() {\r\n        super.onDestroyView();\r\n        binding = null;\r\n    }\r\n\r\n    private void initActions(){\r\n        binding.fccBtnBack.setOnClickListener(v -> {\r\n            FlashcardChoiceCreatorFragmentArgs args = FlashcardChoiceCreatorFragmentArgs.fromBundle(getArguments());\r\n            int flashcardSetId = args.getFlashcardSetId();\r\n            FlashcardChoiceCreatorFragmentDirections.ActionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment action = FlashcardChoiceCreatorFragmentDirections.actionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment(flashcardSetId);\r\n            mainFacade.getHomeNavController().navigate(action);\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardChoiceCreatorFragment.java b/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardChoiceCreatorFragment.java
+--- a/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardChoiceCreatorFragment.java	
++++ b/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardChoiceCreatorFragment.java	
+@@ -89,10 +89,10 @@
+ 
+     private void initActions(){
+         binding.fccBtnBack.setOnClickListener(v -> {
+-            FlashcardChoiceCreatorFragmentArgs args = FlashcardChoiceCreatorFragmentArgs.fromBundle(getArguments());
+-            int flashcardSetId = args.getFlashcardSetId();
+-            FlashcardChoiceCreatorFragmentDirections.ActionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment action = FlashcardChoiceCreatorFragmentDirections.actionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment(flashcardSetId);
+-            mainFacade.getHomeNavController().navigate(action);
++//            FlashcardChoiceCreatorFragmentArgs args = FlashcardChoiceCreatorFragmentArgs.fromBundle(getArguments());
++//            int flashcardSetId = args.getFlashcardSetId();
++//            FlashcardChoiceCreatorFragmentDirections.ActionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment action = FlashcardChoiceCreatorFragmentDirections.actionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment(flashcardSetId);
++//            mainFacade.getHomeNavController().navigate(action);
+         });
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/solutionsproject/model/gson/data/UserGson.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.model.gson.data;\r\n\r\nimport com.google.gson.annotations.SerializedName;\r\n\r\nimport lombok.Getter;\r\n\r\n@Getter\r\npublic class UserGson extends GsonData{\r\n    @SerializedName(\"userId\")\r\n    @SerializedName(\"userId\")\r\n    private String userId;\r\n\r\n    @SerializedName(\"profilePic\")\r\n    private String profilePicUrl;\r\n\r\n    @SerializedName(\"email\")\r\n    private String email;\r\n\r\n    @SerializedName(\"firstName\")\r\n    private String firstName;\r\n\r\n    @SerializedName(\"lastName\")\r\n    private String lastName;\r\n\r\n    @SerializedName(\"username\")\r\n    private String userName;\r\n\r\n    @SerializedName(\"phoneNumber\")\r\n    private String phoneNumber;\r\n\r\n    @SerializedName(\"role\")\r\n    private String role;\r\n\r\n    @SerializedName(\"createdat\")\r\n    private String createdAt;\r\n\r\n    @SerializedName(\"updatedat\")\r\n    private String updatedAt;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/model/gson/data/UserGson.java b/app/src/main/java/com/example/solutionsproject/model/gson/data/UserGson.java
+--- a/app/src/main/java/com/example/solutionsproject/model/gson/data/UserGson.java	
++++ b/app/src/main/java/com/example/solutionsproject/model/gson/data/UserGson.java	
+@@ -7,7 +7,6 @@
+ @Getter
+ public class UserGson extends GsonData{
+     @SerializedName("userId")
+-    @SerializedName("userId")
+     private String userId;
+ 
+     @SerializedName("profilePic")
+Index: app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.solutionsproject.fragments.home;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\n\r\nimport android.util.Log;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.solutionsproject.R;\r\nimport com.example.solutionsproject.adapter.FlashcardListRecyclerViewAdapter;\r\nimport com.example.solutionsproject.classes.general.MainFacade;\r\nimport com.example.solutionsproject.classes.general.ScholarMeServer;\r\nimport com.example.solutionsproject.databinding.FragmentFlashcardQuestionCreatorBinding;\r\nimport com.example.solutionsproject.model.gson.data.FlashcardGson;\r\nimport com.example.solutionsproject.model.gson.data.GsonData;\r\n\r\nimport java.util.List;\r\n\r\npublic class FlashcardQuestionCreatorFragment extends Fragment {\r\n\r\n    private final String TAG = \"FlashcardQuestionCreator_Fragment\";\r\n    private MainFacade mainFacade;\r\n    private FragmentFlashcardQuestionCreatorBinding binding;\r\n    @Override\r\n    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {\r\n        binding = FragmentFlashcardQuestionCreatorBinding.inflate(inflater, container, false);\r\n        View root = binding.getRoot();\r\n\r\n        try{\r\n            mainFacade = MainFacade.getInstance();\r\n        }catch (Exception e){\r\n            throw new RuntimeException(e);\r\n        }\r\n\r\n        return root;\r\n    }\r\n\r\n    @Override\r\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\r\n        super.onViewCreated(view, savedInstanceState);\r\n\r\n        FlashcardQuestionCreatorFragmentArgs args = FlashcardQuestionCreatorFragmentArgs.fromBundle(getArguments());\r\n        int flashcardSetId = args.getFlashcardSetId();\r\n\r\n        mainFacade.getFlashcardSetFlashcards(new ScholarMeServer.ResponseListener<List<FlashcardGson>>() {\r\n            @Override\r\n            public void onSuccess(List<FlashcardGson> data) {\r\n                mainFacade.makeToast(\"Flashcards loaded!\", Toast.LENGTH_SHORT);\r\n\r\n                binding.fqcListQuestions.setAdapter(new FlashcardListRecyclerViewAdapter(\r\n                        mainFacade.getMainActivity().getApplicationContext(),\r\n                        data,\r\n                        flashcardId -> {\r\n                            FlashcardQuestionCreatorFragmentDirections.ActionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment action =\r\n                                    FlashcardQuestionCreatorFragmentDirections.actionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment(Integer.parseInt(flashcardId), flashcardSetId);\r\n                            mainFacade.getHomeNavController().navigate(action);\r\n                        }\r\n                ));\r\n                binding.fqcListQuestions.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));\r\n            }\r\n\r\n            @Override\r\n            public void onFailure(String message) {\r\n                mainFacade.makeToast(message, Toast.LENGTH_SHORT);\r\n            }\r\n        }, flashcardSetId);\r\n\r\n        binding.fqcBtnFlashcard.setOnClickListener(v -> {\r\n            mainFacade.createFlashcard(new ScholarMeServer.ResponseListener<GsonData>() {\r\n                @Override\r\n                public void onSuccess(GsonData data) {\r\n                    mainFacade.makeToast(\"Flashcard created!\", Toast.LENGTH_SHORT);\r\n                }\r\n\r\n                @Override\r\n                public void onFailure(String message) {\r\n                    mainFacade.makeToast(message, Toast.LENGTH_SHORT);\r\n                }\r\n            }, flashcardSetId, binding.fqcEttQuestion.getText().toString());\r\n        });\r\n\r\n        initActions();\r\n    }\r\n\r\n    @Override\r\n    public void onDestroyView() {\r\n        super.onDestroyView();\r\n        binding = null;\r\n    }\r\n\r\n    private void initActions(){\r\n        binding.fqcBtnBack.setOnClickListener(v ->{\r\n            mainFacade.getHomeNavController().navigate(R.id.action_flashcardQuestionCreatorFragment_to_homeFragment);\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java b/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java
+--- a/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java	
++++ b/app/src/main/java/com/example/solutionsproject/fragments/home/FlashcardQuestionCreatorFragment.java	
+@@ -19,6 +19,7 @@
+ import com.example.solutionsproject.classes.general.ScholarMeServer;
+ import com.example.solutionsproject.databinding.FragmentFlashcardQuestionCreatorBinding;
+ import com.example.solutionsproject.model.gson.data.FlashcardGson;
++import com.example.solutionsproject.model.gson.data.FlashcardSetGson;
+ import com.example.solutionsproject.model.gson.data.GsonData;
+ 
+ import java.util.List;
+@@ -47,9 +48,11 @@
+         super.onViewCreated(view, savedInstanceState);
+ 
+         FlashcardQuestionCreatorFragmentArgs args = FlashcardQuestionCreatorFragmentArgs.fromBundle(getArguments());
+-        int flashcardSetId = args.getFlashcardSetId();
++        FlashcardSetGson flashcardSet = args.getFlashcardSet();
+ 
+-        mainFacade.getFlashcardSetFlashcards(new ScholarMeServer.ResponseListener<List<FlashcardGson>>() {
++        binding.fqcTvTitle.setText(flashcardSet.getTitle());
++
++        mainFacade.getFlashcardSetFlashcards(new ScholarMeServer.ResponseListener<>() {
+             @Override
+             public void onSuccess(List<FlashcardGson> data) {
+                 mainFacade.makeToast("Flashcards loaded!", Toast.LENGTH_SHORT);
+@@ -59,7 +62,7 @@
+                         data,
+                         flashcardId -> {
+                             FlashcardQuestionCreatorFragmentDirections.ActionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment action =
+-                                    FlashcardQuestionCreatorFragmentDirections.actionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment(Integer.parseInt(flashcardId), flashcardSetId);
++                                    FlashcardQuestionCreatorFragmentDirections.actionFlashcardQuestionCreatorFragmentToFlashcardChoiceCreatorFragment(Integer.parseInt(flashcardId), flashcardSet.getFlashcardSetId());
+                             mainFacade.getHomeNavController().navigate(action);
+                         }
+                 ));
+@@ -70,7 +73,7 @@
+             public void onFailure(String message) {
+                 mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+             }
+-        }, flashcardSetId);
++        }, flashcardSet.getFlashcardSetId());
+ 
+         binding.fqcBtnFlashcard.setOnClickListener(v -> {
+             mainFacade.createFlashcard(new ScholarMeServer.ResponseListener<GsonData>() {
+@@ -83,7 +86,7 @@
+                 public void onFailure(String message) {
+                     mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+                 }
+-            }, flashcardSetId, binding.fqcEttQuestion.getText().toString());
++            }, flashcardSet.getFlashcardSetId(), binding.fqcEttQuestion.getText().toString());
+         });
+ 
+         initActions();
