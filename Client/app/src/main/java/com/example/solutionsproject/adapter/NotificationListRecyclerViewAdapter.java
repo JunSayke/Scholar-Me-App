@@ -49,7 +49,7 @@ public class NotificationListRecyclerViewAdapter extends RecyclerView.Adapter<No
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String itemId);
+        void onItemClick(int itemId);
     }
 
     @Getter
@@ -59,13 +59,13 @@ public class NotificationListRecyclerViewAdapter extends RecyclerView.Adapter<No
         private final ImageButton btnDelete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtTitle = itemView.findViewById(R.id.messages_txt_content);
-            txtDate = itemView.findViewById(R.id.messages_txt_date);
+            txtTitle = itemView.findViewById(R.id.messages_notifications_txt_title);
+            txtDate = itemView.findViewById(R.id.messages_notifications_txt_date);
             btnDelete = itemView.findViewById(R.id.messages_notifications_btn_delete);
             btnDelete.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener.onItemClick(String.valueOf(notificationGsonList.get(position).getNotificationId()));
+                    onItemClickListener.onItemClick(notificationGsonList.get(position).getNotificationId());
                 }
             });
         }

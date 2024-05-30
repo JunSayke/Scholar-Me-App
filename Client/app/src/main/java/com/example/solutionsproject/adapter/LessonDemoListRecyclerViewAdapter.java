@@ -50,10 +50,13 @@ public class LessonDemoListRecyclerViewAdapter extends RecyclerView.Adapter<Less
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView txtNumber;
         private final TextView txtTitle;
+        private final ImageButton btnOpen;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtNumber = itemView.findViewById(R.id.lesson_list_number);
             txtTitle = itemView.findViewById(R.id.lesson_list_txt_title);
+            btnOpen = itemView.findViewById(R.id.lesson_list_btn_open);
+            btnOpen.setVisibility(View.GONE);
         }
     }
 }

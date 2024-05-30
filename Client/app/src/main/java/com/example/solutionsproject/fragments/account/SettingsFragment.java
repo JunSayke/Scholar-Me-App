@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,19 +49,14 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         if(mainFacade.getSessionManager().getUserGson().getRole().equals("admin")){
+            Log.d(TAG, mainFacade.getSessionManager().getUserGson().getRole());
             final ScholarMeServer.ResponseListener<List<ApplicantsGson>> responseListener = new ScholarMeServer.ResponseListener<List<ApplicantsGson>>() {
                 @Override
                 public void onSuccess(List<ApplicantsGson> data) {
-                    for(ApplicantsGson applicant : data) {
-                       if(applicant.getStatus().equals("pending"))  applicants.add(applicant);
-                    }
-                    binding.settingsListRequests.setAdapter(new ApplicantListRecyclerViewAdapter(
-                            mainFacade.getMainActivity().getApplicationContext(),
-                            applicants,
-                            itemId -> acceptApplication(Integer.parseInt(itemId)),
-                            itemId -> rejectApplication(Integer.parseInt(itemId))
-                    ));
+                    //Log.d(TAG, "applicants: " + applicants.toString());
+                    updateApplicationsScrollView(data);
                     binding.settingsListRequests.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
                 }
 
@@ -110,5 +106,16 @@ public class SettingsFragment extends Fragment {
         };
 
         mainFacade.rejectCreator(responseListener, String.valueOf(itemId));
+    }
+
+    private void updateApplicationsScrollView(List<ApplicantsGson> applicants){
+        binding.settingsListRequests.setAdapter(new ApplicantListRecyclerViewAdapter(
+                mainFacade.getMainActivity().getApplicationContext(),
+                applicants,
+                itemId -> acceptApplication(Integer.parseInt(itemId)),
+                itemId -> rejectApplication(Integer.parseInt(itemId)),
+                mainFacade
+        ));
+
     }
 }

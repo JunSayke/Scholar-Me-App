@@ -40,7 +40,8 @@ public class UserCourseListRecyclerViewAdapter extends RecyclerView.Adapter<User
     public void onBindViewHolder(@NonNull UserCourseListRecyclerViewAdapter.ViewHolder holder, int position) {
         CourseGson model = courseGsonList.get(position);
         holder.txtTitle.setText(model.getTitle());
-        holder.txtProgress.setText(model.getTotalDuration());
+        String totalDuration = model.getTotalDuration() + " min";
+        holder.txtProgress.setText(totalDuration);
     }
 
     @Override

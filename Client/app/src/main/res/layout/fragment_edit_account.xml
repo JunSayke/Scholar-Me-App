@@ -261,7 +261,7 @@
                 android:layout_height="60dp"
                 android:backgroundTint="@color/primary_color"
                 android:contentDescription="submit"
-                android:text="Apply to be a Teacher"
+                android:text="Apply to be a Creator"
                 android:textAllCaps="false"
                 android:textColor="@color/primary_text_color"
                 app:cornerRadius="16dp" />

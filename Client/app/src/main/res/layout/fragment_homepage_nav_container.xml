@@ -47,7 +47,7 @@
             android:backgroundTint="@color/main_container_light"
             android:contentDescription="search_button"
             android:enabled="false"
-            android:src="@drawable/search"
+            android:src="@drawable/search_icon"
             app:backgroundTint="@android:color/transparent"
             app:layout_anchor="@+id/homepage_nav_bottom_bar"
             app:layout_anchorGravity="top|center"
@@ -55,29 +55,30 @@
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/homepage_nav_bottom_bar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:backgroundTint="@color/main_container_light"
             android:paddingBottom="10dp"
             app:buttonGravity="bottom"
-            app:fabCradleMargin="20dp"
+            app:fabCradleMargin="10dp"
             app:fabCradleRoundedCornerRadius="30dp">
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/homepage_nav_bottom_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                app:elevation="0dp"
-                app:itemIconSize="75dp"
-                app:itemIconTint="@drawable/bottom_nav_color_status"
-                app:itemTextColor="@drawable/bottom_nav_color_status"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/bottom_nav_menu" />
-
-
         </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/homepage_nav_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:elevation="0dp"
+            app:itemIconSize="75dp"
+            app:itemIconTint="@drawable/bottom_nav_color_status"
+            app:itemTextColor="@drawable/bottom_nav_color_status"
+            app:labelVisibilityMode="labeled"
+            app:layout_anchor="@+id/homepage_nav_bottom_bar"
+            app:layout_anchorGravity="center"
+            app:menu="@menu/bottom_nav_menu" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
