@@ -33,7 +33,7 @@ public class DeleteUserNotification implements Route {
             }
 
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM tblusernotification WHERE notificationid = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM tblnotification WHERE notificationid = ?")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("notificationId")));
 
                 if (stmt.executeUpdate() == 0) {

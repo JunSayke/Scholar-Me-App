@@ -2,22 +2,14 @@ package com.example.solutionsproject.classes.general;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.InetAddresses;
-import android.net.wifi.WifiManager;
-import android.os.Looper;
-import android.text.format.Formatter;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
@@ -47,13 +39,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
 import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Handler;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -349,6 +336,13 @@ public class MainFacade {
         server.createFlashcard(ScholarMeServer.getCallback(responseListener), flashcardSetId, question);
     }
 
+    public void deleteFlashcard(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int flashcardId
+    ){
+        server.deleteFlashcard(ScholarMeServer.getCallback(responseListener), flashcardId);
+    }
+
     public void getFlashcardSetFlashcards(
             final ScholarMeServer.ResponseListener<List<FlashcardGson>> responseListener,
             final int flashcardSetId
@@ -363,6 +357,13 @@ public class MainFacade {
             final boolean isAnswer
     ){
         server.addFlashcardChoice(ScholarMeServer.getCallback(responseListener), flashcardId, choice, isAnswer);
+    }
+
+    public void deleteFlashcardChoice(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int flashcardChoiceId
+    ){
+        server.deleteFlashcardChoice(ScholarMeServer.getCallback(responseListener), flashcardChoiceId);
     }
 
     public void getFlashcardChoices(
@@ -457,7 +458,7 @@ public class MainFacade {
 
     public void popupCreateFlashcardSet(View view) {
         LayoutInflater inflater = (LayoutInflater) getMainActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_create_flashcardset, null);
+        View popupView = inflater.inflate(R.layout.popup_flashcardset_form, null);
 
         // create the popup window
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -470,7 +471,7 @@ public class MainFacade {
 
         // flashcard fields
         Button btnClose = popupView.findViewById(R.id.popup_flashcardset_btn_close);
-        Button btnSave = popupView.findViewById(R.id.popup_flashcardset_btn_create);
+        Button btnSave = popupView.findViewById(R.id.popup_flashcardset_btn_submit);
         EditText ettTitle = popupView.findViewById(R.id.popup_flashcardset_ett_title);
         EditText ettDescription = popupView.findViewById(R.id.popup_flashcardset_ett_desc);
 
@@ -480,11 +481,12 @@ public class MainFacade {
             String valTitle = String.valueOf(ettTitle.getText());
             String valDescription = String.valueOf(ettDescription.getText());
 
-            createFlashcardSet(new ScholarMeServer.ResponseListener<GsonData>() {
+            createFlashcardSet(new ScholarMeServer.ResponseListener<>() {
                 @Override
                 public void onSuccess(GsonData data) {
                     makeToast("Flashcard set created", Toast.LENGTH_SHORT);
                     popupWindow.dismiss();
+                    getHomeNavController().navigate(R.id.action_homeFragment_self);
                 }
 
                 @Override
@@ -492,6 +494,50 @@ public class MainFacade {
                     makeToast(message, Toast.LENGTH_SHORT);
                 }
             }, valTitle, valDescription);
+        });
+    }
+
+    public void popupEditFlashcardSet(View view, int flashcardSetId) {
+        LayoutInflater inflater = (LayoutInflater) getMainActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_flashcardset_form, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // flashcard fields
+        Button btnClose = popupView.findViewById(R.id.popup_flashcardset_btn_close);
+        Button btnSubmit = popupView.findViewById(R.id.popup_flashcardset_btn_submit);
+        EditText ettTitle = popupView.findViewById(R.id.popup_flashcardset_ett_title);
+        EditText ettDescription = popupView.findViewById(R.id.popup_flashcardset_ett_desc);
+
+        TextView tvHeader = popupView.findViewById(R.id.popup_flashcardset_txt_header_title);
+        tvHeader.setText("Edit Flashcard Set");
+        btnSubmit.setText("Update");
+
+        // flashcard methods
+        btnClose.setOnClickListener(v -> popupWindow.dismiss());
+        btnSubmit.setOnClickListener(v -> {
+            String valTitle = String.valueOf(ettTitle.getText());
+            String valDescription = String.valueOf(ettDescription.getText());
+
+            editFlashcardSet(new ScholarMeServer.ResponseListener<>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    makeToast("Flashcard set updated", Toast.LENGTH_SHORT);
+                    popupWindow.dismiss();
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    makeToast(message, Toast.LENGTH_SHORT);
+                }
+            }, flashcardSetId, valTitle.isEmpty() ? null : valTitle, valDescription.isEmpty() ? null : valDescription);
         });
     }
 

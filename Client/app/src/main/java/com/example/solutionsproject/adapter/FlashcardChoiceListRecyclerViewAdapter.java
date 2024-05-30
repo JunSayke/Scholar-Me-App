@@ -38,7 +38,9 @@ public class FlashcardChoiceListRecyclerViewAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(@NonNull FlashcardChoiceListRecyclerViewAdapter.ViewHolder holder, int position) {
         FlashcardChoiceGson model = flashcardChoiceGsonList.get(position);
         holder.txtChoice.setText(model.getChoice());
-//        holder.cbIsCorrect
+        if (!model.isAnswer()) {
+            holder.cbIsCorrect.setVisibility(View.GONE);
+        }
     }
 
     @Override

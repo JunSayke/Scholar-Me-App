@@ -25,7 +25,7 @@ public class EditFlashcardSetHandler implements Route {
             Controller.validateAccessToken(req);
 
             // Check if any required field is missing
-            Controller.validateParams(req, "flashcardSetId", "title", "description");
+            Controller.validateParams(req, "flashcardSetId");
 
             if (req.queryParams("flashcardSetId").isEmpty()) {
                 throw new InvalidFieldException(400, "Flashcard set ID is required");

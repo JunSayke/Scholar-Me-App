@@ -333,6 +333,13 @@ public class ScholarMeServer extends RetrofitFacade {
         getRetrofitService().createFlashcard(flashcardSetId, question).enqueue(callback);
     }
 
+    public void deleteFlashcard(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int flashcardId
+    ){
+        getRetrofitService().deleteFlashcard(flashcardId).enqueue(callback);
+    }
+
     public void getFlashcardSetFlashcards(
             final Callback<SuccessGson<List<FlashcardGson>>> callback,
             final int flashcardSetId
@@ -347,6 +354,13 @@ public class ScholarMeServer extends RetrofitFacade {
             final boolean isAnswer
     ){
         getRetrofitService().addFlashcardChoice(flashcardId, choice, isAnswer).enqueue(callback);
+    }
+
+    public void deleteFlashcardChoice(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int flashcardChoiceId
+    ){
+        getRetrofitService().deleteFlashcardChoice(flashcardChoiceId).enqueue(callback);
     }
 
     public void getFlashcardChoices(

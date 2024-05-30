@@ -34,6 +34,7 @@ public class DeleteFlashcardSetHandler implements Route {
             try (Connection conn = MySQLConnection.getConnection();
                  PreparedStatement stmt = conn.prepareStatement("DELETE FROM tblflashcardset WHERE flashcardsetid = ? AND userid = ?")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("flashcardSetId")));
+                stmt.setInt(2, req.attribute("userId"));
                 int affectedRows = stmt.executeUpdate();
 
                 if (affectedRows == 0) {
@@ -43,8 +44,10 @@ public class DeleteFlashcardSetHandler implements Route {
                 return GsonData.objectToJson(new ResponseGson<>(true, "Flashcard set deleted"));
             }
         } catch (InvalidFieldException e) {
+            e.printStackTrace();
             halt(e.getStatusCode(), GsonData.objectToJson(ResponseGson.builder().status(false).message(e.getMessage()).build()));
         } catch (Exception e) {
+            e.printStackTrace();
             halt(500, GsonData.objectToJson(ResponseGson.builder().status(false).message("Something went wrong in the server").build()));
         }
         return null;

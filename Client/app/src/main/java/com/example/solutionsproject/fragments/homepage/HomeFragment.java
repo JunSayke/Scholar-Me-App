@@ -88,34 +88,39 @@ public class HomeFragment extends Fragment {
 
 		mainFacade.getUserCourses(responseListener);
 
-		mainFacade.getFlashcardSets(new ScholarMeServer.ResponseListener<List<FlashcardSetGson>>() {
-			@Override
-			public void onSuccess(List<FlashcardSetGson> data) {
-				if (!data.isEmpty()){
-					binding.homeTxtNoFlashcardset.setVisibility(View.GONE);
-				}
-				binding.homeListFlashcardsets.setAdapter(new UserFlashcardSetListRecyclerViewAdapter(
-						mainFacade.getMainActivity().getApplicationContext(),
-						data,
-						flashcardSet -> {
-							HomeFragmentDirections.ActionHomeFragmentToFlashcardQuestionCreatorFragment action =
-									HomeFragmentDirections.actionHomeFragmentToFlashcardQuestionCreatorFragment(flashcardSet);
-							mainFacade.getHomeNavController().navigate(action);
-						}
-				));
-				binding.homeListFlashcardsets.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-			}
-
-			@Override
-			public void onFailure(String message) {
-				mainFacade.makeToast(message, Toast.LENGTH_SHORT);
-			}
-		});
+		mainFacade.getFlashcardSets(flashcardSetResponseListener);
 
 		binding.homeTxtTimeWork.setText(String.valueOf(userCourseCount));
 
 		initActions();
 	}
+
+	private final ScholarMeServer.ResponseListener<List<FlashcardSetGson>> flashcardSetResponseListener = new ScholarMeServer.ResponseListener<>() {
+        @Override
+        public void onSuccess(List<FlashcardSetGson> data) {
+            if (!data.isEmpty()) {
+                binding.homeTxtNoFlashcardset.setVisibility(View.GONE);
+            }
+
+            UserFlashcardSetListRecyclerViewAdapter adapter = new UserFlashcardSetListRecyclerViewAdapter(
+                    mainFacade.getMainActivity().getApplicationContext(),
+                    data,
+                    flashcardSet -> {
+                        HomeFragmentDirections.ActionHomeFragmentToFlashcardQuestionCreatorFragment action =
+                                HomeFragmentDirections.actionHomeFragmentToFlashcardQuestionCreatorFragment(flashcardSet);
+                        mainFacade.getHomeNavController().navigate(action);
+                    }
+            );
+
+            binding.homeListFlashcardsets.setAdapter(adapter);
+            binding.homeListFlashcardsets.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        }
+
+        @Override
+        public void onFailure(String message) {
+            mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+        }
+    };
 
 	@Override
 	public void onDestroyView() {
@@ -123,8 +128,8 @@ public class HomeFragment extends Fragment {
 		binding = null;
 	}
 
-	private void initActions(){
-		binding.homeBtnCreateFlashcardset.setOnClickListener(v ->{
+	private void initActions() {
+		binding.homeBtnCreateFlashcardset.setOnClickListener(v -> {
 			mainFacade.popupCreateFlashcardSet(binding.getRoot());
 		});
 	}
@@ -132,7 +137,6 @@ public class HomeFragment extends Fragment {
 	private void func(String Id){
 
 	}
-
 }
 	
 	

@@ -50,7 +50,6 @@ public class DiscussionCommentListRecyclerViewAdapter extends RecyclerView.Adapt
 
     public void addData(CommentGson newData) {
         this.commentGsonList.add(newData); // Add newData at the beginning of the list
-        Log.e("DiscussionCommentListRecyclerViewAdapter", "addData: " + commentGsonList.size());
         notifyItemInserted(commentGsonList.size() - 1); // Notify the adapter that an item has been inserted at the beginning
         notifyDataSetChanged(); // Notify the adapter that the data set has changed
     }

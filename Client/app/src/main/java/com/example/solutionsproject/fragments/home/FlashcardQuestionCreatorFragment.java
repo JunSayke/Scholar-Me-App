@@ -50,6 +50,8 @@ public class FlashcardQuestionCreatorFragment extends Fragment {
         FlashcardQuestionCreatorFragmentArgs args = FlashcardQuestionCreatorFragmentArgs.fromBundle(getArguments());
         FlashcardSetGson flashcardSet = args.getFlashcardSet();
 
+        binding.fqcTvTitle.setText(flashcardSet.getTitle());
+
         mainFacade.getFlashcardSetFlashcards(new ScholarMeServer.ResponseListener<List<FlashcardGson>>() {
             @Override
             public void onSuccess(List<FlashcardGson> data) {
@@ -73,7 +75,7 @@ public class FlashcardQuestionCreatorFragment extends Fragment {
             }
         }, flashcardSet.getFlashcardSetId());
 
-        binding.fqcBtnFlashcard.setOnClickListener(v -> {
+        binding.fqcBtnNewFlashcard.setOnClickListener(v -> {
             mainFacade.createFlashcard(new ScholarMeServer.ResponseListener<>() {
                 @Override
                 public void onSuccess(GsonData data) {
@@ -87,18 +89,35 @@ public class FlashcardQuestionCreatorFragment extends Fragment {
             }, flashcardSet.getFlashcardSetId(), binding.fqcEttQuestion.getText().toString());
         });
 
-        initActions();
+        binding.fqcBtnDelete.setOnClickListener(v -> {
+            mainFacade.deleteFlashcardSet(new ScholarMeServer.ResponseListener<>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    mainFacade.makeToast("Flashcard set deleted!", Toast.LENGTH_SHORT);
+                    mainFacade.getHomeNavController().navigate(R.id.action_flashcardQuestionCreatorFragment_to_homeFragment);
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+                }
+            }, flashcardSet.getFlashcardSetId());
+        });
+
+        binding.fqcBtnEditFlashcard.setOnClickListener(v -> {
+            mainFacade.popupEditFlashcardSet(binding.getRoot(), flashcardSet.getFlashcardSetId());
+        });
+
+        binding.fqcBtnBack.setOnClickListener(v ->{
+            mainFacade.getHomeNavController().navigate(R.id.action_flashcardQuestionCreatorFragment_to_homeFragment);
+        });
+
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    private void initActions(){
-        binding.fqcBtnBack.setOnClickListener(v ->{
-            mainFacade.getHomeNavController().navigate(R.id.action_flashcardQuestionCreatorFragment_to_homeFragment);
-        });
     }
 }

@@ -220,6 +220,12 @@ public interface RetrofitService {
     );
 
     @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @DELETE("/user/delete-flashcard")
+    Call<SuccessGson<GsonData>> deleteFlashcard(
+           @Query("flashcardId") int flashcardId
+    );
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
     @GET("/flashcard-set/flashcards")
     Call<SuccessGson<List<FlashcardGson>>> getFlashcardSetFlashcards(
             @Query("flashcardSetId") int flashcardSetId
@@ -232,6 +238,12 @@ public interface RetrofitService {
             @Field("flashcardId") int flashcardId,
             @Field("choice") String choice,
             @Field("isAnswer") boolean isAnswer
+    );
+
+    @Headers({"Authorization: scholarmeapp2024_api_key"})
+    @DELETE("/flashcard/delete-choice")
+    Call<SuccessGson<GsonData>> deleteFlashcardChoice(
+            @Query("flashcardChoiceId") int flashcardChoiceId
     );
 
     @Headers({"Authorization: scholarmeapp2024_api_key"})
@@ -254,4 +266,6 @@ public interface RetrofitService {
     @Headers({"Authorization: scholarmeapp2024_api_key"})
     @GET("/discussion/get-comments")
     Call<SuccessGson<List<CommentGson>>> getDiscussionComments();
+
+
 }

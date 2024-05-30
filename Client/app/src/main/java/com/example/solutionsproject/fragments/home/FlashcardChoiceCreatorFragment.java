@@ -47,6 +47,8 @@ public class FlashcardChoiceCreatorFragment extends Fragment {
         FlashcardChoiceCreatorFragmentArgs args = FlashcardChoiceCreatorFragmentArgs.fromBundle(getArguments());
         FlashcardGson flashcard = args.getFlashcard();
 
+        binding.fccTvQuestion.setText(flashcard.getQuestion());
+
         mainFacade.getFlashcardChoices(new ScholarMeServer.ResponseListener<>() {
             @Override
             public void onSuccess(List<FlashcardChoiceGson> data) {
@@ -65,7 +67,7 @@ public class FlashcardChoiceCreatorFragment extends Fragment {
             }
         }, flashcard.getFlashcardId());
 
-        binding.fccBtnFlashcard.setOnClickListener(v -> {
+        binding.fccBtnNewChoice.setOnClickListener(v -> {
             mainFacade.addFlashcardChoice(new ScholarMeServer.ResponseListener<>() {
                 @Override
                 public void onSuccess(GsonData data) {
@@ -79,20 +81,31 @@ public class FlashcardChoiceCreatorFragment extends Fragment {
             }, flashcard.getFlashcardId(), binding.fccEttChoice.getText().toString(), binding.fccCbChoice.isChecked());
         });
 
-        initActions();
+        binding.fccBtnBack.setOnClickListener(v -> {
+            FlashcardChoiceCreatorFragmentDirections.ActionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment action = FlashcardChoiceCreatorFragmentDirections.actionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment(args.getFlashcardSet());
+            mainFacade.getHomeNavController().navigate(action);
+        });
+
+        binding.fccBtnDelete.setOnClickListener(v -> {
+            mainFacade.deleteFlashcard(new ScholarMeServer.ResponseListener<>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    mainFacade.makeToast("Flashcard deleted", Toast.LENGTH_SHORT);
+                    FlashcardChoiceCreatorFragmentDirections.ActionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment action = FlashcardChoiceCreatorFragmentDirections.actionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment(args.getFlashcardSet());
+                    mainFacade.getHomeNavController().navigate(action);
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    mainFacade.makeToast(message, Toast.LENGTH_SHORT);
+                }
+            }, flashcard.getFlashcardId());
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    private void initActions(){
-        binding.fccBtnBack.setOnClickListener(v -> {
-            FlashcardChoiceCreatorFragmentArgs args = FlashcardChoiceCreatorFragmentArgs.fromBundle(getArguments());
-            FlashcardChoiceCreatorFragmentDirections.ActionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment action = FlashcardChoiceCreatorFragmentDirections.actionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment(args.getFlashcardSet());
-            mainFacade.getHomeNavController().navigate(action);
-        });
     }
 }

@@ -41,10 +41,10 @@ android {
 
 dependencies {
 
-    androidTestImplementation("androidx.test:core:1.1.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.0")
+    androidTestImplementation(libs.androidx.core.v110)
+    androidTestImplementation(libs.androidx.junit.v110)
 
-    implementation("com.github.bumptech.glide:glide:4.11.0")
+    implementation(libs.glide)
     implementation(project(":are"))
 
     compileOnly(libs.org.projectlombok.lombok)
@@ -55,14 +55,14 @@ dependencies {
     implementation(libs.converter.gson)
     // END_OF[Retrofit Dependencies]
 
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation(libs.androidx.lifecycle.livedata.ktx.v270)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx.v270)
 
     // START_OF[JWT]
-    implementation("com.auth0:java-jwt:4.4.0")
+    implementation(libs.java.jwt)
     // END_OF[JWT]
 
-    implementation("io.coil-kt:coil:2.6.0")
+    implementation(libs.coil)
 
     implementation(libs.recyclerview)
     implementation(libs.appcompat)

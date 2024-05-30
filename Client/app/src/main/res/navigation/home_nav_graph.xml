@@ -41,5 +41,10 @@
         <action
             android:id="@+id/action_homeFragment_to_flashcardQuestionCreatorFragment"
             app:destination="@id/flashcardQuestionCreatorFragment" />
+        <action
+            android:id="@+id/action_homeFragment_self"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

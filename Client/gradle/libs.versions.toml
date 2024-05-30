@@ -1,17 +1,21 @@
 [versions]
 activity = "1.9.0"
 androidxJunit = "1.1.5"
+androidxJunitVersion = "1.1.0"
 appcompat = "1.6.1"
 coil = "2.6.0"
 constraintlayout = "2.1.4"
 core = "1.5.0"
+coreVersion = "1.1.0"
 espressoCore = "3.5.1"
 glide = "4.11.0"
 javaJwt = "4.4.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
+lifecycleLivedataKtx = "2.7.0"
 lifecycleLivedataKtxVersion = "2.8.0"
 lifecycleViewmodelKtx = "2.8.0"
+lifecycleViewmodelKtxVersion = "2.7.0"
 material = "1.12.0"
 navigationRuntime = "2.7.7"
 okhttp = "4.12.0"
@@ -22,6 +26,10 @@ retrofit = "2.9.0"
 
 [libraries]
 activity = { module = "androidx.activity:activity", version.ref = "activity" }
+androidx-core-v110 = { module = "androidx.test:core", version.ref = "coreVersion" }
+androidx-junit-v110 = { module = "androidx.test.ext:junit", version.ref = "androidxJunitVersion" }
+androidx-lifecycle-livedata-ktx-v270 = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-lifecycle-viewmodel-ktx-v270 = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtxVersion" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }

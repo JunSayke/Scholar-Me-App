@@ -16,6 +16,17 @@
         android:paddingVertical="20dp">
 
         <ImageButton
+            android:id="@+id/fqc_btn_delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/vector_wrong_mark"
+            android:contentDescription="delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
             android:id="@+id/fqc_btn_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -62,13 +73,22 @@
             android:textColor="@color/primary_text_color" />
 
         <Button
-            android:id="@+id/fqc_btn_flashcard"
+            android:id="@+id/fqc_btn_new_flashcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/primary_color"
             android:text="New Question"
+            android:textColor="@color/primary_text_color" />
+
+        <Button
+            android:id="@+id/fqc_btn_edit_flashcard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:backgroundTint="@color/progress_bar_end"
+            android:text="Edit Flashcard Set"
             android:textColor="@color/primary_text_color" />
 
     </LinearLayout>
