@@ -1,9 +1,8 @@
 package org.example.handler;
 
 import org.example.Controller;
-import org.example.data.ErrorGson;
 import org.example.data.GsonData;
-import org.example.data.SuccessGson;
+import org.example.data.ResponseGson;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import spark.Request;
@@ -34,41 +33,40 @@ public class ApproveCreatorApplicantHandler implements Route {
                 throw new InvalidFieldException(400, "creatorapplicantid cannot be empty");
             }
 
-            if (req.queryParams("creatorapplicantid").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "creatorapplicantid must be a number");
-            }
-
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT status FROM tblcreatorapplicant WHERE creatorapplicantid = ?")) {
+                 PreparedStatement stmt = conn.prepareStatement("SELECT status, userid FROM tblcreatorapplicant WHERE creatorapplicantid = ? LIMIT 1")) {
                 stmt.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
                 ResultSet rs = stmt.executeQuery();
 
-                if (rs.next()) {
-                    if (rs.getString("status").equals("approved")) {
-                        throw new InvalidFieldException(409, "Application already approved");
-                    }
-                    if (!rs.getString("status").equals("pending")) {
-                        throw new InvalidFieldException(409, "Application already processed");
-                    }
-                    conn.setAutoCommit(false);
-                    try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tblcreatorapplicant ta JOIN tbluseraccount ua ON ta.userid = ua.userid SET ta.status = 'approved', ua.role = 'creator' WHERE ta.creatorapplicantid = ?")) {
-                        stmt2.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
-                        stmt2.executeUpdate();
-
-                        conn.commit();
-                        res.status(200);
-                        return GsonData.objectToJson(new SuccessGson<>(true, "Application approved", null));
-                    } catch (Exception e) {
-                        conn.rollback();
-                        throw e;
-                    }
+                if (!rs.next()) {
+                    throw new InvalidFieldException(404, "Application not found");
                 }
-                throw new InvalidFieldException(400, "Application not found");
+
+                if (rs.getString("status").equals("approved")) {
+                    throw new InvalidFieldException(409, "Application already approved");
+                }
+                if (!rs.getString("status").equals("pending")) {
+                    throw new InvalidFieldException(409, "Application already processed");
+                }
+                conn.setAutoCommit(false);
+                try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tblcreatorapplicant ta JOIN tbluseraccount ua ON ta.userid = ua.userid SET ta.status = 'approved', ua.role = 'creator' WHERE ta.creatorapplicantid = ?")) {
+                    stmt2.setInt(1, Integer.parseInt(req.queryParams("creatorapplicantid")));
+                    stmt2.executeUpdate();
+
+                    conn.commit();
+                } catch (Exception e) {
+                    conn.rollback();
+                    throw e;
+                }
+
+                Controller.addNotification(rs.getInt("userid"), "Approved", "Your application to become a creator has been approved");
+                res.status(200);
+                return GsonData.objectToJson(new ResponseGson<>(true, "Application approved"));
             }
         } catch (InvalidFieldException e) {
-            halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(e.getStatusCode(), GsonData.objectToJson(ResponseGson.builder().status(false).message(e.getMessage()).build()));
         } catch (Exception e) {
-            halt(500, GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(ResponseGson.builder().status(false).message("Something went wrong in the server").build()));
         }
         return null;
     }

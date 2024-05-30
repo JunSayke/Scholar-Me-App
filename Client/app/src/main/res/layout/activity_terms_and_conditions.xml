@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tac_container_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.TermsAndConditionsActivity">
+
+    <LinearLayout
+        android:id="@+id/tac_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_container_dark"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/tac_btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="back"
+            android:src="@drawable/left_arrow" />
+
+        <ScrollView
+            android:id="@+id/tac_scroll_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/tac_component_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/tac_component_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="30dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="Terms and Conditions"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="Last Updated: May 21, 2024"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_intro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="20dp"
+                        android:text="Welcome to ScholarMe! By accessing or using our mobile application (App), you agree to be bound by these Terms and Conditions (Terms). Please read them carefully."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="1. Acceptance of Terms"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="10dp"
+                        android:text="By creating an account, accessing, or using any part of our App, you agree to comply with and be legally bound by these Terms and our Privacy Policy."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="2. Changes to Terms"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="10dp"
+                        android:text="We may modify these Terms at any time. Any changes will be effective immediately upon posting. It is your responsibility to review these Terms regularly."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="3. Account Registration"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content3_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="• You must create an account to use certain features of the App."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content3_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• You agree to provide accurate, current, and complete information during the registration process."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content3_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• You are responsible for maintaining the confidentiality of your account and password and for all activities that occur under your account."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="4. User Conduct"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content4_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="• You agree to use the App only for lawful purposes."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content4_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• You will not use the App to upload, post, or distribute any content that is illegal, harmful, or offensive."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content4_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• You will not attempt to gain unauthorized access to any part of the App."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="5. Courses and Content"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content5_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="• The App provides access to various educational courses and materials."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content5_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• We reserve the right to change, modify, or remove content at any time without notice."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content5_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• The content is for your personal and non-commercial use only."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="6. License and Intellectual Property"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content6_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="• We grant you a limited, non-exclusive, non-transferable license to access and use the App for personal, non-commercial purposes."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content6_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• All content and materials available on the App are protected by intellectual property laws. You may not copy, reproduce, distribute, or create derivative works without our explicit permission."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="7. Termination"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content7_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="• We may terminate or suspend your account and access to the App at any time, without notice and for any reason, including if you violate these Terms."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content7_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• Upon termination, your right to use the App will immediately cease."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="8. Disclaimers"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content8_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="• The App and its content are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content8_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• We do not guarantee that the App will be error-free or uninterrupted."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="9. Limitation of Liability"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="• To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="10. Governing Law"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="These Terms shall be governed by and construed in accordance with the laws of The Philippines, without regard to its conflict of law principles."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_11"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_title11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:text="11. Contact Information"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="If you have any questions about these Terms, please contact us at:"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="Email:"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• antonio.ubaldo@cit.edu"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• vanwoodroe.perpetua@cit.edu"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="• jianlev.olamit@cit.edu"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:text="Github:"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="@string/git_junsayke"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="@string/git_perpyvanitas"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tac_txt_content11_9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="20dp"
+                        android:text="@string/git_modarku"
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tac_component_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/tac_txt_content12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="10dp"
+                        android:text="By using the App, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions."
+                        android:textColor="@color/primary_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

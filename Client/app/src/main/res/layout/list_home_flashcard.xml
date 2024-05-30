@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_flashcard_container_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="10dp"
+    android:background="@drawable/__aa_container_light_box"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/home_flashcard_txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:text="@string/placeholder_flashcard_title"
+        android:textColor="@color/primary_text_color"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/home_flashcard_btn_course"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        app:srcCompat="@drawable/__aa_btn_arrow_right" />
+
+
+</LinearLayout>
