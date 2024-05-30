@@ -80,6 +80,7 @@ public class FlashcardQuestionCreatorFragment extends Fragment {
                 @Override
                 public void onSuccess(GsonData data) {
                     mainFacade.makeToast("Flashcard created!", Toast.LENGTH_SHORT);
+                    mainFacade.getHomeNavController().navigate(R.id.action_flashcardQuestionCreatorFragment_self, args.toBundle());
                 }
 
                 @Override

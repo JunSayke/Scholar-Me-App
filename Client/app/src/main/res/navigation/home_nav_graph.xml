@@ -19,6 +19,11 @@
         <argument
             android:name="flashcardSet"
             app:argType="com.example.solutionsproject.model.gson.data.FlashcardSetGson" />
+        <action
+            android:id="@+id/action_flashcardQuestionCreatorFragment_self"
+            app:destination="@id/flashcardQuestionCreatorFragment"
+            app:popUpTo="@id/flashcardQuestionCreatorFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/flashcardChoiceCreatorFragment"
@@ -32,6 +37,11 @@
             app:argType="com.example.solutionsproject.model.gson.data.FlashcardGson" />
         <argument android:name="flashcardSet"
             app:argType="com.example.solutionsproject.model.gson.data.FlashcardSetGson" />
+        <action
+            android:id="@+id/action_flashcardChoiceCreatorFragment_self"
+            app:destination="@id/flashcardChoiceCreatorFragment"
+            app:popUpTo="@id/flashcardChoiceCreatorFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
