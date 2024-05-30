@@ -1,0 +1,307 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/timer_container_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/timer_overlay"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/popup_transparent_bg"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+
+		<LinearLayout
+			android:id="@+id/timer_container"
+			android:layout_width="291dp"
+			android:layout_height="407dp"
+			android:background="@drawable/__aa_container_dark_box"
+			android:orientation="vertical"
+			android:padding="20dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent">
+
+			<TextView
+				android:id="@+id/timer_txt_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/title_timer"
+				android:textColor="@color/primary_text_color"
+				android:textSize="24sp"
+				android:textStyle="bold" />
+
+			<LinearLayout
+				android:id="@+id/timer_component_config"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingTop="10dp"
+				android:layout_gravity="center"
+				android:orientation="vertical">
+
+				<TextView
+					android:id="@+id/timer_txt_config"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/txt_timer_minutes"
+					android:textColor="@color/secondary_text_color"
+					android:textSize="16sp" />
+
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:id="@+id/timer_component_setter"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<LinearLayout
+						android:id="@+id/timer_component_work"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="10dp"
+						android:orientation="vertical"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent">
+
+						<TextView
+							android:id="@+id/timer_txt_work"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/txt_timer_work"
+							android:textColor="@color/secondary_text_color"
+							android:textSize="14sp" />
+
+						<EditText
+							android:id="@+id/timer_ett_work"
+							android:layout_width="60dp"
+							android:layout_height="35dp"
+							android:background="@color/edit_text_bg"
+							android:ems="10"
+							android:hint="0"
+							android:inputType="number"
+							android:paddingEnd="10dp"
+							android:textAlignment="textEnd"
+							android:textColor="@color/primary_text_color"
+							android:textSize="20sp" />
+					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/timer_component_break"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="10dp"
+						android:orientation="vertical"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent">
+
+						<TextView
+							android:id="@+id/timer_txt_break"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/txt_timer_break"
+							android:textColor="@color/secondary_text_color"
+							android:textSize="14sp" />
+
+						<EditText
+							android:id="@+id/timer_ett_break"
+							android:layout_width="60dp"
+							android:layout_height="35dp"
+							android:background="@color/edit_text_bg"
+							android:ems="10"
+							android:hint="0"
+							android:inputType="number"
+							android:paddingEnd="10dp"
+							android:textAlignment="textEnd"
+							android:textColor="@color/primary_text_color"
+							android:textSize="20sp" />
+					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/timer_component_long_break"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="10dp"
+						android:orientation="vertical"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintTop_toTopOf="parent">
+
+						<TextView
+							android:id="@+id/timer_txt_long_break"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/txt_timer_long_break"
+							android:textColor="@color/secondary_text_color"
+							android:textSize="14sp" />
+
+						<EditText
+							android:id="@+id/timer_ett_long_break"
+							android:layout_width="60dp"
+							android:layout_height="35dp"
+							android:layout_gravity="end"
+							android:background="@color/edit_text_bg"
+							android:ems="10"
+							android:hint="0"
+							android:inputType="number"
+							android:paddingEnd="10dp"
+							android:textAlignment="textEnd"
+							android:textColor="@color/primary_text_color"
+							android:textSize="20sp" />
+					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/timer_component_break_interval"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="10dp"
+						android:orientation="vertical"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toBottomOf="@+id/timer_component_break">
+
+						<TextView
+							android:id="@+id/timer_txt_break_interval"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/txt_timer_break_interval"
+							android:textColor="@color/secondary_text_color"
+							android:textSize="14sp" />
+
+						<EditText
+							android:id="@+id/timer_ett_break_interval"
+							android:layout_width="60dp"
+							android:layout_height="35dp"
+							android:layout_gravity="center"
+							android:background="@color/edit_text_bg"
+							android:ems="10"
+							android:hint="0"
+							android:inputType="number"
+							android:paddingEnd="10dp"
+							android:textAlignment="textEnd"
+							android:textColor="@color/primary_text_color"
+							android:textSize="20sp" />
+					</LinearLayout>
+
+
+				</androidx.constraintlayout.widget.ConstraintLayout>
+
+				<LinearLayout
+					android:id="@+id/timer_component_alarm"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="14dp"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/timer_txt_alarm"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="10dp"
+						android:text="@string/txt_timer_alarm"
+						android:textColor="@color/secondary_text_color"
+						android:textSize="16sp" />
+
+
+					<LinearLayout
+						android:id="@+id/timer_btn_audio_pick"
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:layout_gravity="center_horizontal"
+						android:clickable="true"
+						android:orientation="horizontal"
+						android:paddingTop="10dp">
+
+						<TextView
+							android:id="@+id/timer_txt_audio_pick"
+							android:layout_width="150dp"
+							android:layout_height="30dp"
+							android:gravity="center_vertical"
+							android:text="@string/placeholder_timer_alarm"
+							android:textColor="@color/primary_text_color"
+							android:textSize="16sp" />
+
+						<ImageView
+							android:id="@+id/timer_iv_audio_pick"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center_vertical"
+							app:srcCompat="@drawable/__aa_btn_arrow_right" />
+					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/timer_component_volume_bar"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:gravity="center"
+						android:orientation="horizontal"
+						android:paddingVertical="10dp">
+
+						<ImageView
+							android:id="@+id/timer_iv_audio_low"
+							android:layout_width="20dp"
+							android:layout_height="20dp"
+							app:srcCompat="@drawable/__aa_audio_low" />
+
+						<SeekBar
+							android:id="@+id/timer_sb_volume"
+							android:layout_width="200dp"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center|center_vertical"
+							android:max="100"
+							android:progress="50" />
+
+						<ImageView
+							android:id="@+id/timer_iv_audio_max"
+							android:layout_width="20dp"
+							android:layout_height="20dp"
+							app:srcCompat="@drawable/__aa_audio_max" />
+					</LinearLayout>
+
+				</LinearLayout>
+
+
+			</LinearLayout>
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/timer_component_buttons"
+				android:layout_width="288dp"
+				android:layout_height="49dp"
+				android:layout_gravity="center">
+
+				<Button
+					android:id="@+id/timer_btn_close"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="5dp"
+					android:layout_marginEnd="5dp"
+					android:backgroundTint="#3c5cfe"
+					android:text="Close"
+					android:textColor="@color/primary_text_color"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toStartOf="@+id/timer_btn_save"
+					app:layout_constraintStart_toStartOf="parent" />
+
+				<Button
+					android:id="@+id/timer_btn_save"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="5dp"
+					android:layout_marginEnd="5dp"
+					android:backgroundTint="#3c5cfe"
+					android:text="Save"
+					android:textColor="@color/primary_text_color"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toEndOf="@+id/timer_btn_close" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+		</LinearLayout>
+
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

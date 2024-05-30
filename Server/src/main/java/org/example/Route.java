@@ -1,6 +1,32 @@
 package org.example;
 
 import org.example.handler.*;
+import org.example.handler.course.*;
+import org.example.handler.course.lesson.AddCourseLessonHandler;
+import org.example.handler.course.lesson.DeleteCourseLessonHandler;
+import org.example.handler.course.lesson.EditCourseLessonHandler;
+import org.example.handler.course.lesson.GetCourseLessonsHandler;
+import org.example.handler.course.review.AddCourseReviewHandler;
+import org.example.handler.flashcard.CreateFlashcardHandler;
+import org.example.handler.flashcard.DeleteFlashcardHandler;
+import org.example.handler.flashcard.EditFlashcardHandler;
+import org.example.handler.flashcard.GetFlashcardSetFlashcardsHandler;
+import org.example.handler.flashcard.choice.AddFlashcardChoiceHandler;
+import org.example.handler.flashcard.choice.DeleteFlashcardChoiceHandler;
+import org.example.handler.flashcard.choice.EditFlashcardChoiceHandler;
+import org.example.handler.flashcard.choice.GetFlashcardChoicesHandler;
+import org.example.handler.flashcardset.CreateFlashcardSetHandler;
+import org.example.handler.flashcardset.DeleteFlashcardSetHandler;
+import org.example.handler.flashcardset.EditFlashcardSetHandler;
+import org.example.handler.flashcardset.GetFlashcardSetsHandler;
+import org.example.handler.reply.AddReplyHandler;
+import org.example.handler.reply.DeleteReplyHandler;
+import org.example.handler.reply.EditReplyHandler;
+import org.example.handler.reply.GetUserRepliesHandler;
+import org.example.handler.review.*;
+import org.example.handler.websocket.ChatWebSocketHandler;
+
+import java.util.List;
 
 import static spark.Spark.*;
 
@@ -9,77 +35,99 @@ public class Route {
 
     public static void launch(int port) {
         port(port);
+        webSocket("/chat", ChatWebSocketHandler.class);
+        init();
+
+        before((req, res) -> {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Methods", "*");
+            res.header("Access-Control-Allow-Headers", "*");
+        });
 
         // Security for unauthorized use of the API
         before((req, res) -> {
-//            if (req.pathInfo().startsWith("/images/")) {
-//                return;
-//            }
-            String apiToken = req.headers("Authorization");
-            if (apiToken == null || !apiToken.equals(API_KEY)) {
-                halt(401, "Unauthorized");
+            // Exclude images from authorization
+            if (req.pathInfo().matches("^/images/.+/.*$")) {
+                return;
+            }
+
+            List<String> excludedRoutes = List.of("/user/profile");
+
+            if (!excludedRoutes.contains(req.pathInfo())) {
+                String apiToken = req.headers("Authorization");
+                if (apiToken == null || !apiToken.equals(API_KEY)) {
+                    halt(401, "Unauthorized");
+                }
             }
         });
-
+;
         // Routes
-        get("/", (req, res) -> "Root");
+        get("/", Controller::root);
         get("images/profile/:filename", Controller::serveFile);
+        get("images/course-thumbnail/:filename", Controller::serveFile);
 
         post("/user/register", new RegisterHandler());
         post("/user/login", new LoginHandler());
         post("/user/apply-creator", new ApplyCreatorHandler());
 
-        get("/user/profile", (req, res) -> "Get profile");
-        put("/user/edit-profile", (req, res) -> "Edit profile");
-        put("/user/change-password", (req, res) -> "Change password");
-        delete("/user/delete-profile", (req, res) -> "Delete profile");
+        get("/user/profile", new GetUserProfileHandler());
+        put("/user/edit-profile", new EditProfileHandler());
+        delete("/user/delete-account", new DeleteAccountHandler());
 
-        post("/user/create-flashcard-set", (req, res) -> "Create flashcard set");
-        put("/user/edit-flashcard-set", (req, res) -> "Edit flashcard set");
-        delete("/user/delete-flashcard-set", (req, res) -> "Delete flashcard set");
-        get("/user/flashcard-sets", (req, res) -> "Get flashcard sets");
+        post("/user/create-flashcard-set", new CreateFlashcardSetHandler());
+        put("/user/edit-flashcard-set", new EditFlashcardSetHandler());
+        delete("/user/delete-flashcard-set", new DeleteFlashcardSetHandler());
+        get("/user/flashcard-sets", new GetFlashcardSetsHandler());
 
-        post("/user/create-flashcard", (req, res) -> "Create flashcard");
-        put("/user/edit-flashcard", (req, res) -> "Edit flashcard");
-        delete("/user/delete-flashcard", (req, res) -> "Delete flashcard");
+        post("/user/create-flashcard", new CreateFlashcardHandler());
+        put("/user/edit-flashcard", new EditFlashcardHandler());
+        delete("/user/delete-flashcard", new DeleteFlashcardHandler());
+        get("/flashcard-set/flashcards", new GetFlashcardSetFlashcardsHandler());
 
-        post("/flashcard/add-choice", (req, res) -> "Add choice");
-        put("/flashcard/edit-choice", (req, res) -> "Edit choice");
-        delete("/flashcard/delete-choice", (req, res) -> "Delete choice");
+        post("/flashcard/add-choice", new AddFlashcardChoiceHandler());
+        put("/flashcard/edit-choice", new EditFlashcardChoiceHandler());
+        delete("/flashcard/delete-choice", new DeleteFlashcardChoiceHandler());
+        get("/flashcard/choices", new GetFlashcardChoicesHandler());
 
-        get("/user/admin/creator-applicants", new CreatorApplicantsHandler());
+        get("/user/admin/creator-applicants", new GetCreatorApplicantsHandler());
         post("/user/admin/approve-creator", new ApproveCreatorApplicantHandler());
         post("/user/admin/reject-creator", new RejectCreatorApplicantHandler());
         post("/user/admin/demote-creator", new DemoteCreatorHandler());
 
-        post("/user/creator/create-course", (req, res) -> "Create course");
-        put("/user/creator/edit-course", (req, res) -> "Edit course");
-        delete("/user/creator/delete-course", (req, res) -> "Delete course");
-        get("/user/courses", (req, res) -> "Get user enrolled courses");
-        get("/user/creator/courses", (req, res) -> "Get creator created courses");
+        post("/user/creator/create-course", new CreateCourseHandler());
+        put("/user/creator/edit-course", new EditCourseHandler());
+        delete("/user/creator/delete-course", new DeleteCourseHandler());
+        get("/user/courses", new GetUserCoursesHandler());
+        get("/user/creator/courses", new GetCreatorCoursesHandler());
+        get("/user/favorite-courses", new GetUserCourseFavoritesHandler());
 
-        post("/course/add-lesson", (req, res) -> "Add lesson");
-        put("/course/edit-lesson", (req, res) -> "Edit lesson");
-        delete("/course/delete-lesson", (req, res) -> "Delete lesson");
+        get("/courses", new GetCoursesHandler());
+        get("/course/lessons", new GetCourseLessonsHandler());
 
-        post("/user/enroll-course", (req, res) -> "Enroll course");
-        delete("/user/unenroll-course", (req, res) -> "Unenroll course");
+        post("/course/add-lesson", new AddCourseLessonHandler());
+        put("/course/edit-lesson", new EditCourseLessonHandler());
+        delete("/course/delete-lesson", new DeleteCourseLessonHandler());
 
-        get("/user/notifications", (req, res) -> "Get notifications");
-        delete("/user/notification", (req, res) -> "Delete notification");
+        post("/user/enroll-course", new EnrollCourseHandler());
+        delete("/user/unenroll-course", new UnenrollCourseHandler());
 
-        post("/course/add-review", (req, res) -> "Add review");
+        get("/user/notifications", new GetUserNotificationsHandler());
+        delete("/user/delete-notification", new DeleteUserNotification());
 
-        put("/user/edit-review", (req, res) -> "Edit review");
-        delete("/user/delete-review", (req, res) -> "Delete review");
-        get("/user/reviews", (req, res) -> "Get user reviews");
+        post("/course/add-review", new AddCourseReviewHandler());
 
-        post("/user/add-reply", (req, res) -> "Add reply");
-        put("/user/edit-reply", (req, res) -> "Edit reply");
-        delete("/user/delete-reply", (req, res) -> "Delete reply");
-        get("/user/replies", (req, res) -> "Get user replies");
+        put("/user/edit-review", new EditReviewHandler());
+        delete("/user/delete-review", new DeleteReviewHandler());
+        get("/user/reviews", new GetUserReviewsHandler());
+        post("/discussion/add-comment", new AddDiscussionCommentHandler());
+        get("/discussion/get-comments", new GetDiscussionCommentsHandler());
 
-        post("/user/favorite-course", (req, res) -> "Favorite course");
-        delete("/user/unfavorite-course", (req, res) -> "Unfavorite course");
+        post("/user/add-reply", new AddReplyHandler());
+        put("/user/edit-reply", new EditReplyHandler());
+        delete("/user/delete-reply", new DeleteReplyHandler());
+        get("/user/replies", new GetUserRepliesHandler());
+
+        post("/user/mark-favorite-course", new MarkFavoriteCourseHandler());
+        delete("/user/unmark-favorite-course", new UnMarkFavoriteCourseHandler());
     }
 }

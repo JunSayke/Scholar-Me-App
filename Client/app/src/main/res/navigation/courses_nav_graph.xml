@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/courses_nav_graph"
+    app:startDestination="@id/coursesFragment">
+
+    <fragment
+        android:id="@+id/courseDetailsFragment"
+        android:name="com.example.solutionsproject.fragments.courses.CourseDetailsFragment"
+        android:label="fragment_course_details"
+        tools:layout="@layout/fragment_course_details" >
+        <action
+            android:id="@+id/action_courseDetailsFragment_to_coursesFragment"
+            app:destination="@id/coursesFragment" />
+        <argument android:name="courseId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_courseDetailsFragment_to_lessonDetailsFragment"
+            app:destination="@id/lessonDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseDashboardFragment"
+        android:name="com.example.solutionsproject.fragments.courses.CourseDashboardFragment"
+        android:label="CourseDashboardFragment" >
+        <action
+            android:id="@+id/action_courseDashboardFragment_to_courseCreatorFragment"
+            app:destination="@id/courseCreatorFragment" />
+        <action
+            android:id="@+id/action_courseDashboardFragment_to_coursesFragment"
+            app:destination="@id/coursesFragment" />
+        <action
+            android:id="@+id/action_courseDashboardFragment_to_lessonDashboardFragment"
+            app:destination="@id/lessonDashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseCreatorFragment"
+        android:name="com.example.solutionsproject.fragments.courses.CourseCreatorFragment"
+        android:label="fragment_course_creator"
+        tools:layout="@layout/fragment_course_creator" >
+        <action
+            android:id="@+id/action_courseCreatorFragment_to_courseDashboardFragment"
+            app:destination="@id/courseDashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lessonCreatorFragment"
+        android:name="com.example.solutionsproject.fragments.courses.LessonCreatorFragment"
+        android:label="fragment_content_creator"
+        tools:layout="@layout/fragment_lesson_creator" >
+        <action
+            android:id="@+id/action_lessonCreatorFragment_to_lessonDashboardFragment"
+            app:destination="@id/lessonDashboardFragment" />
+        <argument
+            android:name="courseId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/coursesFragment"
+        android:name="com.example.solutionsproject.fragments.homepage.CoursesFragment"
+        android:label="fragment_courses"
+        tools:layout="@layout/fragment_courses" >
+        <action
+            android:id="@+id/action_coursesFragment_to_courseDetailsFragment"
+            app:destination="@id/courseDetailsFragment" />
+        <action
+            android:id="@+id/action_coursesFragment_to_courseDashboardFragment"
+            app:destination="@id/courseDashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lessonDashboardFragment"
+        android:name="com.example.solutionsproject.fragments.courses.LessonDashboardFragment"
+        android:label="fragment_lesson_dashboard"
+        tools:layout="@layout/fragment_lesson_dashboard" >
+        <action
+            android:id="@+id/action_lessonDashboardFragment_to_lessonCreatorFragment"
+            app:destination="@id/lessonCreatorFragment" />
+        <action
+            android:id="@+id/action_lessonDashboardFragment_to_courseDashboardFragment"
+            app:destination="@id/courseDashboardFragment" />
+        <argument
+            android:name="courseId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_lessonDashboardFragment_to_lessonEditorFragment"
+            app:destination="@id/lessonEditorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lessonDetailsFragment"
+        android:name="com.example.solutionsproject.fragments.courses.LessonDetailsFragment"
+        android:label="fragment_lesson_details"
+        tools:layout="@layout/fragment_lesson_details" >
+        <action
+            android:id="@+id/action_lessonDetailsFragment_to_courseDetailsFragment"
+            app:destination="@id/courseDetailsFragment" />
+        <argument
+            android:name="courseLessonId"
+            app:argType="integer" />
+        <argument
+            android:name="courseId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/lessonEditorFragment"
+        android:name="com.example.solutionsproject.fragments.courses.LessonEditorFragment"
+        android:label="LessonEditorFragment" >
+        <action
+            android:id="@+id/action_lessonEditorFragment_to_lessonDashboardFragment"
+            app:destination="@id/lessonDashboardFragment" />
+        <argument
+            android:name="courseId"
+            app:argType="integer" />
+        <argument
+            android:name="courseLessonId"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>

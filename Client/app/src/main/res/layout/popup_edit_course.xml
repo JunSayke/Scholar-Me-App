@@ -1,0 +1,182 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/edit_course_container_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/edit_course_overlay"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/popup_transparent_bg"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<LinearLayout
+			android:id="@+id/edit_course_container"
+			android:layout_width="291dp"
+			android:layout_height="407dp"
+			android:background="@drawable/__aa_container_dark_box"
+			android:gravity="center"
+			android:orientation="vertical"
+			android:padding="20dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent">
+
+			<TextView
+				android:id="@+id/edit_course_txt_header_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Edit Lesson"
+				android:textColor="@color/primary_text_color"
+				android:textSize="24sp"
+				android:textStyle="bold" />
+
+			<LinearLayout
+				android:id="@+id/edit_course_component_config"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:orientation="vertical"
+				android:paddingTop="10dp">
+
+				<LinearLayout
+					android:id="@+id/edit_course_component_thumbnail"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginTop="20dp"
+					android:orientation="vertical"
+					android:visibility="gone">
+
+					<TextView
+						android:id="@+id/edit_course_lbl_thumbnail"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:layout_marginBottom="10dp"
+						android:text="Thumbnail"
+						android:textColor="@color/secondary_text_color" />
+
+					<ImageView
+						android:id="@+id/edit_course_iv_camera"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						app:srcCompat="@android:drawable/ic_menu_camera" />
+
+					<ImageButton
+						android:id="@+id/edit_course_btn_thumbnail"
+						android:layout_width="100dp"
+						android:layout_height="100dp"
+						android:layout_gravity="center_horizontal"
+						android:background="@drawable/__aa_container_white_box"
+						android:contentDescription="avatar" />
+
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:id="@+id/edit_course_component_title"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginTop="10dp"
+					android:gravity="center"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/edit_course_txt_title"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Title"
+						android:textColor="@color/secondary_text_color"
+						android:textSize="14sp" />
+
+					<EditText
+						android:id="@+id/edit_course_ett_title"
+						android:layout_width="match_parent"
+						android:layout_height="50dp"
+						android:background="@color/edit_text_bg"
+						android:ems="10"
+						android:inputType="text"
+						android:paddingEnd="10dp"
+						android:textAlignment="textStart"
+						android:textColor="@color/primary_text_color"
+						android:textSize="20sp" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:id="@+id/edit_course_component_desc"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:gravity="center"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/edit_course_txt_desc"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Description"
+						android:textColor="@color/secondary_text_color"
+						android:textSize="14sp" />
+
+					<EditText
+						android:id="@+id/edit_course_ett_desc"
+						android:layout_width="match_parent"
+						android:layout_height="100dp"
+						android:background="@color/edit_text_bg"
+						android:ems="10"
+						android:inputType="text|textMultiLine"
+						android:paddingEnd="10dp"
+						android:textAlignment="textStart"
+						android:textColor="@color/primary_text_color"
+						android:textSize="20sp" />
+				</LinearLayout>
+
+
+			</LinearLayout>
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/edit_course_component_buttons"
+				android:layout_width="288dp"
+				android:layout_height="49dp"
+				android:layout_gravity="center">
+
+				<Button
+					android:id="@+id/edit_course_btn_close"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="5dp"
+					android:layout_marginEnd="5dp"
+					android:backgroundTint="#3c5cfe"
+					android:text="Close"
+					android:textColor="@color/primary_text_color"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toStartOf="@+id/edit_course_btn_update"
+					app:layout_constraintStart_toStartOf="parent" />
+
+				<Button
+					android:id="@+id/edit_course_btn_update"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="5dp"
+					android:layout_marginEnd="5dp"
+					android:backgroundTint="#3c5cfe"
+					android:text="Update"
+					android:textColor="@color/primary_text_color"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toEndOf="@+id/edit_course_btn_close" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+		</LinearLayout>
+
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

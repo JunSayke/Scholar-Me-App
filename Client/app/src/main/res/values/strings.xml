@@ -1,0 +1,106 @@
+<resources>
+    //titles
+    <string name="app_name">ScholarMe</string>
+    <string name="title_courses">My Courses</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_account">Account</string>
+    <string name="title_timer">Pomodoro Timer</string>
+    <string name="title_edit_account">Edit Account</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorite">My Favorites</string>
+    <string name="title_help">Help</string>
+    <string name="title_setting">Settings and Privacy</string>
+
+    //text content
+    //home fragment
+    <string name="txt_start_learning">Let\'s start learning</string>
+    <string name="txt_learned_today">Learned today</string>
+    <string name="txt_learning_plan">Learning Plan</string>
+    <string name="txt_flashcard">Your Flashcards</string>
+    //courses fragment
+    <string name="txt_choose_course">Choose your courses</string>
+    //messages fragment
+    <string name="txt_message_tab">message</string>
+    <string name="txt_notification_tab">notification</string>
+    //account fragment
+    <string name="txt_favorite">Your Favorites</string>
+    <string name="txt_edit_account">Edit Account</string>
+    <string name="txt_settings">Settings and Privacy</string>
+    <string name="txt_help">Help</string>
+    <string name="txt_timer">Timer Config</string>
+    //search fragment
+    <string name="txt_search_duration">Duration</string>
+    //course details fragment
+    <string name="txt_course_description_title">About the course</string>
+    //course dashboard fragment
+    <string name="txt_cdash_title">Your Courses Dashboard</string>
+    <string name="txt_lesson_title">Lesson Creator</string>
+    //lesson dashboard fragment
+    <string name="txt_ldash_title">Your Lesson Dashboard</string>
+    //settings fragment
+    <string name="txt_settings_preferences">Preferences</string>
+    <string name="txt_settings_social">Socials</string>
+    <string name="txt_settings_textsize">Text Size</string>
+    <string name="txt_settings_learn">Primary Learning Style</string>
+    <string name="txt_settings_notification">Notifications</string>
+    <string name="txt_settings_status">Active Status</string>
+    //pomodoro popup
+    <string name="txt_timer_minutes">Timer(minutes)</string>
+    <string name="txt_timer_work">Work</string>
+    <string name="txt_timer_break">Break</string>
+    <string name="txt_timer_long_break">Long Break</string>
+    <string name="txt_timer_break_interval">Long Break Interval</string>
+    <string name="txt_timer_alarm">Alarm Sound</string>
+
+    //empty recyclerview content
+    <string name="emp_learning_plan">no courses at the moment~</string>
+    <string name="emp_flashcard">no flashcards created yet…</string>
+    <string name="emp_messages">no messages…</string>
+    <string name="emp_notifications">no notifications…</string>
+    <string name="emp_courses">no courses…</string>
+
+    //buttons
+    <string name="btn_search_more">search more</string>
+    <string name="btn_learn_now">learn now</string>
+    <string name="btn_my_courses">My courses</string>
+    <string name="btn_create_course">Create a Course</string>
+    <string name="btn_create_flashcard">Create Flashcard</string>
+
+    //placeholders
+    <string name="placeholder_splashart">Learn with D-0!</string>
+    <string name="placeholder_session_username">Hi, Name!</string>
+    <string name="placeholder_time_min">00 min</string>
+    <string name="placeholder_time_min_goal">/00 min</string>
+    <string name="placeholder_account_role">account role</string>
+    <string name="placeholder_account_name">account name</string>
+    <string name="placeholder_timer_alarm">door bell.mp4</string>
+    <string name="placeholder_course_title">course title</string>
+    <string name="placeholder_course_detail">0h : 0 Lessons</string>
+    <string name="placeholder_lesson_title">lesson title</string>
+    <string name="placeholder_course_description">course description</string>
+    <string name="placeholder_flashcard_title">flashcard name</string>
+    <string name="placeholder_flashcard_question">question content</string>
+    <string name="placeholder_flashcard_choice">choice content</string>
+    <string name="placeholder_learning_plan_progress">00/00</string>
+    <string name="placeholder_messages_messages_content">message content</string>
+    <string name="placeholder_messages_notifications_content">notification content</string>
+    <string name="placeholder_derived_date">just now</string>
+
+    //navigation
+    <string name="nav_message">Message</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_course">Course</string>
+    <string name="nav_home">Home</string>
+
+    //links
+    <string name="git_junsayke">• <a href="https://github.com/JunSayke">JunSayke</a></string>
+    <string name="git_modarku">• <a href="https://github.com/Modarku">Modarku</a></string>
+    <string name="git_perpyvanitas">• <a href="https://github.com/PerpyVanitas">PerpyVanitas</a></string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

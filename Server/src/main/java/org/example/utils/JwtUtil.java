@@ -14,7 +14,7 @@ public class JwtUtil {
     public static String createToken(int userId, String role) {
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
         return JWT.create()
-                .withClaim("userid", userId)
+                .withClaim("userId", userId)
                 .withClaim("role", role)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 3600 * 1000)) // 1 hour expiration

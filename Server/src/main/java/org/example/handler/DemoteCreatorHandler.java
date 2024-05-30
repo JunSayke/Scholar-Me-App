@@ -1,9 +1,8 @@
 package org.example.handler;
 
 import org.example.Controller;
-import org.example.data.ErrorGson;
 import org.example.data.GsonData;
-import org.example.data.SuccessGson;
+import org.example.data.ResponseGson;
 import org.example.exception.InvalidFieldException;
 import org.example.utils.MySQLConnection;
 import spark.Request;
@@ -28,39 +27,39 @@ public class DemoteCreatorHandler implements Route {
                 throw new InvalidFieldException(403, "Forbidden");
             }
 
-            Controller.validateParams(req, "userid");
+            Controller.validateParams(req, "userId");
 
-            if (req.queryParams("userid").isEmpty()) {
+            if (req.queryParams("userId").isEmpty()) {
                 throw new InvalidFieldException(400, "userid cannot be empty");
             }
 
-            if (req.queryParams("userid").matches("[^0-9]+")) {
-                throw new InvalidFieldException(400, "userid must be a number");
-            }
-
             try (Connection conn = MySQLConnection.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement("SELECT role FROM tbluseraccount WHERE userid = ?")) {
-                stmt.setInt(1, Integer.parseInt(req.queryParams("userid")));
+                 PreparedStatement stmt = conn.prepareStatement("SELECT role FROM tbluseraccount WHERE userid = ? LIMIT 1")) {
+                stmt.setInt(1, Integer.parseInt(req.queryParams("userId")));
                 ResultSet rs = stmt.executeQuery();
 
-                if (rs.next()) {
-                    if (!rs.getString("role").equals("creator")) {
-                        throw new InvalidFieldException(400, "User is not a creator");
-                    }
-                    try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tbluseraccount SET role = 'user' WHERE userid = ?")) {
-                        stmt2.setInt(1, Integer.parseInt(req.queryParams("userid")));
-                        stmt2.executeUpdate();
-                    }
-                    return GsonData.objectToJson(new SuccessGson<>(true, "Creator demoted successfully", null));
+                if (!rs.next()) {
+                    throw new InvalidFieldException(404, "User not found");
                 }
-                throw new InvalidFieldException(400, "User not found");
+
+                if (!rs.getString("role").equals("creator")) {
+                    throw new InvalidFieldException(400, "User is not a creator");
+                }
+                try (PreparedStatement stmt2 = conn.prepareStatement("UPDATE tbluseraccount SET role = 'user' WHERE userid = ?")) {
+                    stmt2.setInt(1, Integer.parseInt(req.queryParams("userId")));
+                    stmt2.executeUpdate();
+                }
+
+                Controller.addNotification(Integer.parseInt(req.queryParams("userId")), "Demoted", "You have been demoted from creator to user");
+                res.status(200);
+                return GsonData.objectToJson(new ResponseGson<>(true, "Creator demoted successfully"));
             }
         } catch (InvalidFieldException e) {
 //            e.printStackTrace();
-            halt(e.getStatusCode(), GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(e.getStatusCode(), GsonData.objectToJson(ResponseGson.builder().status(false).message(e.getMessage()).build()));
         } catch (Exception e) {
 //            e.printStackTrace();
-            halt(500, GsonData.objectToJson(new ErrorGson(false, e.getMessage())));
+            halt(500, GsonData.objectToJson(ResponseGson.builder().status(false).message("Something went wrong in the server").build()));
         }
         return null;
     }

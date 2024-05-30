@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homepage_nav_graph"
+    app:startDestination="@id/menuHome">
+
+    <fragment
+        android:id="@+id/menuHome"
+        android:name="com.example.solutionsproject.fragments.navcontrollers.HomeNavContainer"
+        android:label="home"
+        android:layout="@layout/fragment_home_nav_container">
+    </fragment>
+    <fragment
+        android:id="@+id/menuCourses"
+        android:name="com.example.solutionsproject.fragments.navcontrollers.CoursesNavContainer"
+        android:label="courses"
+        android:layout="@layout/fragment_courses_nav_container">
+    </fragment>
+    <fragment
+        android:id="@+id/menuMessage"
+        android:name="com.example.solutionsproject.fragments.navcontrollers.MessagesNavContainer"
+        android:label="home"
+        android:layout="@layout/fragment_messages_nav_container">
+    </fragment>
+    <fragment
+        android:id="@+id/menuAccount"
+        android:name="com.example.solutionsproject.fragments.navcontrollers.AccountNavContainer"
+        android:label="account"
+        android:layout="@layout/fragment_account_nav_container">
+    </fragment>
+    <fragment
+        android:id="@+id/menuSearch"
+        android:name="com.example.solutionsproject.fragments.homepage.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_menuSearch_to_courseDemoFragment"
+            app:destination="@id/courseDemoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courseDemoFragment"
+        android:name="com.example.solutionsproject.fragments.homepage.CourseDemoFragment"
+        android:label="fragment_course_demo"
+        tools:layout="@layout/fragment_course_demo" >
+        <action
+            android:id="@+id/action_courseDemoFragment_to_menuSearch"
+            app:destination="@id/menuSearch" />
+        <argument
+            android:name="courseId"
+            app:argType="integer" />
+    </fragment>
+
+
+</navigation>

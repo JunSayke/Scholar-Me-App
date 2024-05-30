@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //flashcard
+    <color name="flashcard_bg__color">#0C0C21</color>
+
+    //progress
+    <color name="progress_bar_start">#FFF1E8</color>
+    <color name="progress_bar_mid">#FFAE78</color>
+    <color name="progress_bar_end">#FF6905</color>
+
+    //main
+    <color name="popup_transparent_bg">#73141419</color>
+    <color name="main_container_light">#3E3E55</color>
+    <color name="main_container">#2F2F42</color>
+    <color name="main_container_dark">#1F1F39</color>
+    <color name="primary_color">#3D5CFF</color>
+    <color name="deselected_color">#858597</color>
+    <color name="primary_text_color">#EAEAFF</color>
+    <color name="secondary_text_color">#858597</color>
+    <color name="tertiary_text_color">#FF6905</color>
+    <color name="edit_text_bg">#28293f</color>
+    <color name="ad_color_0">#F9D2DD</color>
+    <color name="ad_color_1">#EFE0FF</color>
+    <color name="ad_txt_color">#440687</color>
+</resources>
