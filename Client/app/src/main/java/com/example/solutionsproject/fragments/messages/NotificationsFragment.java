@@ -52,7 +52,7 @@ public class NotificationsFragment extends Fragment {
                         mainFacade.getMainActivity().getApplicationContext(),
                         data,
                         itemId -> {
-                            deleteNotification(itemId);
+                            deleteNotification(Integer.parseInt(itemId));
                         }
                 ));
             }

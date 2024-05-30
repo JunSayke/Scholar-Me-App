@@ -50,7 +50,7 @@ public class UserFlashcardSetListRecyclerViewAdapter extends RecyclerView.Adapte
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String itemId);
+        void onItemClick(FlashcardSetGson item);
     }
 
     @Getter
@@ -66,7 +66,7 @@ public class UserFlashcardSetListRecyclerViewAdapter extends RecyclerView.Adapte
             btnOpen.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener.onItemClick(String.valueOf(flashcardSetGsonList.get(position).getFlashcardSetId()));
+                    onItemClickListener.onItemClick(flashcardSetGsonList.get(position));
                 }
             });
         }

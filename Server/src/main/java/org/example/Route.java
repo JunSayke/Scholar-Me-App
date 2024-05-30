@@ -120,7 +120,7 @@ public class Route {
         delete("/user/delete-review", new DeleteReviewHandler());
         get("/user/reviews", new GetUserReviewsHandler());
         post("/discussion/add-comment", new AddDiscussionCommentHandler());
-        post("/discussion/get-comments", new GetDiscussionCommentsHandler());
+        get("/discussion/get-comments", new GetDiscussionCommentsHandler());
 
         post("/user/add-reply", new AddReplyHandler());
         put("/user/edit-reply", new EditReplyHandler());

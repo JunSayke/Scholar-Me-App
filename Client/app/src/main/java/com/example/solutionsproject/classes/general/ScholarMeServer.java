@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.example.solutionsproject.classes.retrofit.RetrofitFacade;
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
+import com.example.solutionsproject.model.gson.data.CommentGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
 import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
@@ -40,13 +41,14 @@ public class ScholarMeServer extends RetrofitFacade {
     private static String ipAddress;
 
     static {
-        try {
-            MainFacade mainFacade = MainFacade.getInstance();
-            ipAddress = mainFacade.getIpAddress() + ":" + mainFacade.getServerPort();
-        } catch (Exception e) {
-            ipAddress = "10.0.2.2";
-            throw new RuntimeException(e);
-        }
+//        try {
+//            MainFacade mainFacade = MainFacade.getInstance();
+//            ipAddress = mainFacade.getIpAddress() + ":" + mainFacade.getServerPort();
+//        } catch (Exception e) {
+//            ipAddress = "10.0.2.2:6969";
+//            throw new RuntimeException(e);
+//        }
+        ipAddress = "10.0.2.2:6969";
     }
 
     public ScholarMeServer(){
@@ -366,6 +368,12 @@ public class ScholarMeServer extends RetrofitFacade {
             final int notificationId
     ){
         getRetrofitService().deleteNotification(notificationId).enqueue(callback);
+    }
+
+    public void getDiscussionComments(
+            final Callback<SuccessGson<List<CommentGson>>> callback
+    ){
+        getRetrofitService().getDiscussionComments().enqueue(callback);
     }
 
     // -- END OF SERVER FUNC

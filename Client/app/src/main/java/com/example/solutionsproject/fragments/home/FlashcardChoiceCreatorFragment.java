@@ -16,6 +16,7 @@ import com.example.solutionsproject.classes.general.MainFacade;
 import com.example.solutionsproject.classes.general.ScholarMeServer;
 import com.example.solutionsproject.databinding.FragmentFlashcardChoiceCreatorBinding;
 import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
+import com.example.solutionsproject.model.gson.data.FlashcardGson;
 import com.example.solutionsproject.model.gson.data.GsonData;
 
 import java.util.List;
@@ -44,9 +45,9 @@ public class FlashcardChoiceCreatorFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         FlashcardChoiceCreatorFragmentArgs args = FlashcardChoiceCreatorFragmentArgs.fromBundle(getArguments());
-        int flashcardId = args.getFlashcardId();
+        FlashcardGson flashcard = args.getFlashcard();
 
-        mainFacade.getFlashcardChoices(new ScholarMeServer.ResponseListener<List<FlashcardChoiceGson>>() {
+        mainFacade.getFlashcardChoices(new ScholarMeServer.ResponseListener<>() {
             @Override
             public void onSuccess(List<FlashcardChoiceGson> data) {
                 mainFacade.makeToast("Flashcard choices loaded", Toast.LENGTH_SHORT);
@@ -62,10 +63,10 @@ public class FlashcardChoiceCreatorFragment extends Fragment {
             public void onFailure(String message) {
                 mainFacade.makeToast(message, Toast.LENGTH_SHORT);
             }
-        }, flashcardId);
+        }, flashcard.getFlashcardId());
 
         binding.fccBtnFlashcard.setOnClickListener(v -> {
-            mainFacade.addFlashcardChoice(new ScholarMeServer.ResponseListener<GsonData>() {
+            mainFacade.addFlashcardChoice(new ScholarMeServer.ResponseListener<>() {
                 @Override
                 public void onSuccess(GsonData data) {
                     mainFacade.makeToast("Flashcard choice added", Toast.LENGTH_SHORT);
@@ -75,7 +76,7 @@ public class FlashcardChoiceCreatorFragment extends Fragment {
                 public void onFailure(String message) {
                     mainFacade.makeToast(message, Toast.LENGTH_SHORT);
                 }
-            }, flashcardId, binding.fccEttChoice.getText().toString(), binding.fccCbChoice.isChecked());
+            }, flashcard.getFlashcardId(), binding.fccEttChoice.getText().toString(), binding.fccCbChoice.isChecked());
         });
 
         initActions();
@@ -90,8 +91,7 @@ public class FlashcardChoiceCreatorFragment extends Fragment {
     private void initActions(){
         binding.fccBtnBack.setOnClickListener(v -> {
             FlashcardChoiceCreatorFragmentArgs args = FlashcardChoiceCreatorFragmentArgs.fromBundle(getArguments());
-            int flashcardSetId = args.getFlashcardSetId();
-            FlashcardChoiceCreatorFragmentDirections.ActionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment action = FlashcardChoiceCreatorFragmentDirections.actionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment(flashcardSetId);
+            FlashcardChoiceCreatorFragmentDirections.ActionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment action = FlashcardChoiceCreatorFragmentDirections.actionFlashcardChoiceCreatorFragmentToFlashcardQuestionCreatorFragment(args.getFlashcardSet());
             mainFacade.getHomeNavController().navigate(action);
         });
     }

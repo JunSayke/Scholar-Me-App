@@ -70,8 +70,8 @@ public class ChatWebSocketHandler {
                 throw new InvalidFieldException(400, "Message cannot be empty");
             }
 
-            if (json.getString("message").length() < 2 || json.getString("message").length() > 255) {
-                throw new InvalidFieldException(400, "Message must be between 2 and 255 characters long");
+            if (json.getString("message").isEmpty() || json.getString("message").length() > 255) {
+                throw new InvalidFieldException(400, "Message must be between 1 and 255 characters long");
             }
 
             conn.setAutoCommit(false);
@@ -124,7 +124,7 @@ public class ChatWebSocketHandler {
                         MessageGson messageGson = MessageGson.builder()
                                 .discussionCommentId(rs3.getInt("discussioncommentid"))
                                 .commendId(rs3.getInt("commentid"))
-                                        .sender(user)
+                                        .user(user)
                                                 .comment(rs3.getString("comment"))
                                                         .dateAdded(rs3.getTimestamp("dateadded").toLocalDateTime())
                                                                 .dateUpdated(rs3.getTimestamp("dateupdated").toLocalDateTime())

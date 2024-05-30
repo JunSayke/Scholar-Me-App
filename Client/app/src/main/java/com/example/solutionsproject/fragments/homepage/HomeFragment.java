@@ -97,9 +97,9 @@ public class HomeFragment extends Fragment {
 				binding.homeListFlashcardsets.setAdapter(new UserFlashcardSetListRecyclerViewAdapter(
 						mainFacade.getMainActivity().getApplicationContext(),
 						data,
-						flashcardSetId -> {
+						flashcardSet -> {
 							HomeFragmentDirections.ActionHomeFragmentToFlashcardQuestionCreatorFragment action =
-									HomeFragmentDirections.actionHomeFragmentToFlashcardQuestionCreatorFragment(Integer.parseInt(flashcardSetId));
+									HomeFragmentDirections.actionHomeFragmentToFlashcardQuestionCreatorFragment(flashcardSet);
 							mainFacade.getHomeNavController().navigate(action);
 						}
 				));

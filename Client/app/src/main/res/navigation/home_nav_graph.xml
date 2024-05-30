@@ -17,8 +17,8 @@
             android:id="@+id/action_flashcardQuestionCreatorFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <argument
-            android:name="flashcardSetId"
-            app:argType="integer" />
+            android:name="flashcardSet"
+            app:argType="com.example.solutionsproject.model.gson.data.FlashcardSetGson" />
     </fragment>
     <fragment
         android:id="@+id/flashcardChoiceCreatorFragment"
@@ -28,10 +28,10 @@
             android:id="@+id/action_flashcardChoiceCreatorFragment_to_flashcardQuestionCreatorFragment"
             app:destination="@id/flashcardQuestionCreatorFragment" />
         <argument
-            android:name="flashcardId"
-            app:argType="integer" />
-        <argument android:name="flashcardSetId"
-            app:argType="integer" />
+            android:name="flashcard"
+            app:argType="com.example.solutionsproject.model.gson.data.FlashcardGson" />
+        <argument android:name="flashcardSet"
+            app:argType="com.example.solutionsproject.model.gson.data.FlashcardSetGson" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

@@ -13,7 +13,7 @@ public class MessageGson extends GsonData {
     private int discussionCommentId;
     private int commendId;
     private String comment;
-    private UserGson sender;
+    private UserGson user;
     private LocalDateTime dateAdded;
     private LocalDateTime dateUpdated;
 }
