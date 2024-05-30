@@ -30,8 +30,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures{
         viewBinding = true
@@ -41,10 +41,10 @@ android {
 
 dependencies {
 
-    androidTestImplementation(libs.core)
-    androidTestImplementation(libs.junit.v110)
+    androidTestImplementation("androidx.test:core:1.1.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.0")
 
-    implementation(libs.glide)
+    implementation("com.github.bumptech.glide:glide:4.11.0")
     implementation(project(":are"))
 
     compileOnly(libs.org.projectlombok.lombok)
@@ -53,21 +53,16 @@ dependencies {
     // START_OF[Retrofit Dependencies]
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation(libs.okhttp)
     // END_OF[Retrofit Dependencies]
 
-    // START_OF[Picasso Dependencies]
-    implementation(libs.picasso)
-    // END_OF[Picasso Dependencies]
-
-    implementation(libs.lifecycle.livedata.ktx.v270)
-    implementation(libs.lifecycle.viewmodel.ktx.v270)
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
     // START_OF[JWT]
-    implementation(libs.java.jwt)
+    implementation("com.auth0:java-jwt:4.4.0")
     // END_OF[JWT]
 
-    implementation(libs.coil)
+    implementation("io.coil-kt:coil:2.6.0")
 
     implementation(libs.recyclerview)
     implementation(libs.appcompat)

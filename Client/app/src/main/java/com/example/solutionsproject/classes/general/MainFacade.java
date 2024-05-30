@@ -4,6 +4,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 import static androidx.core.content.ContentProviderCompat.requireContext;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.InetAddresses;
@@ -16,9 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,7 +33,6 @@ import com.example.solutionsproject.databinding.ActivityMainBinding;
 import com.example.solutionsproject.model.data.livedata.UserGsonViewModel;
 import com.example.solutionsproject.model.data.livedata.UserGsonViewModelFactory;
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
-import com.example.solutionsproject.model.gson.data.CommentGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
 import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
@@ -80,7 +82,6 @@ public class MainFacade {
     public static final String KEY_LONG_BREAK_TIME = "long_break_time_minutes";
     public static final String KEY_BREAK_INTERVAL = "break_time_interval";
     public static final String KEY_VOLUME_LEVEL = "volume_level";
-    public static final String API_KEY = "scholarmeapp2024_api_key";
 
     private MainFacade(@Nullable MainActivity mainActivity){
         if(mainActivity != null) setMainActivity(mainActivity);
@@ -200,11 +201,19 @@ public class MainFacade {
 
     public void updateCourse(
             final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int courseId,
             @Nullable final File thumbnail,
             @Nullable final String title,
             @Nullable final String description
     ){
-        server.updateCourse(ScholarMeServer.getCallback(responseListener), thumbnail, title, description);
+        server.updateCourse(ScholarMeServer.getCallback(responseListener), courseId, thumbnail, title, description);
+    }
+
+    public void deleteCourse(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int courseId
+    ) {
+        server.deleteCourse(ScholarMeServer.getCallback(responseListener), courseId);
     }
 
     public void getCreatorCourses(
@@ -219,18 +228,44 @@ public class MainFacade {
         server.getUserCourses(ScholarMeServer.getCallback(responseListener));
     }
 
+    public void getUserCourseFavorites(
+            final ScholarMeServer.ResponseListener<List<CourseGson>> responseListener
+    ){
+        server.getUserCourseFavorites(ScholarMeServer.getCallback(responseListener));
+    }
+
     public void getCourses(
             final ScholarMeServer.ResponseListener<List<CourseGson>> responseListener
     ){
         server.getCourses(ScholarMeServer.getCallback(responseListener));
     }
 
-    public void createFlashcardSet(
+    public void enrollCourse(
             final ScholarMeServer.ResponseListener<GsonData> responseListener,
-            final String title,
-            final String description
-    ){
-        server.createFlashcardSet(ScholarMeServer.getCallback(responseListener), title, description);
+            final int courseId
+    ) {
+        server.enrollCourse(ScholarMeServer.getCallback(responseListener), courseId);
+    }
+
+    public void unenrollCourse(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int courseId
+    ) {
+        server.unenrollCourse(ScholarMeServer.getCallback(responseListener), courseId);
+    }
+
+    public void markFavoriteCourse(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int courseId
+    ) {
+        server.markFavoriteCourse(ScholarMeServer.getCallback(responseListener), courseId);
+    }
+
+    public void unmarkFavoriteCourse(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int courseId
+    ) {
+        server.unmarkFavoriteCourse(ScholarMeServer.getCallback(responseListener), courseId);
     }
 
     // -- LESSON CRUD
@@ -254,7 +289,34 @@ public class MainFacade {
         server.getCourseLesson(ScholarMeServer.getCallback(responseListener), courseId);
     }
 
+    public void updateLesson(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int lessonId,
+            @Nullable final String title,
+            @Nullable final String lessonNumber,
+            @Nullable final String description,
+            @Nullable final String content,
+            @Nullable final String duration
+    ) {
+        server.updateLesson(ScholarMeServer.getCallback(responseListener), lessonId, title, lessonNumber, description, content, duration);
+    }
+
+    public void deleteLesson(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int courseLessonId
+    ) {
+        server.deleteLesson(ScholarMeServer.getCallback(responseListener), courseLessonId);
+    }
+
     // -- FLASHCARD CRUD
+
+    public void createFlashcardSet(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final String title,
+            final String description
+    ){
+        server.createFlashcardSet(ScholarMeServer.getCallback(responseListener), title, description);
+    }
 
     public void editFlashcardSet(
             final ScholarMeServer.ResponseListener<GsonData> responseListener,
@@ -293,12 +355,6 @@ public class MainFacade {
         server.getFlashcardSetFlashcards(ScholarMeServer.getCallback(responseListener), flashcardSetId);
     }
 
-    public void getUserNotifications(
-            final ScholarMeServer.ResponseListener<List<NotificationGson>> responseListener
-    ){
-        server.getUserNotifications(ScholarMeServer.getCallback(responseListener));
-    }
-
     public void addFlashcardChoice(
             final ScholarMeServer.ResponseListener<GsonData> responseListener,
             final int flashcardId,
@@ -315,17 +371,18 @@ public class MainFacade {
         server.getFlashcardChoices(ScholarMeServer.getCallback(responseListener), flashcardId);
     }
 
-    public void addDiscussionComment(
-            final ScholarMeServer.ResponseListener<GsonData> responseListener,
-            final String comment
+    // -- NOTIFICATIONS
+    public void getUserNotifications(
+            final ScholarMeServer.ResponseListener<List<NotificationGson>> responseListener
     ){
-        server.addDiscussionComment(ScholarMeServer.getCallback(responseListener), comment);
+        server.getUserNotifications(ScholarMeServer.getCallback(responseListener));
     }
 
-    public void getDiscussionComments(
-            final ScholarMeServer.ResponseListener<List<CommentGson>> responseListener
+    public void deleteNotification(
+            final ScholarMeServer.ResponseListener<GsonData> responseListener,
+            final int notificationId
     ){
-        server.getDiscussionComments(ScholarMeServer.getCallback(responseListener));
+        server.deleteNotification(ScholarMeServer.getCallback(responseListener), notificationId);
     }
 
     //-- START OF MISCELLANEOUS --
@@ -427,6 +484,147 @@ public class MainFacade {
                     makeToast(message, Toast.LENGTH_SHORT);
                 }
             }, valTitle, valDescription);
+        });
+    }
+
+    public void popupUpdateCourse(View view, int courseId) {
+        LayoutInflater inflater = (LayoutInflater) getMainActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_edit_course, null);
+
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        Button btnClose = popupView.findViewById(R.id.edit_course_btn_close);
+        Button btnUpdate = popupView.findViewById(R.id.edit_course_btn_update);
+        EditText ettTitle = popupView.findViewById(R.id.edit_course_ett_title);
+        EditText ettDescription = popupView.findViewById(R.id.edit_course_ett_desc);
+
+        btnClose.setOnClickListener(v -> popupWindow.dismiss());
+        btnUpdate.setOnClickListener(v -> {
+            String valTitle = String.valueOf(ettTitle.getText()).isEmpty() ? null : String.valueOf(ettTitle.getText());
+            String valDescription = String.valueOf(ettDescription.getText()).isEmpty() ? null : String.valueOf(ettTitle.getText());;
+
+            updateCourse(new ScholarMeServer.ResponseListener<GsonData>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    makeToast("Successfully updated course", Toast.LENGTH_SHORT);
+                    popupWindow.dismiss();
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    makeToast(message, Toast.LENGTH_SHORT);
+                }
+            }, courseId,null ,valTitle, valDescription);
+        });
+    }
+
+    public void popupDeleteCourseWarning(View view, int courseId) {
+        LayoutInflater inflater = (LayoutInflater) getMainActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_warning, null);
+
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        Button btnNo = popupView.findViewById(R.id.warning_btn_no);
+        Button btnYes = popupView.findViewById(R.id.warning_btn_yes);
+        TextView tvContent = popupView.findViewById(R.id.warning_txt_content);
+
+        tvContent.setText("Are you sure you want to delete this course?");
+        btnNo.setOnClickListener(v -> popupWindow.dismiss());
+        btnYes.setOnClickListener(v -> {
+
+            deleteCourse(new ScholarMeServer.ResponseListener<GsonData>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    makeToast("Successfully deleted course", Toast.LENGTH_SHORT);
+                    popupWindow.dismiss();
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    makeToast(message, Toast.LENGTH_SHORT);
+                }
+            }, courseId);
+
+        });
+    }
+
+    public void popupUnenrollWarning(View view, int courseId) {
+        LayoutInflater inflater = (LayoutInflater) getMainActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_warning, null);
+
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        Button btnNo = popupView.findViewById(R.id.warning_btn_no);
+        Button btnYes = popupView.findViewById(R.id.warning_btn_yes);
+        TextView tvContent = popupView.findViewById(R.id.warning_txt_content);
+
+        tvContent.setText("Are you sure you want to unenroll from this course?");
+        btnNo.setOnClickListener(v -> popupWindow.dismiss());
+        btnYes.setOnClickListener(v -> {
+
+            unenrollCourse(new ScholarMeServer.ResponseListener<GsonData>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    makeToast("Successfully unenrolled", Toast.LENGTH_SHORT);
+                    popupWindow.dismiss();
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    makeToast(message, Toast.LENGTH_SHORT);
+                }
+            }, courseId);
+
+        });
+    }
+
+    public void popupDeleteLessonWarning(View view, int courseLessonId) {
+        LayoutInflater inflater = (LayoutInflater) getMainActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_warning, null);
+
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        Button btnNo = popupView.findViewById(R.id.warning_btn_no);
+        Button btnYes = popupView.findViewById(R.id.warning_btn_yes);
+        TextView tvContent = popupView.findViewById(R.id.warning_txt_content);
+
+        tvContent.setText("Are you sure you want to delete this lesson from this course?");
+        btnNo.setOnClickListener(v -> popupWindow.dismiss());
+        btnYes.setOnClickListener(v -> {
+
+            deleteLesson(new ScholarMeServer.ResponseListener<GsonData>() {
+                @Override
+                public void onSuccess(GsonData data) {
+                    makeToast("Successfully deleted", Toast.LENGTH_SHORT);
+                    popupWindow.dismiss();
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    makeToast(message, Toast.LENGTH_SHORT);
+                }
+            }, courseLessonId);
+
         });
     }
 }

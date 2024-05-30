@@ -59,7 +59,7 @@ public class LessonDetailsFragment extends Fragment {
             @Override
             public void onSuccess(List<LessonGson> data) {
                 for(LessonGson lesson: data){
-                    if(lessonId == Integer.parseInt(lesson.getCourseLessonId())){
+                    if(lessonId == lesson.getCourseLessonId()){
                         fillPlaceholder(lesson);
                     }
                 }

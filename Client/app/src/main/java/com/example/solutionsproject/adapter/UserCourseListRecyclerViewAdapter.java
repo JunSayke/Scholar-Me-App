@@ -40,6 +40,7 @@ public class UserCourseListRecyclerViewAdapter extends RecyclerView.Adapter<User
     public void onBindViewHolder(@NonNull UserCourseListRecyclerViewAdapter.ViewHolder holder, int position) {
         CourseGson model = courseGsonList.get(position);
         holder.txtTitle.setText(model.getTitle());
+        holder.txtProgress.setText(model.getTotalDuration());
     }
 
     @Override
@@ -54,10 +55,12 @@ public class UserCourseListRecyclerViewAdapter extends RecyclerView.Adapter<User
     @Getter
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView txtTitle;
+        private final TextView txtProgress;
         private final ImageButton btnOpen;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTitle = itemView.findViewById(R.id.home_learning_plan_txt_title);
+            txtProgress = itemView.findViewById(R.id.home_learning_plan_txt_progress);
             btnOpen = itemView.findViewById(R.id.home_learning_plan_btn_course);
             btnOpen.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();

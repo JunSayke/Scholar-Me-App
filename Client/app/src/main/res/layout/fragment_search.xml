@@ -134,7 +134,7 @@
                         android:layout_marginHorizontal="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/deselected_color"
-                        android:text="3-8 hours"
+                        android:text="1-5 Lessons"
                         android:textColor="@color/primary_text_color" />
 
                     <Button
@@ -144,7 +144,7 @@
                         android:layout_marginHorizontal="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/deselected_color"
-                        android:text="8-14 hours"
+                        android:text="5-10 Lessons"
                         android:textColor="@color/primary_text_color" />
 
                     <Button
@@ -154,7 +154,7 @@
                         android:layout_marginHorizontal="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/deselected_color"
-                        android:text="14-20 hours"
+                        android:text="10-15 Lessons"
                         android:textColor="@color/primary_text_color" />
 
                     <Button
@@ -164,7 +164,7 @@
                         android:layout_marginHorizontal="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/deselected_color"
-                        android:text="20-24 hours"
+                        android:text="20-30 Lessons"
                         android:textColor="@color/primary_text_color" />
 
                     <Button
@@ -174,12 +174,23 @@
                         android:layout_marginHorizontal="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/deselected_color"
-                        android:text="24+ hours"
+                        android:text="30+ Lessons"
                         android:textColor="@color/primary_text_color" />
 
                 </LinearLayout>
             </HorizontalScrollView>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/search_txt_no_courses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="@string/emp_courses"
+            android:textColor="@color/secondary_text_color"
+            android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_list_courses"

@@ -71,6 +71,7 @@ public class CoursesFragment extends Fragment {
         final ScholarMeServer.ResponseListener<List<CourseGson>> responseListener = new ScholarMeServer.ResponseListener<List<CourseGson>>() {
             @Override
             public void onSuccess(List<CourseGson> data) {
+                if(!data.isEmpty()) binding.courseTxtNoCourses.setVisibility(View.GONE);
                 binding.courseListCourses.setAdapter(new CourseListRecyclerViewAdapter(
                         mainFacade.getMainActivity().getApplicationContext(),
                         data,
@@ -78,7 +79,6 @@ public class CoursesFragment extends Fragment {
                             CoursesFragmentDirections.ActionCoursesFragmentToCourseDetailsFragment action =
                                     CoursesFragmentDirections.actionCoursesFragmentToCourseDetailsFragment(Integer.parseInt(itemId));
                             action.setCourseId(Integer.parseInt(itemId));
-                            //Log.d(TAG, itemId);
                             mainFacade.getCoursesNavController().navigate(action);
                         }, mainFacade
                 ));
@@ -91,7 +91,7 @@ public class CoursesFragment extends Fragment {
             }
         };
 
-        mainFacade.getCourses(responseListener);
+        mainFacade.getUserCourses(responseListener);
 
         initActions();
     }

@@ -59,7 +59,7 @@ public class CourseDetailsFragment extends Fragment {
             @Override
             public void onSuccess(List<CourseGson> data) {
                 for(CourseGson course: data){
-                    Log.d(TAG, data.toString());
+                    //Log.d(TAG, data.toString());
                     if(courseId == Integer.parseInt(course.getId())){
                         fillPlaceholder(course);
                     }
@@ -79,11 +79,11 @@ public class CourseDetailsFragment extends Fragment {
                 binding.cdListCourses.setAdapter(new LessonListRecyclerViewAdapter(
                         mainFacade.getMainActivity().getApplicationContext(),
                         data,
-                        (courseLessonId, courseId) -> {
+                        (courseId, courseLessonId) -> {
                             CourseDetailsFragmentDirections.ActionCourseDetailsFragmentToLessonDetailsFragment action =
-                                    CourseDetailsFragmentDirections.actionCourseDetailsFragmentToLessonDetailsFragment(Integer.parseInt(courseLessonId), Integer.parseInt(courseId));
-                            action.setCourseId(Integer.parseInt(courseId));
-                            action.setCourseLessonId(Integer.parseInt(courseLessonId));
+                                    CourseDetailsFragmentDirections.actionCourseDetailsFragmentToLessonDetailsFragment(courseId, courseLessonId);
+                            action.setCourseId(courseId);
+                            action.setCourseLessonId(courseLessonId);
 
                             mainFacade.getCoursesNavController().navigate(action);
                         }
@@ -122,28 +122,11 @@ public class CourseDetailsFragment extends Fragment {
         });
 
         binding.cdBtnStart.setOnClickListener(v -> {
-//            if(isRunning){
-//                stopService(v);
-//                binding.cdBtnStart.setText("Start Timer");
-//                isRunning = false;
-//            }else{
-//                startService(v);
-//                binding.cdBtnStart.setText("Stop Timer");
-//                isRunning = true;
-//            }
+            mainFacade.popupPomodoro(v);
+        });
+
+        binding.cdBtnUnenroll.setOnClickListener(v -> {
+            mainFacade.popupUnenrollWarning(v, courseId);
         });
     }
-
-    public void startService(View v){
-        System.out.println("Starting");
-        Intent serviceIntent = new Intent(mainFacade.getMainActivity().getApplicationContext(), TimerService.class);
-        mainFacade.getMainActivity().startService(serviceIntent);
-    }
-
-    public void stopService(View v){
-        Intent serviceIntent = new Intent(mainFacade.getMainActivity().getApplicationContext(), TimerService.class);
-        mainFacade.getMainActivity().stopService(serviceIntent);
-    }
-
-
 }

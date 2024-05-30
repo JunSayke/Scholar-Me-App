@@ -1,7 +1,7 @@
 <resources>
     //titles
     <string name="app_name">ScholarMe</string>
-    <string name="title_courses">Courses</string>
+    <string name="title_courses">My Courses</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_account">Account</string>
     <string name="title_timer">Pomodoro Timer</string>
@@ -10,9 +10,6 @@
     <string name="title_favorite">My Favorites</string>
     <string name="title_help">Help</string>
     <string name="title_setting">Settings and Privacy</string>
-
-    //flashcard
-    <string name="start_timer">Start Timer</string>
 
     //text content
     //home fragment
@@ -59,6 +56,7 @@
     <string name="emp_learning_plan">no courses at the moment~</string>
     <string name="emp_flashcard">no flashcards created yet…</string>
     <string name="emp_messages">no messages…</string>
+    <string name="emp_notifications">no notifications…</string>
     <string name="emp_courses">no courses…</string>
 
     //buttons

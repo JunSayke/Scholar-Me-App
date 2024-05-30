@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout2"
@@ -12,7 +12,7 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
         <FrameLayout
@@ -24,6 +24,7 @@
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingBottom="100dp"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/homepage_nav_graph"
                 tools:context=".fragments.homepage.HomeFragment"/>
@@ -34,30 +35,34 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/scrollView2">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/main_container_dark"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/main_container_light"
             android:contentDescription="search_button"
             android:enabled="false"
-            android:src="@android:drawable/ic_menu_search"
-            app:backgroundTint="@color/black_overlay"
-            app:layout_anchor="@id/homepage_nav_bottom_bar"
-            app:maxImageSize="40dp" />
+            android:src="@drawable/search"
+            app:backgroundTint="@android:color/transparent"
+            app:layout_anchor="@+id/homepage_nav_bottom_bar"
+            app:layout_anchorGravity="top|center"
+            app:maxImageSize="35dp" />
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/homepage_nav_bottom_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/main_container_dark"
-            android:paddingBottom="20dp"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/main_container_light"
+            android:paddingBottom="10dp"
             app:buttonGravity="bottom"
-            app:fabCradleMargin="30dp"
-            app:fabCradleRoundedCornerRadius="50dp">
+            app:fabCradleMargin="20dp"
+            app:fabCradleRoundedCornerRadius="30dp">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/homepage_nav_bottom_view"
@@ -66,6 +71,8 @@
                 android:background="@android:color/transparent"
                 app:elevation="0dp"
                 app:itemIconSize="75dp"
+                app:itemIconTint="@drawable/bottom_nav_color_status"
+                app:itemTextColor="@drawable/bottom_nav_color_status"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_nav_menu" />
 
@@ -74,4 +81,4 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

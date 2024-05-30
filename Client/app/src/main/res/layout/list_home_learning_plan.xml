@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_learning_plan_container_main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:layout_marginVertical="10dp"
     android:background="@drawable/__aa_container_light_box"
     android:padding="10dp">
@@ -18,7 +18,8 @@
         android:indeterminateTint="@color/primary_color"
         android:indeterminateTintMode="src_atop"
         android:progress="100"
-        android:progressTint="@color/deselected_color" />
+        android:progressTint="@color/deselected_color"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/home_learning_plan_txt_title"
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
         android:layout_weight="0"
         android:text="@string/placeholder_learning_plan_progress"
         android:textColor="@color/primary_text_color"
@@ -47,6 +49,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
+        android:visibility="gone"
         app:srcCompat="@drawable/__aa_btn_arrow_right" />
 
 

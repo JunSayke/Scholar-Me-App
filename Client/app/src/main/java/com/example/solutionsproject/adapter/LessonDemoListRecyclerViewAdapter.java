@@ -17,26 +17,24 @@ import java.util.List;
 
 import lombok.Getter;
 
-public class LessonListRecyclerViewAdapter extends RecyclerView.Adapter<LessonListRecyclerViewAdapter.ViewHolder>{
+public class LessonDemoListRecyclerViewAdapter extends RecyclerView.Adapter<LessonDemoListRecyclerViewAdapter.ViewHolder>{
     private final Context context;
     private final List<LessonGson> lessonGsonList;
-    private final LessonListRecyclerViewAdapter.OnItemClickListener courseLessonOnItemClickListener;
 
-    public LessonListRecyclerViewAdapter(Context context, List<LessonGson> lessonGsonList, LessonListRecyclerViewAdapter.OnItemClickListener courseLessonOnItemClickListener) {
+    public LessonDemoListRecyclerViewAdapter(Context context, List<LessonGson> lessonGsonList) {
         this.context = context;
         this.lessonGsonList = lessonGsonList;
-        this.courseLessonOnItemClickListener = courseLessonOnItemClickListener;
     }
 
     @NonNull
     @Override
-    public LessonListRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public LessonDemoListRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_lesson_list, parent, false);
-        return new LessonListRecyclerViewAdapter.ViewHolder(view);
+        return new LessonDemoListRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LessonListRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull LessonDemoListRecyclerViewAdapter.ViewHolder holder, int position) {
         LessonGson model = lessonGsonList.get(position);
         String lessonNum = Integer.parseInt(model.getLessonNumber()) < 10 ? "0" + model.getLessonNumber() : model.getLessonNumber();
         holder.txtNumber.setText(lessonNum);
@@ -48,26 +46,14 @@ public class LessonListRecyclerViewAdapter extends RecyclerView.Adapter<LessonLi
         return lessonGsonList.size();
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(int itemId, int itemId2);
-    }
-
     @Getter
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView txtNumber;
         private final TextView txtTitle;
-        private final ImageButton btnOpen;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtNumber = itemView.findViewById(R.id.lesson_list_number);
             txtTitle = itemView.findViewById(R.id.lesson_list_txt_title);
-            btnOpen = itemView.findViewById(R.id.lesson_list_btn_open);
-            btnOpen.setOnClickListener(v -> {
-                int position = getBindingAdapterPosition();
-                if (position != RecyclerView.NO_POSITION && courseLessonOnItemClickListener != null) {
-                    courseLessonOnItemClickListener.onItemClick(lessonGsonList.get(position).getCourseId(), lessonGsonList.get(position).getCourseLessonId());
-                }
-            });
         }
     }
 }

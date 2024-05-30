@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 
 import com.example.solutionsproject.classes.retrofit.RetrofitFacade;
 import com.example.solutionsproject.model.gson.data.ApplicantsGson;
-import com.example.solutionsproject.model.gson.data.CommentGson;
 import com.example.solutionsproject.model.gson.data.CourseGson;
 import com.example.solutionsproject.model.gson.data.FlashcardChoiceGson;
 import com.example.solutionsproject.model.gson.data.FlashcardGson;
@@ -40,20 +39,18 @@ public class ScholarMeServer extends RetrofitFacade {
     private static final String TAG = "ScholarMeServer";
     private static String ipAddress;
 
-//    static {
-//        try {
-//            MainFacade mainFacade = MainFacade.getInstance();
-//            ipAddress = mainFacade.getIpAddress() + ":" + mainFacade.getServerPort();
-//        } catch (Exception e) {
-//            ipAddress = "10.0.2.2";
-//            Log.e(TAG, ipAddress);
-//            throw new RuntimeException(e);
-//        }
-//    }
+    static {
+        try {
+            MainFacade mainFacade = MainFacade.getInstance();
+            ipAddress = mainFacade.getIpAddress() + ":" + mainFacade.getServerPort();
+        } catch (Exception e) {
+            ipAddress = "10.0.2.2";
+            throw new RuntimeException(e);
+        }
+    }
 
     public ScholarMeServer(){
-//        super("http://" + ipAddress);
-        super("http://10.0.2.2:6969");
+        super("http://" + ipAddress);
     }
 
     public void login(
@@ -174,6 +171,7 @@ public class ScholarMeServer extends RetrofitFacade {
 
     public void updateCourse(
             final Callback<SuccessGson<GsonData>> callback,
+            final int courseId,
             @Nullable final File thumbnail,
             @Nullable final String title,
             @Nullable final String description
@@ -192,7 +190,14 @@ public class ScholarMeServer extends RetrofitFacade {
             fields.put("description", RequestBody.create(description, MediaType.parse("text/plain")));
         }
 
-        getRetrofitService().updateCourse(imagePart, fields).enqueue(callback);
+        getRetrofitService().updateCourse(imagePart, courseId, fields).enqueue(callback);
+    }
+
+    public void deleteCourse(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int courseId
+    ) {
+        getRetrofitService().deleteCourse(courseId).enqueue(callback);
     }
 
     public void getCreatorCourses(
@@ -207,10 +212,44 @@ public class ScholarMeServer extends RetrofitFacade {
         getRetrofitService().getUserCourses().enqueue(callback);
     }
 
+    public void getUserCourseFavorites(
+            final Callback<SuccessGson<List<CourseGson>>> callback
+    ){
+        getRetrofitService().getUserCourseFavorites().enqueue(callback);
+    }
+
     public void getCourses(
             final Callback<SuccessGson<List<CourseGson>>> callback
     ){
         getRetrofitService().getCourses().enqueue(callback);
+    }
+
+    public void enrollCourse(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int courseId
+    ) {
+        getRetrofitService().enrollCourse(courseId).enqueue(callback);
+    }
+
+    public void unenrollCourse(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int courseId
+    ) {
+        getRetrofitService().unenrollCourse(courseId).enqueue(callback);
+    }
+
+    public void markFavoriteCourse(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int courseId
+    ) {
+        getRetrofitService().markFavoriteCourse(courseId).enqueue(callback);
+    }
+
+    public void unmarkFavoriteCourse(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int courseId
+    ) {
+        getRetrofitService().unmarkFavoriteCourse(courseId).enqueue(callback);
     }
 
     // -- LESSON CRUD
@@ -231,6 +270,25 @@ public class ScholarMeServer extends RetrofitFacade {
             final int courseId
     ){
         getRetrofitService().getCourseLesson(courseId).enqueue(callback);
+    }
+
+    public void updateLesson(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int lessonId,
+            @Nullable final String title,
+            @Nullable final String lessonNumber,
+            @Nullable final String description,
+            @Nullable final String content,
+            @Nullable final String duration
+    ) {
+        getRetrofitService().updateLesson(lessonId, title, lessonNumber, description, content, duration).enqueue(callback);
+    }
+
+    public void deleteLesson(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int courseLessonId
+    ) {
+        getRetrofitService().deleteLesson(courseLessonId).enqueue(callback);
     }
 
     // -- FLASHCARD CRUD
@@ -280,12 +338,6 @@ public class ScholarMeServer extends RetrofitFacade {
         getRetrofitService().getFlashcardSetFlashcards(flashcardSetId).enqueue(callback);
     }
 
-    public void getUserNotifications(
-            final Callback<SuccessGson<List<NotificationGson>>> callback
-    ){
-        getRetrofitService().getUserNotifications().enqueue(callback);
-    }
-
     public void addFlashcardChoice(
             final Callback<SuccessGson<GsonData>> callback,
             final int flashcardId,
@@ -302,19 +354,20 @@ public class ScholarMeServer extends RetrofitFacade {
         getRetrofitService().getFlashcardChoices(flashcardId).enqueue(callback);
     }
 
-    public void addDiscussionComment(
-            final Callback<SuccessGson<GsonData>> callback,
-            final String comment
+    // -- NOTIFICATIONS
+    public void getUserNotifications(
+            final Callback<SuccessGson<List<NotificationGson>>> callback
     ){
-        Log.e("TESTING", "addDiscussionComment: " + comment);
-        getRetrofitService().addDiscussionComment(comment).enqueue(callback);
+        getRetrofitService().getUserNotifications().enqueue(callback);
     }
 
-    public void getDiscussionComments(
-            final Callback<SuccessGson<List<CommentGson>>> callback
+    public void deleteNotification(
+            final Callback<SuccessGson<GsonData>> callback,
+            final int notificationId
     ){
-        getRetrofitService().getDiscussionComments().enqueue(callback);
+        getRetrofitService().deleteNotification(notificationId).enqueue(callback);
     }
+
     // -- END OF SERVER FUNC
 
 

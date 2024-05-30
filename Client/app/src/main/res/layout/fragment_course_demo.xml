@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cd_container_main"
+    android:id="@+id/cde_container_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_color"
@@ -10,25 +10,13 @@
     tools:context=".fragments.courses.CourseDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cd_container_header"
+        android:id="@+id/cde_container_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="20dp">
 
-        <Button
-            android:id="@+id/cd_btn_unenroll"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/main_container_light"
-            android:contentDescription="button_primary__background_"
-            android:gravity="center"
-            android:text="Unenroll"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageButton
-            android:id="@+id/cd_btn_back"
+            android:id="@+id/cde_btn_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="30dp"
@@ -42,13 +30,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cd_container_title"
+        android:id="@+id/cde_container_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" >
 
         <TextView
-            android:id="@+id/cd_txt_title"
+            android:id="@+id/cde_txt_title"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/placeholder_course_title"
@@ -63,7 +51,7 @@
             app:layout_constraintVertical_bias="0.20" />
 
         <ImageView
-            android:id="@+id/cd_iv_clipart"
+            android:id="@+id/cde_iv_clipart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-23dp"
@@ -73,7 +61,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/cd_component_details"
+        android:id="@+id/cde_component_details"
         android:layout_width="match_parent"
         android:layout_height="600dp"
         android:background="@drawable/__aa_container_dark_box"
@@ -81,14 +69,14 @@
 
 
         <LinearLayout
-            android:id="@+id/cd_component_detail_info"
+            android:id="@+id/cde_component_detail_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="30dp">
 
             <TextView
-                android:id="@+id/cd_txt_detail_title"
+                android:id="@+id/cde_txt_detail_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -98,7 +86,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/cd_txt_time_frame"
+                android:id="@+id/cde_txt_time_frame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -109,14 +97,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/cd_component_description"
+            android:id="@+id/cde_component_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="20dp">
 
             <TextView
-                android:id="@+id/cd_txt_description"
+                android:id="@+id/cde_txt_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -127,7 +115,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/cd_txt_description_content"
+                android:id="@+id/cde_txt_description_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -149,7 +137,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/cd_txt_no_courses"
+                    android:id="@+id/cde_txt_no_courses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -160,7 +148,7 @@
                     android:textSize="16sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cd_list_courses"
+                    android:id="@+id/cde_list_courses"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="20dp"
@@ -170,13 +158,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:listitem="@layout/list_lesson_list" />
+                    tools:listitem="@layout/list_lesson_demo" />
 
             </LinearLayout>
         </ScrollView>
 
         <LinearLayout
-            android:id="@+id/cd_component_buttons"
+            android:id="@+id/cde_component_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -184,7 +172,7 @@
             android:backgroundTint="@color/primary_text_color">
 
             <ImageButton
-                android:id="@+id/cd_btn_favorite"
+                android:id="@+id/cde_btn_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -195,7 +183,7 @@
                 android:src="@drawable/vector__stroke_star" />
 
             <Button
-                android:id="@+id/cd_btn_start"
+                android:id="@+id/cde_btn_start"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginLeft="5dp"
@@ -203,7 +191,7 @@
                 android:backgroundTint="@color/primary_color"
                 android:contentDescription="button_primary__background_"
                 android:gravity="center"
-                android:text="Configure Pomodoro" />
+                android:text="Enroll Course" />
 
 
         </LinearLayout>

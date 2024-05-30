@@ -17,7 +17,6 @@ import com.example.solutionsproject.activities.TermsAndConditionsActivity;
 import com.example.solutionsproject.classes.general.ScholarMeServer;
 import com.example.solutionsproject.classes.imagetools.FileUtils;
 import com.example.solutionsproject.model.gson.data.GsonData;
-import com.squareup.picasso.Picasso;
 
 import com.example.solutionsproject.R;
 import com.example.solutionsproject.classes.general.MainFacade;
@@ -26,12 +25,18 @@ import com.example.solutionsproject.databinding.FragmentSignupBinding;
 
 import java.io.File;
 
+import coil.Coil;
+import coil.ImageLoader;
+import coil.request.ImageRequest;
+import coil.transform.CircleCropTransformation;
+
 public class SignupFragment extends Fragment implements ImagePicker.OnImageSelectedListener {
     private final String TAG = "Signup_Fragment";
     private MainFacade mainFacade;
     private FragmentSignupBinding binding;
     private ImagePicker imagePicker;
     private Uri imageData;
+    private ImageLoader imageLoader;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,6 +85,7 @@ public class SignupFragment extends Fragment implements ImagePicker.OnImageSelec
 
             if(!binding.signupCbTerms.isChecked()){
                 mainFacade.makeToast("Read the terms and conditions!", Toast.LENGTH_SHORT);
+                hideLoadingScreen();
                 return;
             }
 
@@ -87,6 +93,7 @@ public class SignupFragment extends Fragment implements ImagePicker.OnImageSelec
                 mainFacade.makeToast("Password mismatch", Toast.LENGTH_SHORT);
                 binding.signupEttPassword.setText("");
                 binding.signupEttReenterPassword.setText("");
+                hideLoadingScreen();
                 return;
             }
 
@@ -138,11 +145,14 @@ public class SignupFragment extends Fragment implements ImagePicker.OnImageSelec
     @Override
     public void onImageSelected(Uri uri) {
         if(uri != null) {
-            Picasso.get()
-                    .load(uri)
-                    .placeholder(R.drawable.__aa_default_user_icon)
+            imageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());
+            ImageRequest request = new ImageRequest.Builder(mainFacade.getMainActivity().getApplicationContext())
+                    .data(uri)
                     .error(R.drawable.vector_wrong_mark)
-                    .into(binding.signupBtnProfile);
+                    .target(binding.signupBtnProfile)
+                    .transformations(new CircleCropTransformation())
+                    .build();
+            imageLoader.enqueue(request);
             imageData = uri;
         } else {
             mainFacade.makeToast("Image selection canceled", Toast.LENGTH_SHORT);

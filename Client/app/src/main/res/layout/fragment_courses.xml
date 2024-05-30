@@ -43,45 +43,6 @@
 				app:layout_constraintTop_toTopOf="parent" />
 		</androidx.constraintlayout.widget.ConstraintLayout>
 
-		<LinearLayout
-			android:id="@+id/courses_component_search"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:layout_marginHorizontal="44dp"
-			android:layout_marginVertical="10dp"
-			android:background="@drawable/__aa_container_light_box"
-			android:paddingHorizontal="10dp">
-
-
-			<ImageView
-				android:id="@+id/courses_iv_search"
-				android:layout_width="20dp"
-				android:layout_height="20dp"
-				android:layout_gravity="center"
-				android:contentDescription="vector__stroke_"
-				android:src="@drawable/vector__stroke_" />
-
-			<EditText
-				android:id="@+id/editTextText"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:ems="10"
-				android:inputType="text"
-				android:text="Search" />
-
-			<ImageButton
-				android:id="@+id/courses_iv_search_sort"
-				android:layout_width="20dp"
-				android:layout_height="20dp"
-				android:layout_gravity="center"
-				android:background="?android:selectableItemBackground"
-				android:contentDescription="btn_sort"
-				android:src="@drawable/__aa_search_filter" />
-
-		</LinearLayout>
-
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:id="@+id/recommendations"
 			android:layout_width="wrap_content"
@@ -160,6 +121,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="20dp"
 				android:layout_marginTop="10dp"
+				android:visibility="gone"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent">
 
@@ -204,6 +166,17 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:orientation="vertical" >
+
+					<TextView
+						android:id="@+id/course_txt_no_courses"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:gravity="center"
+						android:paddingTop="10dp"
+						android:text="@string/emp_courses"
+						android:textColor="@color/secondary_text_color"
+						android:textSize="16sp" />
 
 					<androidx.recyclerview.widget.RecyclerView
 						android:id="@+id/course_list_courses"

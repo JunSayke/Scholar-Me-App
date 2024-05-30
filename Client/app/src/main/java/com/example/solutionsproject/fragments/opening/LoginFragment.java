@@ -57,7 +57,7 @@ public class LoginFragment extends Fragment {
                 public void onSuccess(UserGson data) {
                     hideLoadingScreen();
                     UserGson user = data;
-                    Log.d(TAG, String.valueOf(data));
+                    //Log.d(TAG, String.valueOf(data));
                     mainFacade.startLoginSession(user);
                     mainFacade.makeToast("Login Successful!", Toast.LENGTH_SHORT);
                     mainFacade.getOpeningNavController().navigate(R.id.action_loginFragment_to_homepageNavController);

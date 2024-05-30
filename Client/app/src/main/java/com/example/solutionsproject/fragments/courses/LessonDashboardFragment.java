@@ -18,7 +18,9 @@ import com.example.solutionsproject.classes.general.MainFacade;
 import com.example.solutionsproject.classes.general.ScholarMeServer;
 import com.example.solutionsproject.databinding.FragmentLessonDashboardBinding;
 import com.example.solutionsproject.model.gson.data.CourseGson;
+import com.example.solutionsproject.model.gson.data.GsonData;
 import com.example.solutionsproject.model.gson.data.LessonGson;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -55,7 +57,13 @@ public class LessonDashboardFragment extends Fragment {
                 binding.ldashListChoices.setAdapter(new LessonListRecyclerViewAdapter(
                         mainFacade.getMainActivity().getApplicationContext(),
                         data,
-                        (itemId, itemId2) -> {}
+                        (courseId, courseLessonId) -> {
+                            LessonDashboardFragmentDirections.ActionLessonDashboardFragmentToLessonEditorFragment action =
+                                    LessonDashboardFragmentDirections.actionLessonDashboardFragmentToLessonEditorFragment(courseId, courseLessonId);
+                            action.setCourseId(courseId);
+                            action.setCourseLessonId(courseLessonId);
+                            mainFacade.getCoursesNavController().navigate(action);
+                        }
                 ));
                 binding.ldashListChoices.setLayoutManager(new LinearLayoutManager(mainFacade.getMainActivity().getApplicationContext()));
             }
@@ -80,6 +88,14 @@ public class LessonDashboardFragment extends Fragment {
     private void initActions(){
         binding.ldashBtnBack.setOnClickListener(v -> {
             mainFacade.getCoursesNavController().navigate(R.id.action_lessonDashboardFragment_to_courseDashboardFragment);
+        });
+
+        binding.ldashBtnEditCourse.setOnClickListener(v -> {
+            mainFacade.popupUpdateCourse(v, courseId);
+        });
+
+        binding.ldashBtnDelete.setOnClickListener(v -> {
+            mainFacade.popupDeleteCourseWarning(v, courseId);
         });
 
         binding.ldashBtnCreateCourse.setOnClickListener(v -> {

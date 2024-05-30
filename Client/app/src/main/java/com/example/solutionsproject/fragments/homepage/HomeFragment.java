@@ -20,7 +20,6 @@ import com.example.solutionsproject.databinding.FragmentHomeBinding;
 import com.example.solutionsproject.model.gson.data.CourseGson;
 import com.example.solutionsproject.model.gson.data.FlashcardSetGson;
 import com.example.solutionsproject.model.gson.data.UserGson;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,6 +33,7 @@ public class HomeFragment extends Fragment {
 	private MainFacade mainFacade;
 	private FragmentHomeBinding binding;
 	ImageLoader imageLoader;
+	private int userCourseCount;
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -70,6 +70,8 @@ public class HomeFragment extends Fragment {
 		final ScholarMeServer.ResponseListener<List<CourseGson>> responseListener = new ScholarMeServer.ResponseListener<List<CourseGson>>() {
 			@Override
 			public void onSuccess(List<CourseGson> data) {
+				userCourseCount = data.size();
+				if(!data.isEmpty()) binding.homeTxtNoLearningPlan.setVisibility(View.GONE);
 				binding.homeListCourses.setAdapter(new UserCourseListRecyclerViewAdapter(
 						mainFacade.getMainActivity().getApplicationContext(),
 						data,
@@ -110,6 +112,8 @@ public class HomeFragment extends Fragment {
 			}
 		});
 
+		binding.homeTxtTimeWork.setText(String.valueOf(userCourseCount));
+
 		initActions();
 	}
 
@@ -120,11 +124,6 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void initActions(){
-
-		binding.homeBtnAdSearch.setOnClickListener(v ->{
-			mainFacade.getHomeNavController().navigate(R.id.action_homeFragment_to_searchFragment);
-		});
-
 		binding.homeBtnCreateFlashcardset.setOnClickListener(v ->{
 			mainFacade.popupCreateFlashcardSet(binding.getRoot());
 		});

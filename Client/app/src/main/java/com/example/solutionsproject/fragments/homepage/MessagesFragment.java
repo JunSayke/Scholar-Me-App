@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.solutionsproject.R;
 import com.example.solutionsproject.classes.general.MainFacade;
 import com.example.solutionsproject.databinding.FragmentMessagesBinding;
 
@@ -33,12 +34,21 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        initActions();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void initActions(){
+        binding.messageTxtNotification.setOnClickListener(v -> {
+            mainFacade.getMessagesNavController().navigate(R.id.action_messagesFragment_to_notificationsFragment);
+        });
     }
 }
 

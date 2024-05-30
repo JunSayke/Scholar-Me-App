@@ -19,9 +19,13 @@ import com.example.solutionsproject.classes.imagetools.FileUtils;
 import com.example.solutionsproject.classes.imagetools.ImagePicker;
 import com.example.solutionsproject.databinding.FragmentCourseCreatorBinding;
 import com.example.solutionsproject.model.gson.data.GsonData;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
+
+import coil.Coil;
+import coil.ImageLoader;
+import coil.request.ImageRequest;
+import coil.transform.CircleCropTransformation;
 
 public class CourseCreatorFragment extends Fragment implements ImagePicker.OnImageSelectedListener {
 
@@ -30,6 +34,7 @@ public class CourseCreatorFragment extends Fragment implements ImagePicker.OnIma
     private FragmentCourseCreatorBinding binding;
     private ImagePicker imagePicker;
     private Uri imageData;
+    private ImageLoader imageLoader;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCourseCreatorBinding.inflate(inflater, container, false);
@@ -114,11 +119,14 @@ public class CourseCreatorFragment extends Fragment implements ImagePicker.OnIma
     @Override
     public void onImageSelected(Uri uri) {
         if(uri != null) {
-            Picasso.get()
-                    .load(uri)
-                    .placeholder(R.drawable.__aa_container_white_box)
-                    .error(R.drawable.__aa_container_white_box)
-                    .into(binding.cdashBtnThumbnail);
+            imageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());
+            ImageRequest request = new ImageRequest.Builder(mainFacade.getMainActivity().getApplicationContext())
+                    .data(uri)
+                    .error(R.drawable.vector_wrong_mark)
+                    .target(binding.cdashBtnThumbnail)
+                    .transformations(new CircleCropTransformation())
+                    .build();
+            imageLoader.enqueue(request);
             imageData = uri;
         } else {
             mainFacade.makeToast("Image selection canceled", Toast.LENGTH_SHORT);

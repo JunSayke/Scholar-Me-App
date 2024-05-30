@@ -20,9 +20,13 @@ import com.example.solutionsproject.classes.imagetools.ImagePicker;
 import com.example.solutionsproject.databinding.FragmentEditAccountBinding;
 import com.example.solutionsproject.model.gson.data.GsonData;
 import com.example.solutionsproject.model.gson.data.UserGson;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
+
+import coil.Coil;
+import coil.ImageLoader;
+import coil.request.ImageRequest;
+import coil.transform.CircleCropTransformation;
 
 public class EditAccountFragment extends Fragment implements ImagePicker.OnImageSelectedListener  {
     private final String TAG = "EditAccount_Fragment";
@@ -30,6 +34,7 @@ public class EditAccountFragment extends Fragment implements ImagePicker.OnImage
     private FragmentEditAccountBinding binding;
     private ImagePicker imagePicker;
     private Uri imageData;
+    private ImageLoader imageLoader;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEditAccountBinding.inflate(inflater, container, false);
@@ -141,11 +146,14 @@ public class EditAccountFragment extends Fragment implements ImagePicker.OnImage
     @Override
     public void onImageSelected(Uri uri) {
         if(uri != null) {
-            Picasso.get()
-                    .load(uri)
-                    .placeholder(R.drawable.__aa_default_user_icon)
+            imageLoader = Coil.imageLoader(mainFacade.getMainActivity().getApplicationContext());
+            ImageRequest request = new ImageRequest.Builder(mainFacade.getMainActivity().getApplicationContext())
+                    .data(uri)
                     .error(R.drawable.vector_wrong_mark)
-                    .into(binding.editBtnProfile);
+                    .target(binding.editBtnProfile)
+                    .transformations(new CircleCropTransformation())
+                    .build();
+            imageLoader.enqueue(request);
             imageData = uri;
         } else {
             mainFacade.makeToast("Image selection canceled", Toast.LENGTH_SHORT);
