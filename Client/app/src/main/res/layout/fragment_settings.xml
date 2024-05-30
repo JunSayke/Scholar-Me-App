@@ -189,22 +189,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/settings_component_applicants"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/settings_txt_applications_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_marginStart="20dp"
+                android:paddingVertical="10dp"
+                android:text="Applications"
+                android:textColor="@color/primary_text_color"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/settings_list_requests"
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/list_messages_requests"/>
-            </LinearLayout>
-        </ScrollView>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/settings_list_requests"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:listitem="@layout/list_messages_requests" />
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
 
 
     </LinearLayout>

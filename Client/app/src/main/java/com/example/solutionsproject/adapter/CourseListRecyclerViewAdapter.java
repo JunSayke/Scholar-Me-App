@@ -50,7 +50,7 @@ public class CourseListRecyclerViewAdapter extends RecyclerView.Adapter<CourseLi
     public void onBindViewHolder(@NonNull CourseListRecyclerViewAdapter.ViewHolder holder, int position) {
         CourseGson model = courseGsonList.get(position);
         String fullName = model.getAuthor().getFirstName() + " " + model.getAuthor().getLastName();
-        String fullDetail = model.getTotalDuration() + " Lessons";
+        String fullDetail = Integer.parseInt(model.getTotalDuration()) > 1 ? model.getTotalDuration() + " Minutes" : model.getTotalDuration() + " Minute";
         holder.txtTitle.setText(model.getTitle());
         holder.txtAuthor.setText(fullName);
         holder.txtDetail.setText(fullDetail);

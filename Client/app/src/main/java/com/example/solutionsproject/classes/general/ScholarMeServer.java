@@ -127,6 +127,13 @@ public class ScholarMeServer extends RetrofitFacade {
         getRetrofitService().updateProfile(imagePart, fields).enqueue(callback);
     }
 
+    public void getUserProfile(
+            final Callback<SuccessGson<UserGson>> callback,
+            final int userId
+    ) {
+        getRetrofitService().getUserProfile(userId).enqueue(callback);
+    }
+
     // -- ROLE FUNCTIONS
     public  void applyCreator(final Callback<SuccessGson<GsonData>> callback){
         getRetrofitService().applyCreator().enqueue(callback);

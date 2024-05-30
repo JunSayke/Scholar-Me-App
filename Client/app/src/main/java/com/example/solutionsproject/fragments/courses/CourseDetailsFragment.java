@@ -76,6 +76,7 @@ public class CourseDetailsFragment extends Fragment {
         final ScholarMeServer.ResponseListener<List<LessonGson>> getLessonsResponseListener = new ScholarMeServer.ResponseListener<List<LessonGson>>() {
             @Override
             public void onSuccess(List<LessonGson> data) {
+                if(!data.isEmpty()) binding.cdTxtNoCourses.setVisibility(View.GONE);
                 binding.cdListCourses.setAdapter(new LessonListRecyclerViewAdapter(
                         mainFacade.getMainActivity().getApplicationContext(),
                         data,

@@ -145,7 +145,7 @@
 			android:background="@drawable/__aa_container_light_box"
 			android:ems="10"
 			android:hint="message"
-			android:inputType="text"
+			android:inputType="text|textMultiLine"
 			android:paddingVertical="20dp"
 			android:paddingLeft="10dp"
 			android:textColor="@color/primary_text_color"

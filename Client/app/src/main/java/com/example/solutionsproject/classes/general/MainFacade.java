@@ -197,6 +197,13 @@ public class MainFacade {
         server.updateCourse(ScholarMeServer.getCallback(responseListener), courseId, thumbnail, title, description);
     }
 
+    public void getUserProfile(
+            final ScholarMeServer.ResponseListener<UserGson> responseListener,
+            final int userId
+    ) {
+        server.getUserProfile(ScholarMeServer.getCallback(responseListener), userId);
+    }
+
     public void deleteCourse(
             final ScholarMeServer.ResponseListener<GsonData> responseListener,
             final int courseId

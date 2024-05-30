@@ -49,7 +49,7 @@ public class NotificationListRecyclerViewAdapter extends RecyclerView.Adapter<No
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String itemId);
+        void onItemClick(int itemId);
     }
 
     @Getter
@@ -65,7 +65,7 @@ public class NotificationListRecyclerViewAdapter extends RecyclerView.Adapter<No
             btnDelete.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    onItemClickListener.onItemClick(String.valueOf(notificationGsonList.get(position).getNotificationId()));
+                    onItemClickListener.onItemClick(notificationGsonList.get(position).getNotificationId());
                 }
             });
         }
